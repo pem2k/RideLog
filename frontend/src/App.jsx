@@ -4,43 +4,37 @@ import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import NavBar from "./components/NavBar";
 
-function App() {
-  const { user, loading } = useAuth();
+function GuestOnly({ children }) {
+  const { user } = useAuth();
+  if (user) {
+    return <Navigate to="/" />;
+  }
+  return children;
+}
 
-  //prevents flashing login component on refresh
+function RequireAuth({ children }) {
+  const { user } = useAuth();
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+  return children;
+}
+
+function App() {
+  const { loading } = useAuth();
+
   if (loading) {
     return null;
-  }
-
-  function loginRoute() {
-    if (user) {
-      return <Navigate to="/" />;
-    }
-    return <LoginForm />;
-  }
-
-  function registerRoute() {
-    if (user) {
-      return <Navigate to="/" />;
-    }
-    return <RegisterForm />;
-  }
-
-  function homeRoute() {
-    if (user) {
-      return <div>Welcome, {user.username}!</div>;
-    }
-    return <Navigate to="/login" />;
   }
 
   return (
     <>
       <NavBar />
       <Routes>
-      <Route path="/login" element={loginRoute()} />
-      <Route path="/register" element={registerRoute()} />
-      <Route path="/" element={homeRoute()} />
-    </Routes>
+        <Route path="/login" element={<GuestOnly><LoginForm /></GuestOnly>} />
+        <Route path="/register" element={<GuestOnly><RegisterForm /></GuestOnly>} />
+        <Route path="/" element={<RequireAuth><div>Welcome!</div></RequireAuth>} />
+      </Routes>
     </>
   );
 }
