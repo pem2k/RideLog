@@ -1,6 +1,7 @@
 import { Router } from "express";
 import passport from "../config/passport.js";
 import { createUser } from "../models/User.js";
+import { ensureAuthenticated } from "../middleware/ensureAuthenticated.js";
 
 const router = Router();
 
@@ -36,7 +37,7 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
-router.post("/logout", (req, res, next) => {
+router.post("/logout", ensureAuthenticated, (req, res, next) => {
   req.logout((err) => {
     if (err) return next(err);
     res.status(204).end();
@@ -44,7 +45,12 @@ router.post("/logout", (req, res, next) => {
 });
 
 router.get("/me", ensureAuthenticated, (req, res) => {
-  res.json(req.user);
+  const safeUser = {
+    _id: req.user._id,
+    username: req.user.username,
+    email: req.user.email,
+  };
+  res.status(200).json(safeUser);
 });
 
 export default router;
