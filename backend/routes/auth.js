@@ -23,11 +23,15 @@ router.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) return next(err);
     if (!user) {
-      return res.status(401).json({ error: info?.message || "Invalid credentials" });
+      return res
+        .status(401)
+        .json({ error: info?.message || "Invalid credentials" });
     }
     req.login(user, (loginErr) => {
       if (loginErr) return next(loginErr);
-      return res.status(200).json({ _id: user._id, username: user.username, email: user.email });
+      return res
+        .status(200)
+        .json({ _id: user._id, username: user.username, email: user.email });
     });
   })(req, res, next);
 });
@@ -37,6 +41,10 @@ router.post("/logout", (req, res, next) => {
     if (err) return next(err);
     res.status(204).end();
   });
+});
+
+router.get("/me", ensureAuthenticated, (req, res) => {
+  res.json(req.user);
 });
 
 export default router;
