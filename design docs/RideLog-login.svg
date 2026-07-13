@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1e1e1e"/></marker></defs>
+<rect width="1200" height="800" fill="#ffffff"/>
+<text x="60" y="55" font-family="Arial, sans-serif" font-size="30" fill="#1e1e1e">RideLog — Login Screen</text>
+<rect x="60" y="100" width="700" height="600" rx="8" fill="none" stroke="#1e1e1e" stroke-width="3"/>
+<rect x="60" y="100" width="700" height="45" rx="8" fill="#f1f3f5" stroke="#1e1e1e" stroke-width="2"/>
+<rect x="175" y="111" width="455" height="22" rx="7" fill="#ffffff" stroke="#1e1e1e"/>
+<rect x="100" y="170" width="620" height="60" rx="8" fill="#d0ebff" stroke="#1e1e1e" stroke-width="2"/>
+<text x="125" y="207" font-family="Arial, sans-serif" font-size="22" fill="#1e1e1e">RideLog</text>
+<line x1="760" y1="115" x2="880" y2="78" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="900" y="84" font-family="Arial, sans-serif" font-size="22" fill="#1e1e1e">browser</text>
+<line x1="720" y1="200" x2="880" y2="188" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="900" y="194" font-family="Arial, sans-serif" font-size="22" fill="#1e1e1e">navbar</text>
+<rect x="190" y="290" width="400" height="220" rx="8" fill="#e7f5ff" stroke="#1e1e1e" stroke-width="2"/>
+<line x1="590" y1="400" x2="880" y2="322" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="900" y="332" font-family="Arial, sans-serif" font-size="22" fill="#1e1e1e">login form</text>
+<rect x="320" y="460" width="140" height="42" rx="8" fill="#e7f5ff" stroke="#1e1e1e" stroke-width="2"/>
+<line x1="460" y1="481" x2="880" y2="472" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="900" y="482" font-family="Arial, sans-serif" font-size="22" fill="#1e1e1e">login button</text>
+<rect x="290" y="540" width="200" height="34" rx="8" fill="#e7f5ff" stroke="#1e1e1e" stroke-width="2"/>
+<line x1="490" y1="557" x2="880" y2="552" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="900" y="562" font-family="Arial, sans-serif" font-size="22" fill="#1e1e1e">register link</text>
+</svg>

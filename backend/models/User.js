@@ -1,0 +1,76 @@
+// user collection helpers. No Mongoose
+// mongodb driver collection, matching the pattern in db/connectDB.js
+
+import { ObjectId } from "mongodb";
+import bcrypt from "bcrypt";
+import { getDB } from "../db/connectDB.js";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const SALT_ROUNDS = 10;
+
+function usersCollection() {
+  return getDB().collection("users");
+}
+
+// validates registration input and returns { errors } (empty object if valid).
+function validateRegistration({ username, email, password }) {
+  const errors = {};
+
+  if (typeof username !== "string" || username.trim().length < 3) {
+    errors.username = "Username is required and must be at least 3 characters.";
+  }
+  if (typeof email !== "string" || !EMAIL_RE.test(email.trim())) {
+    errors.email = "A valid email is required.";
+  }
+  if (typeof password !== "string" || password.length < 8) {
+    errors.password = "Password is required and must be at least 8 characters.";
+  }
+
+  return errors;
+}
+
+// creates a new user. Throws { status, errors } on validation/duplicate failure.
+export async function createUser({ username, email, password }) {
+  const errors = validateRegistration({ username, email, password });
+  if (Object.keys(errors).length > 0) {
+    throw { status: 400, errors };
+  }
+
+  const collection = usersCollection();
+  const normalizedUsername = username.trim();
+  const normalizedEmail = email.trim().toLowerCase();
+
+  const existing = await collection.findOne({
+    $or: [{ username: normalizedUsername }, { email: normalizedEmail }],
+  });
+  if (existing) {
+    const dupErrors = {};
+    if (existing.username === normalizedUsername) dupErrors.username = "Username is already taken.";
+    if (existing.email === normalizedEmail) dupErrors.email = "Email is already registered.";
+    throw { status: 400, errors: dupErrors };
+  }
+
+  const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+  const user = {
+    username: normalizedUsername,
+    email: normalizedEmail,
+    passwordHash,
+    createdAt: new Date(),
+  };
+
+  const result = await collection.insertOne(user);
+  return { _id: result.insertedId, username: user.username, email: user.email };
+}
+
+export async function findByUsername(username) {
+  return usersCollection().findOne({ username });
+}
+
+export async function findById(id) {
+  if (!ObjectId.isValid(id)) return null;
+  return usersCollection().findOne({ _id: new ObjectId(id) });
+}
+
+export async function verifyPassword(user, password) {
+  return bcrypt.compare(password, user.passwordHash);
+}
