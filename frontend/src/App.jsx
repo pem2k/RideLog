@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import useAuth from "./context/useAuth";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
+import NavBar from "./components/NavBar";
 
 function App() {
   const { user, loading } = useAuth();
@@ -33,11 +34,14 @@ function App() {
   }
 
   return (
-    <Routes>
+    <>
+      <NavBar />
+      <Routes>
       <Route path="/login" element={loginRoute()} />
       <Route path="/register" element={registerRoute()} />
       <Route path="/" element={homeRoute()} />
     </Routes>
+    </>
   );
 }
 
