@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1e1e1e"/></marker></defs>
+<rect width="1200" height="800" fill="#ffffff"/>
+<text x="60" y="55" font-family="Arial, sans-serif" font-size="30" fill="#1e1e1e">RideLog — Main Feed Screen</text>
+<rect x="60" y="100" width="700" height="600" rx="8" fill="none" stroke="#1e1e1e" stroke-width="3"/>
+<rect x="60" y="100" width="700" height="45" rx="8" fill="#f1f3f5" stroke="#1e1e1e" stroke-width="2"/>
+<rect x="175" y="111" width="455" height="22" rx="7" fill="#ffffff" stroke="#1e1e1e"/>
+<rect x="100" y="170" width="620" height="60" rx="8" fill="#d0ebff" stroke="#1e1e1e" stroke-width="2"/>
+<text x="125" y="207" font-family="Arial, sans-serif" font-size="22" fill="#1e1e1e">RideLog</text>
+<line x1="760" y1="115" x2="880" y2="78" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="900" y="84" font-family="Arial, sans-serif" font-size="22" fill="#1e1e1e">browser</text>
+<line x1="720" y1="200" x2="880" y2="188" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="900" y="194" font-family="Arial, sans-serif" font-size="22" fill="#1e1e1e">navbar</text>
+<rect x="540" y="250" width="180" height="45" rx="8" fill="#e7f5ff" stroke="#1e1e1e" stroke-width="2"/>
+<line x1="720" y1="272.5" x2="880" y2="262" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="900" y="272" font-family="Arial, sans-serif" font-size="22" fill="#1e1e1e">create ride button</text>
+<rect x="140" y="320" width="510" height="315" rx="8" fill="#e7f5ff" stroke="#1e1e1e" stroke-width="2"/>
+<line x1="650" y1="477.5" x2="880" y2="342" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="900" y="352" font-family="Arial, sans-serif" font-size="22" fill="#1e1e1e">ride feed</text>
+<rect x="180" y="355" width="430" height="165" rx="8" fill="#e7f5ff" stroke="#1e1e1e" stroke-width="2"/>
+<line x1="610" y1="437.5" x2="880" y2="422" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="900" y="432" font-family="Arial, sans-serif" font-size="22" fill="#1e1e1e">ride post card</text>
+<rect x="220" y="545" width="350" height="62" rx="8" fill="#e7f5ff" stroke="#1e1e1e" stroke-width="2"/>
+<line x1="570" y1="576" x2="880" y2="567" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="900" y="577" font-family="Arial, sans-serif" font-size="22" fill="#1e1e1e">comments</text>
+</svg>
