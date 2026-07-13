@@ -6,6 +6,7 @@ import { connectDB } from "./db/connectDB.js";
 import passport from "./config/passport.js";
 import authRoutes from "./routes/auth.js";
 import postsRoutes from "./routes/posts.js";
+import { ensureIndexes } from "./models/Post.js";
 
 const app = express();
 
@@ -41,7 +42,8 @@ app.use((err, req, res, next) => {
 const port = process.env.PORT || 3000;
 
 connectDB()
-  .then(() => {
+  .then(async () => {
+    await ensureIndexes();
     app.listen(port, () => {
       console.log(`RideLog backend listening on port ${port}`);
     });
