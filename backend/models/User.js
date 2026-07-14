@@ -70,7 +70,9 @@ export async function findByUsername(username) {
 
 export async function findById(id) {
   if (!ObjectId.isValid(id)) return null;
-  return sanitizeUser(usersCollection().findOne({ _id: new ObjectId(id) }));
+  const user = await usersCollection().findOne({ _id: new ObjectId(id) });
+  if (!user) return null;
+  return sanitizeUser(user);
 }
 
 export async function verifyPassword(user, password) {
