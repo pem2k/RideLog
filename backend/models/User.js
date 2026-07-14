@@ -45,8 +45,10 @@ export async function createUser({ username, email, password }) {
   });
   if (existing) {
     const dupErrors = {};
-    if (existing.username === normalizedUsername) dupErrors.username = "Username is already taken.";
-    if (existing.email === normalizedEmail) dupErrors.email = "Email is already registered.";
+    if (existing.username === normalizedUsername)
+      dupErrors.username = "Username is already taken.";
+    if (existing.email === normalizedEmail)
+      dupErrors.email = "Email is already registered.";
     throw { status: 400, errors: dupErrors };
   }
 
@@ -73,4 +75,16 @@ export async function findById(id) {
 
 export async function verifyPassword(user, password) {
   return bcrypt.compare(password, user.passwordHash);
+}
+
+export async function sanitizeUser(user) {
+  const safeUser = {
+    _id: user._id,
+    usernsame: user.username,
+    email: user.email,
+    displayName: user.displayName,
+    bio: user.bio || null,
+    createdAt: user.createdAt,
+  };
+  return safeUser;
 }
