@@ -11,7 +11,6 @@ export default function SearchPage() {
 
   useEffect(() => {
     if (query.trim().length < 2) {
-      setResults([]);
       return;
     }
 
