@@ -8,6 +8,7 @@ import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import postsRoutes from "./routes/posts.js";
 import commentsRoutes from "./routes/comments.js";
+import { ensureIndexes } from "./models/Post.js";
 import { ensureIndexes as ensureCommentIndexes } from "./models/Comment.js";
 
 const app = express();
@@ -47,6 +48,7 @@ const port = process.env.PORT || 3000;
 
 connectDB()
   .then(async () => {
+    await ensureIndexes();
     await ensureCommentIndexes();
     app.listen(port, () => {
       console.log(`RideLog backend listening on port ${port}`);
