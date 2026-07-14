@@ -21,7 +21,7 @@ export async function connectDB() {
 
   if (!uri) {
     throw new Error(
-      "MONGO_URI is not set. Copy backend/.env.example to backend/.env and fill it in."
+      "MONGO_URI is not set. Copy backend/.env.example to backend/.env and fill it in.",
     );
   }
 
@@ -37,7 +37,9 @@ export async function connectDB() {
 // database connection without having to connect again.
 export function getDB() {
   if (!db) {
-    throw new Error("Database not connected yet. Call connectDB() first (see server.js).");
+    throw new Error(
+      "Database not connected yet. Call connectDB() first (see server.js).",
+    );
   }
   return db;
 }
