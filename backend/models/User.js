@@ -57,6 +57,7 @@ export async function createUser({ username, email, password }) {
     username: normalizedUsername,
     email: normalizedEmail,
     passwordHash,
+    following: [],
     createdAt: new Date(),
   };
 
@@ -86,6 +87,7 @@ export function sanitizeUser(user) {
     email: user.email,
     displayName: user.displayName || null,
     bio: user.bio || null,
+    following: user.following || [],
     createdAt: user.createdAt,
   };
   return safeUser;
