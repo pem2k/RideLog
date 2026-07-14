@@ -5,6 +5,7 @@ import MongoStore from "connect-mongo";
 import { connectDB } from "./db/connectDB.js";
 import passport from "./config/passport.js";
 import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/users.js";
 import postsRoutes from "./routes/posts.js";
 
 const app = express();
@@ -24,13 +25,14 @@ app.use(
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     },
-  })
+  }),
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/posts", postsRoutes);
 
 app.use((err, req, res, next) => {
