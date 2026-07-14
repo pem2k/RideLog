@@ -6,6 +6,8 @@ import { connectDB } from "./db/connectDB.js";
 import passport from "./config/passport.js";
 import authRoutes from "./routes/auth.js";
 import postsRoutes from "./routes/posts.js";
+import commentsRoutes from "./routes/comments.js";
+import { ensureIndexes as ensureCommentIndexes } from "./models/Comment.js";
 
 const app = express();
 
@@ -32,6 +34,7 @@ app.use(passport.session());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postsRoutes);
+app.use("/api/comments", commentsRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err);
@@ -41,7 +44,8 @@ app.use((err, req, res, next) => {
 const port = process.env.PORT || 3000;
 
 connectDB()
-  .then(() => {
+  .then(async () => {
+    await ensureCommentIndexes();
     app.listen(port, () => {
       console.log(`RideLog backend listening on port ${port}`);
     });
