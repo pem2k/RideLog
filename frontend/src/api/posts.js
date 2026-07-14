@@ -26,3 +26,11 @@ export async function updateRide(postId, data) {
 export async function getRide(postId) {
   return request(`/api/posts/${postId}`, { method: "GET" });
 }
+
+export async function deleteRide(postId) {
+  const res = await fetch(`/api/posts/${postId}`, { method: "DELETE" });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw data;
+  }
+}
