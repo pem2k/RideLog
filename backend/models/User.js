@@ -58,6 +58,7 @@ export async function createUser({ username, email, password }) {
     email: normalizedEmail,
     passwordHash,
     following: [],
+    followers: [],
     createdAt: new Date(),
   };
 
@@ -88,6 +89,7 @@ export function sanitizeUser(user) {
     displayName: user.displayName || null,
     bio: user.bio || null,
     following: user.following || [],
+    followers: user.followers || [],
     createdAt: user.createdAt,
   };
   return safeUser;
@@ -145,6 +147,11 @@ export async function followUser(currentUserId, targetUserId) {
     { $addToSet: { following: new ObjectId(targetUserId) } },
   );
 
+  await usersCollection().updateOne(
+    { _id: new ObjectId(targetUserId) },
+    { $addToSet: { followers: new ObjectId(currentUserId) } },
+  );
+
   return findById(currentUserId);
 }
 
@@ -156,6 +163,11 @@ export async function unfollowUser(currentUserId, targetUserId) {
   await usersCollection().updateOne(
     { _id: new ObjectId(currentUserId) },
     { $pull: { following: new ObjectId(targetUserId) } },
+  );
+
+  await usersCollection().updateOne(
+    { _id: new ObjectId(targetUserId) },
+    { $pull: { followers: new ObjectId(currentUserId) } },
   );
 
   return findById(currentUserId);
