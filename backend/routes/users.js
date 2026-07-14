@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { ensureAuthenticated } from "../middleware/ensureAuthenticated.js";
-import { findById, updateUser } from "../models/User.js";
+import { findById, updateUser, followUser } from "../models/User.js";
 import { ObjectId } from "mongodb";
 
 const router = Router();
