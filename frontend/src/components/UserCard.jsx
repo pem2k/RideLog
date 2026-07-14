@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "./UserCard.css";
 
 export default function UserCard({ user }) {
   return (
