@@ -70,19 +70,19 @@ export async function findByUsername(username) {
 
 export async function findById(id) {
   if (!ObjectId.isValid(id)) return null;
-  return usersCollection().findOne({ _id: new ObjectId(id) });
+  return sanitizeUser(usersCollection().findOne({ _id: new ObjectId(id) }));
 }
 
 export async function verifyPassword(user, password) {
   return bcrypt.compare(password, user.passwordHash);
 }
 
-export async function sanitizeUser(user) {
+export function sanitizeUser(user) {
   const safeUser = {
     _id: user._id,
-    usernsame: user.username,
+    username: user.username,
     email: user.email,
-    displayName: user.displayName,
+    displayName: user.displayName || null,
     bio: user.bio || null,
     createdAt: user.createdAt,
   };
