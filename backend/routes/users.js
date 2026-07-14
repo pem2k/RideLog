@@ -5,12 +5,25 @@ import {
   updateUser,
   followUser,
   unfollowUser,
+  searchUsers,
 } from "../models/User.js";
-import { ObjectId } from "mongodb";
 
 const router = Router();
 
 router.use(ensureAuthenticated);
+
+router.get("/search", async (req, res, next) => {
+  try {
+    const searchQuery = (req.query.q || "").trim();
+    if (searchQuery.length < 2) {
+      return res.status(200).json([]);
+    }
+    const results = await searchUsers(searchQuery);
+    res.status(200).json(results);
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.patch("/me", async (req, res, next) => {
   try {
@@ -26,10 +39,6 @@ router.patch("/me", async (req, res, next) => {
 
 router.get("/:userId", async (req, res, next) => {
   try {
-    if (!ObjectId.isValid(req.params.userId)) {
-      return res.status(400).json({ error: "Invalid user id" });
-    }
-
     const user = await findById(req.params.userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });

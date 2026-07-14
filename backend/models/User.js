@@ -172,3 +172,25 @@ export async function unfollowUser(currentUserId, targetUserId) {
 
   return findById(currentUserId);
 }
+
+export async function searchUsers(query) {
+  const trimmed = query.trim();
+  if (trimmed.length < 2) {
+    return [];
+  }
+
+  const results = await usersCollection()
+    .find({
+      $or: [
+        //this sets up a range to return the username for the debounce
+        // on the front end side.
+        { username: { $gte: trimmed, $lt: trimmed + "\uffff" } },
+        { displayName: { $gte: trimmed, $lt: trimmed + "\uffff" } },
+      ],
+    })
+    .collation({ locale: "en", strength: 2 })
+    .limit(10)
+    .toArray();
+
+  return results.map(sanitizeUser);
+}
