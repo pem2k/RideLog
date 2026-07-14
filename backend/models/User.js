@@ -147,3 +147,16 @@ export async function followUser(currentUserId, targetUserId) {
 
   return findById(currentUserId);
 }
+
+export async function unfollowUser(currentUserId, targetUserId) {
+  if (!ObjectId.isValid(targetUserId)) {
+    throw { status: 400, error: "Invalid user id." };
+  }
+
+  await usersCollection().updateOne(
+    { _id: new ObjectId(currentUserId) },
+    { $pull: { following: new ObjectId(targetUserId) } },
+  );
+
+  return findById(currentUserId);
+}
