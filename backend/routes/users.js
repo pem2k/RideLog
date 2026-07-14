@@ -36,4 +36,19 @@ router.get("/:userId", async (req, res, next) => {
   }
 });
 
+router.post("/:userId/follow", async (req, res, next) => {
+  try {
+    const updated = await followUser(
+      req.user._id.toString(),
+      req.params.userId,
+    );
+    res.status(200).json(updated);
+  } catch (err) {
+    if (err && err.status) {
+      return res.status(err.status).json({ error: err.error });
+    }
+    next(err);
+  }
+});
+
 export default router;
