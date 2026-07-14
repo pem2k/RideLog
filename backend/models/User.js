@@ -57,6 +57,8 @@ export async function createUser({ username, email, password }) {
     username: normalizedUsername,
     email: normalizedEmail,
     passwordHash,
+    following: [],
+    followers: [],
     createdAt: new Date(),
   };
 
@@ -86,6 +88,8 @@ export function sanitizeUser(user) {
     email: user.email,
     displayName: user.displayName || null,
     bio: user.bio || null,
+    following: user.following || [],
+    followers: user.followers || [],
     createdAt: user.createdAt,
   };
   return safeUser;
@@ -119,4 +123,52 @@ export async function updateUser(id, updates) {
   );
 
   return findById(id);
+}
+
+export async function followUser(currentUserId, targetUserId) {
+  if (currentUserId === targetUserId) {
+    throw { status: 400, error: "You cannot follow yourself." };
+  }
+
+  if (!ObjectId.isValid(targetUserId)) {
+    throw { status: 400, error: "Invalid user id." };
+  }
+
+  const targetUser = await usersCollection().findOne({
+    _id: new ObjectId(targetUserId),
+  });
+
+  if (!targetUser) {
+    throw { status: 404, error: "User not found." };
+  }
+
+  await usersCollection().updateOne(
+    { _id: new ObjectId(currentUserId) },
+    { $addToSet: { following: new ObjectId(targetUserId) } },
+  );
+
+  await usersCollection().updateOne(
+    { _id: new ObjectId(targetUserId) },
+    { $addToSet: { followers: new ObjectId(currentUserId) } },
+  );
+
+  return findById(currentUserId);
+}
+
+export async function unfollowUser(currentUserId, targetUserId) {
+  if (!ObjectId.isValid(targetUserId)) {
+    throw { status: 400, error: "Invalid user id." };
+  }
+
+  await usersCollection().updateOne(
+    { _id: new ObjectId(currentUserId) },
+    { $pull: { following: new ObjectId(targetUserId) } },
+  );
+
+  await usersCollection().updateOne(
+    { _id: new ObjectId(targetUserId) },
+    { $pull: { followers: new ObjectId(currentUserId) } },
+  );
+
+  return findById(currentUserId);
 }
