@@ -88,3 +88,33 @@ export function sanitizeUser(user) {
   };
   return safeUser;
 }
+
+export async function updateUser(id, updates) {
+  const errors = {};
+
+  if (updates.displayName !== undefined) {
+    if (
+      typeof updates.displayName !== "string" ||
+      updates.displayName.length > 50
+    ) {
+      errors.displayName = "Display name must be 50 characters or less.";
+    }
+  }
+
+  if (updates.bio !== undefined) {
+    if (typeof updates.bio !== "string" || updates.bio.length > 300) {
+      errors.bio = "Bio must be 300 characters or less.";
+    }
+  }
+
+  if (Object.keys(errors).length > 0) {
+    throw { status: 400, errors };
+  }
+
+  await usersCollection().updateOne(
+    { _id: new ObjectId(id) },
+    { $set: { displayName: updates.displayName, bio: updates.bio } },
+  );
+
+  return findById(id);
+}
