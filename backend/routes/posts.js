@@ -10,7 +10,12 @@ import {
   validateFeedQuery,
   getFeed,
 } from "../models/Post.js";
-import { deleteManyByPostId } from "../models/Comment.js";
+import {
+  validateCommentInput,
+  createComment,
+  getCommentsByPostId,
+  deleteManyByPostId,
+} from "../models/Comment.js";
 
 const router = Router();
 
@@ -105,6 +110,47 @@ router.delete("/:postId", async (req, res, next) => {
     await deleteManyByPostId(req.params.postId);
 
     res.status(204).end();
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/:postId/comments", async (req, res, next) => {
+  try {
+    if (!isValidId(req.params.postId)) {
+      return res.status(400).json({ error: "Invalid post id" });
+    }
+
+    const post = await getPostById(req.params.postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    const comments = await getCommentsByPostId(req.params.postId);
+    res.status(200).json(comments);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/:postId/comments", async (req, res, next) => {
+  try {
+    if (!isValidId(req.params.postId)) {
+      return res.status(400).json({ error: "Invalid post id" });
+    }
+
+    const post = await getPostById(req.params.postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    const errors = validateCommentInput(req.body);
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({ errors });
+    }
+
+    const comment = await createComment(req.params.postId, req.user._id, req.body.text);
+    res.status(201).json(comment);
   } catch (err) {
     next(err);
   }

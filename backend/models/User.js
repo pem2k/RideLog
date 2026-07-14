@@ -45,8 +45,10 @@ export async function createUser({ username, email, password }) {
   });
   if (existing) {
     const dupErrors = {};
-    if (existing.username === normalizedUsername) dupErrors.username = "Username is already taken.";
-    if (existing.email === normalizedEmail) dupErrors.email = "Email is already registered.";
+    if (existing.username === normalizedUsername)
+      dupErrors.username = "Username is already taken.";
+    if (existing.email === normalizedEmail)
+      dupErrors.email = "Email is already registered.";
     throw { status: 400, errors: dupErrors };
   }
 
@@ -55,6 +57,8 @@ export async function createUser({ username, email, password }) {
     username: normalizedUsername,
     email: normalizedEmail,
     passwordHash,
+    following: [],
+    followers: [],
     createdAt: new Date(),
   };
 
@@ -68,9 +72,125 @@ export async function findByUsername(username) {
 
 export async function findById(id) {
   if (!ObjectId.isValid(id)) return null;
-  return usersCollection().findOne({ _id: new ObjectId(id) });
+  const user = await usersCollection().findOne({ _id: new ObjectId(id) });
+  if (!user) return null;
+  return sanitizeUser(user);
 }
 
 export async function verifyPassword(user, password) {
   return bcrypt.compare(password, user.passwordHash);
+}
+
+export function sanitizeUser(user) {
+  const safeUser = {
+    _id: user._id,
+    username: user.username,
+    email: user.email,
+    displayName: user.displayName || null,
+    bio: user.bio || null,
+    following: user.following || [],
+    followers: user.followers || [],
+    createdAt: user.createdAt,
+  };
+  return safeUser;
+}
+
+export async function updateUser(id, updates) {
+  const errors = {};
+
+  if (updates.displayName !== undefined) {
+    if (
+      typeof updates.displayName !== "string" ||
+      updates.displayName.length > 50
+    ) {
+      errors.displayName = "Display name must be 50 characters or less.";
+    }
+  }
+
+  if (updates.bio !== undefined) {
+    if (typeof updates.bio !== "string" || updates.bio.length > 300) {
+      errors.bio = "Bio must be 300 characters or less.";
+    }
+  }
+
+  if (Object.keys(errors).length > 0) {
+    throw { status: 400, errors };
+  }
+
+  await usersCollection().updateOne(
+    { _id: new ObjectId(id) },
+    { $set: { displayName: updates.displayName, bio: updates.bio } },
+  );
+
+  return findById(id);
+}
+
+export async function followUser(currentUserId, targetUserId) {
+  if (currentUserId === targetUserId) {
+    throw { status: 400, error: "You cannot follow yourself." };
+  }
+
+  if (!ObjectId.isValid(targetUserId)) {
+    throw { status: 400, error: "Invalid user id." };
+  }
+
+  const targetUser = await usersCollection().findOne({
+    _id: new ObjectId(targetUserId),
+  });
+
+  if (!targetUser) {
+    throw { status: 404, error: "User not found." };
+  }
+
+  await usersCollection().updateOne(
+    { _id: new ObjectId(currentUserId) },
+    { $addToSet: { following: new ObjectId(targetUserId) } },
+  );
+
+  await usersCollection().updateOne(
+    { _id: new ObjectId(targetUserId) },
+    { $addToSet: { followers: new ObjectId(currentUserId) } },
+  );
+
+  return findById(currentUserId);
+}
+
+export async function unfollowUser(currentUserId, targetUserId) {
+  if (!ObjectId.isValid(targetUserId)) {
+    throw { status: 400, error: "Invalid user id." };
+  }
+
+  await usersCollection().updateOne(
+    { _id: new ObjectId(currentUserId) },
+    { $pull: { following: new ObjectId(targetUserId) } },
+  );
+
+  await usersCollection().updateOne(
+    { _id: new ObjectId(targetUserId) },
+    { $pull: { followers: new ObjectId(currentUserId) } },
+  );
+
+  return findById(currentUserId);
+}
+
+export async function searchUsers(query) {
+  const trimmed = query.trim();
+  if (trimmed.length < 2) {
+    return [];
+  }
+
+  const results = await usersCollection()
+    .find({
+      $or: [
+        //this sets up a range to return the username for the debounce
+        // on the front end side.
+        { username: { $gte: trimmed, $lt: trimmed + "\uffff" } },
+        { displayName: { $gte: trimmed, $lt: trimmed + "\uffff" } },
+      ],
+    })
+    .collation({ locale: "en", strength: 2 })
+    .limit(10)
+    .toArray();
+
+  return results.map(sanitizeUser);
 }
