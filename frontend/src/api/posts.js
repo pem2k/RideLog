@@ -27,6 +27,13 @@ export async function getRide(postId) {
   return request(`/api/posts/${postId}`, { method: "GET" });
 }
 
+export async function getFeed({ page, limit } = {}) {
+  const params = new URLSearchParams();
+  if (page) params.set("page", page);
+  if (limit) params.set("limit", limit);
+  return request(`/api/posts/feed?${params.toString()}`, { method: "GET" });
+}
+
 export async function deleteRide(postId) {
   const res = await fetch(`/api/posts/${postId}`, { method: "DELETE" });
   if (!res.ok) {
