@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import useAuth from "./context/useAuth";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
+import RideForm from "./components/RideForm";
 import NavBar from "./components/NavBar";
 
 function GuestOnly({ children }) {
@@ -34,6 +35,8 @@ function App() {
         <Route path="/login" element={<GuestOnly><LoginForm /></GuestOnly>} />
         <Route path="/register" element={<GuestOnly><RegisterForm /></GuestOnly>} />
         <Route path="/" element={<RequireAuth><div>Welcome!</div></RequireAuth>} />
+        <Route path="/rides/new" element={<RequireAuth><RideForm mode="create" /></RequireAuth>} />
+        <Route path="/rides/:postId/edit" element={<RequireAuth><RideForm mode="edit" /></RequireAuth>} />
       </Routes>
     </>
   );
