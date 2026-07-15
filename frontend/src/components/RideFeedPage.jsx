@@ -35,7 +35,7 @@ export default function RideFeedPage() {
 
   return (
     <Container style={{ maxWidth: "700px" }} className="py-4">
-      <Stack direction="horizontal" className="mb-4">
+      <Stack direction="horizontal" className="mb-4 ps-3">
         <h2 className="mb-0">Ride Feed</h2>
         <Button as={Link} to="/rides/new" variant="primary" className="ms-auto">
           Log a Ride

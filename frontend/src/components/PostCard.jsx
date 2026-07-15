@@ -69,7 +69,7 @@ export default function PostCard({ post, onDeleted }) {
       <Card.Body>
         <Card.Title>{post.title}</Card.Title>
         <Card.Subtitle className="mb-2 text-secondary">
-          <Link to={`/users/${post.author._id}`}>{post.author.username}</Link>
+          <Link to={`/users/${post.author._id}`} className="text-secondary text-decoration-none">{post.author.username}</Link>
           {" · "}
           {new Date(post.rideDate).toLocaleDateString()}
         </Card.Subtitle>
