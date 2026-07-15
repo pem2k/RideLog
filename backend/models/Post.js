@@ -91,3 +91,84 @@ export async function getPostsByAuthor(userId) {
     .sort({ createdAt: -1 })
     .toArray();
 }
+
+const DEFAULT_LIMIT = 20;
+const MAX_LIMIT = 50;
+
+// validates page/limit query params. Limit is clamped to MAX_LIMIT rather
+// than rejected; page/limit must otherwise be positive integers.
+export function validateFeedQuery(query = {}) {
+  const errors = {};
+  let page = 1;
+  let limit = DEFAULT_LIMIT;
+
+  if (query.page !== undefined) {
+    const parsed = Number(query.page);
+    if (!Number.isInteger(parsed) || parsed < 1) {
+      errors.page = "Page must be a positive integer.";
+    } else {
+      page = parsed;
+    }
+  }
+
+  if (query.limit !== undefined) {
+    const parsed = Number(query.limit);
+    if (!Number.isInteger(parsed) || parsed < 1) {
+      errors.limit = "Limit must be a positive integer.";
+    } else {
+      limit = Math.min(parsed, MAX_LIMIT);
+    }
+  }
+
+  return { errors, page, limit };
+}
+
+export async function getFeed({ page, limit }) {
+  const skip = (page - 1) * limit;
+
+  const [posts, totalPosts] = await Promise.all([
+    postsCollection()
+      .aggregate([
+        { $sort: { createdAt: -1, _id: -1 } },
+        { $skip: skip },
+        { $limit: limit },
+        {
+          $lookup: {
+            from: "users",
+            localField: "authorId",
+            foreignField: "_id",
+            as: "author",
+          },
+        },
+        { $unwind: "$author" },
+        {
+          $project: {
+            title: 1,
+            description: 1,
+            imageData: 1,
+            rideDate: 1,
+            distance: 1,
+            elevation: 1,
+            maxSpeed: 1,
+            createdAt: 1,
+            "author._id": 1,
+            "author.username": 1,
+          },
+        },
+      ])
+      .toArray(),
+    postsCollection().estimatedDocumentCount(),
+  ]);
+
+  return {
+    posts,
+    page,
+    limit,
+    totalPosts,
+    totalPages: Math.max(1, Math.ceil(totalPosts / limit)),
+  };
+}
+
+export async function ensureIndexes() {
+  await postsCollection().createIndex({ createdAt: -1, _id: -1 });
+}

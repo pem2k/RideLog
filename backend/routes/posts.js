@@ -8,6 +8,8 @@ import {
   getPostsByAuthor,
   updatePost,
   deletePost,
+  validateFeedQuery,
+  getFeed,
 } from "../models/Post.js";
 import {
   validateCommentInput,
@@ -42,6 +44,20 @@ router.post("/", async (req, res, next) => {
 
     const post = await createPost(req.user._id, req.body);
     res.status(201).json(post);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/feed", async (req, res, next) => {
+  try {
+    const { errors, page, limit } = validateFeedQuery(req.query);
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({ errors });
+    }
+
+    const feed = await getFeed({ page, limit });
+    res.status(200).json(feed);
   } catch (err) {
     next(err);
   }
