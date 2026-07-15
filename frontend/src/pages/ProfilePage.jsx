@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Alert, Button } from "react-bootstrap";
+import { Container, Button, Form } from "react-bootstrap";
 import useAuth from "../context/useAuth";
-import { getUser, getUserPosts, followUser, unfollowUser } from "../api/users";
+import {
+  getUser,
+  getUserPosts,
+  followUser,
+  unfollowUser,
+  updateProfile,
+} from "../api/users";
 import PostCard from "../components/PostCard";
 
 export default function ProfilePage() {
@@ -10,12 +16,14 @@ export default function ProfilePage() {
   const { user: currentUser } = useAuth();
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState([]);
-  const [error, setError] = useState(null);
+  const [editing, setEditing] = useState(false);
+  const [displayName, setDisplayName] = useState("");
+  const [bio, setBio] = useState("");
 
   const isOwnProfile = String(currentUser._id) === String(userId);
-  const isFollowing = profile && profile.followers.some(
-    (id) => String(id) === String(currentUser._id)
-  );
+  const isFollowing =
+    profile &&
+    profile.followers.some((id) => String(id) === String(currentUser._id));
 
   useEffect(() => {
     async function loadProfile() {
@@ -23,6 +31,8 @@ export default function ProfilePage() {
       const userPosts = await getUserPosts(userId);
       setProfile(userData);
       setPosts(userPosts);
+      setDisplayName(userData.displayName || "");
+      setBio(userData.bio || "");
     }
 
     loadProfile();
@@ -40,6 +50,13 @@ export default function ProfilePage() {
     setProfile(updated);
   }
 
+  async function handleSaveProfile(e) {
+    e.preventDefault();
+    const updated = await updateProfile({ displayName, bio });
+    setProfile(updated);
+    setEditing(false);
+  }
+
   function handlePostDeleted(postId) {
     setPosts(posts.filter((p) => String(p._id) !== String(postId)));
   }
@@ -50,8 +67,6 @@ export default function ProfilePage() {
 
   return (
     <Container className="mt-4">
-      {error && <Alert variant="danger">{error}</Alert>}
-
       <div className="mb-4">
         <h1>{profile.displayName || profile.username}</h1>
         {profile.displayName && (
@@ -63,14 +78,56 @@ export default function ProfilePage() {
           <span>{profile.following.length} following</span>
         </div>
 
-        {isOwnProfile && (
-          <Button variant="secondary" size="sm">
+        {isOwnProfile && !editing && (
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => setEditing(true)}
+          >
             Edit Profile
           </Button>
         )}
 
+        {isOwnProfile && editing && (
+          <Form onSubmit={handleSaveProfile} className="mb-3">
+            <Form.Group className="mb-2">
+              <Form.Label>Display Name</Form.Label>
+              <Form.Control
+                type="text"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                maxLength={50}
+              />
+            </Form.Group>
+            <Form.Group className="mb-2">
+              <Form.Label>Bio</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                maxLength={300}
+              />
+            </Form.Group>
+            <Button type="submit" variant="primary" size="sm" className="me-2">
+              Save
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setEditing(false)}
+            >
+              Cancel
+            </Button>
+          </Form>
+        )}
+
         {!isOwnProfile && isFollowing && (
-          <Button variant="outline-secondary" size="sm" onClick={handleUnfollow}>
+          <Button
+            variant="outline-secondary"
+            size="sm"
+            onClick={handleUnfollow}
+          >
             Unfollow
           </Button>
         )}
@@ -87,7 +144,10 @@ export default function ProfilePage() {
       {posts.map((post) => (
         <PostCard
           key={post._id}
-          post={{ ...post, author: { _id: profile._id, username: profile.username } }}
+          post={{
+            ...post,
+            author: { _id: profile._id, username: profile.username },
+          }}
           onDeleted={handlePostDeleted}
         />
       ))}
