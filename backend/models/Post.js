@@ -84,3 +84,10 @@ export async function updatePost(id, body) {
 export async function deletePost(id) {
   await postsCollection().deleteOne({ _id: new ObjectId(id) });
 }
+
+export async function getPostsByAuthor(userId) {
+  return postsCollection()
+    .find({ authorId: new ObjectId(userId) })
+    .sort({ createdAt: -1 })
+    .toArray();
+}
