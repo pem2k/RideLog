@@ -4,6 +4,7 @@ import { Container, Card, Form, Button, Alert, Spinner } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../context/useAuth";
 import { createRide, updateRide, getRide } from "../api/posts";
+import { uploadImage } from "../api/cloudinary";
 import "./RideForm.css";
 
 const TITLE_MAX = 100;
@@ -54,7 +55,7 @@ export default function RideForm({ mode }) {
     loadRide();
   }, [mode, postId, user, navigate]);
 
-  function handleImageChange(e) {
+  async function handleImageChange(e) {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -68,9 +69,12 @@ export default function RideForm({ mode }) {
     }
 
     setFieldErrors((prev) => ({ ...prev, image: undefined }));
-    const reader = new FileReader();
-    reader.onload = () => setImageData(reader.result);
-    reader.readAsDataURL(file);
+    try {
+      const url = await uploadImage(file);
+      setImageData(url);
+    } catch (err) {
+      setFieldErrors((prev) => ({ ...prev, image: "Image upload failed. Try again." }));
+    }
   }
 
   function validate() {
@@ -191,7 +195,7 @@ export default function RideForm({ mode }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="distance">
-              <Form.Label>Distance</Form.Label>
+              <Form.Label>Distance (miles)</Form.Label>
               <Form.Control
                 type="number"
                 step="any"
@@ -203,7 +207,7 @@ export default function RideForm({ mode }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="elevation">
-              <Form.Label>Elevation Gain</Form.Label>
+              <Form.Label>Elevation Gain (feet)</Form.Label>
               <Form.Control
                 type="number"
                 step="any"
@@ -215,7 +219,7 @@ export default function RideForm({ mode }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="maxSpeed">
-              <Form.Label>Max Speed</Form.Label>
+              <Form.Label>Max Speed (mph)</Form.Label>
               <Form.Control
                 type="number"
                 step="any"

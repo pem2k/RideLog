@@ -75,9 +75,9 @@ export default function PostCard({ post, onDeleted }) {
         </Card.Subtitle>
         <Card.Text>{post.description}</Card.Text>
         <div className="d-flex gap-3 mb-3">
-          <span>{post.distance} km</span>
-          <span>{post.elevation} m</span>
-          <span>{post.maxSpeed} km/h</span>
+          <span>{post.distance} miles</span>
+          <span>{post.elevation} feet</span>
+          <span>{post.maxSpeed} mph</span>
         </div>
         {error && <Alert variant="danger">{error}</Alert>}
         <div className="d-flex gap-2 mb-3">
