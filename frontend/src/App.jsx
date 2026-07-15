@@ -5,6 +5,8 @@ import RegisterForm from "./components/RegisterForm";
 import RideForm from "./components/RideForm";
 import RideFeedPage from "./components/RideFeedPage";
 import NavBar from "./components/NavBar";
+import SearchPage from "./pages/SearchPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function GuestOnly({ children }) {
   const { user } = useAuth();
@@ -36,6 +38,8 @@ function App() {
         <Route path="/login" element={<GuestOnly><LoginForm /></GuestOnly>} />
         <Route path="/register" element={<GuestOnly><RegisterForm /></GuestOnly>} />
         <Route path="/" element={<RequireAuth><RideFeedPage /></RequireAuth>} />
+        <Route path="/search" element={<RequireAuth><SearchPage /></RequireAuth>} />
+        <Route path="/users/:userId" element={<RequireAuth><ProfilePage /></RequireAuth>} />
         <Route path="/rides/new" element={<RequireAuth><RideForm mode="create" /></RequireAuth>} />
         <Route path="/rides/:postId/edit" element={<RequireAuth><RideForm mode="edit" /></RequireAuth>} />
       </Routes>

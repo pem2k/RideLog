@@ -1,3 +1,8 @@
+.post-card {
+  background-color: #1a1b17;
+  border: 1px solid #2a2b26;
+}
+
 .post-card-image {
   width: 100%;
   max-height: 320px;

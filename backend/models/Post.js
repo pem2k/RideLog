@@ -162,6 +162,13 @@ export async function getFeed({ page, limit }) {
   };
 }
 
+export async function getPostsByAuthor(userId) {
+  return postsCollection()
+    .find({ authorId: new ObjectId(userId) })
+    .sort({ createdAt: -1 })
+    .toArray();
+}
+
 export async function ensureIndexes() {
   await postsCollection().createIndex({ createdAt: -1, _id: -1 });
 }

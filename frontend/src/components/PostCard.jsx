@@ -62,7 +62,7 @@ export default function PostCard({ post, onDeleted }) {
   }
 
   return (
-    <Card className="mb-4">
+    <Card className="mb-4 post-card">
       {post.imageData && (
         <Card.Img variant="top" src={post.imageData} alt={post.title} className="post-card-image" />
       )}
