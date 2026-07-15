@@ -64,7 +64,10 @@ export default function RideForm({ mode }) {
       return;
     }
     if (file.size > IMAGE_MAX_BYTES) {
-      setFieldErrors((prev) => ({ ...prev, image: "Image must be 3MB or smaller." }));
+      setFieldErrors((prev) => ({
+        ...prev,
+        image: "Image must be 3MB or smaller.",
+      }));
       return;
     }
 
@@ -73,7 +76,11 @@ export default function RideForm({ mode }) {
       const url = await uploadImage(file);
       setImageData(url);
     } catch (err) {
-      setFieldErrors((prev) => ({ ...prev, image: "Image upload failed. Try again." }));
+      setFieldErrors((prev) => ({
+        ...prev,
+        image: "Image upload failed. Try again.",
+      }));
+      console.error(err);
     }
   }
 
@@ -81,7 +88,8 @@ export default function RideForm({ mode }) {
     const errors = {};
 
     if (!title.trim()) errors.title = "Title is required.";
-    else if (title.trim().length > TITLE_MAX) errors.title = `Title must be ${TITLE_MAX} characters or fewer.`;
+    else if (title.trim().length > TITLE_MAX)
+      errors.title = `Title must be ${TITLE_MAX} characters or fewer.`;
 
     if (!description.trim()) errors.description = "Description is required.";
     else if (description.trim().length > DESCRIPTION_MAX) {
@@ -98,7 +106,11 @@ export default function RideForm({ mode }) {
     }
 
     const elevationNum = Number(elevation);
-    if (elevation === "" || !Number.isFinite(elevationNum) || elevationNum < 0) {
+    if (
+      elevation === "" ||
+      !Number.isFinite(elevationNum) ||
+      elevationNum < 0
+    ) {
       errors.elevation = "Elevation must be a non-negative number.";
     }
 
@@ -145,14 +157,20 @@ export default function RideForm({ mode }) {
 
   if (loadingRide) {
     return (
-      <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
+      <Container
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "80vh" }}
+      >
         <Spinner animation="border" role="status" />
       </Container>
     );
   }
 
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
+    <Container
+      className="d-flex justify-content-center align-items-center"
+      style={{ minHeight: "80vh" }}
+    >
       <Card style={{ width: "500px" }}>
         <Card.Body>
           <Card.Title className="text-center mb-4">
@@ -168,7 +186,9 @@ export default function RideForm({ mode }) {
                 onChange={(e) => setTitle(e.target.value)}
                 isInvalid={!!fieldErrors.title}
               />
-              <Form.Control.Feedback type="invalid">{fieldErrors.title}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                {fieldErrors.title}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="description">
@@ -180,7 +200,9 @@ export default function RideForm({ mode }) {
                 onChange={(e) => setDescription(e.target.value)}
                 isInvalid={!!fieldErrors.description}
               />
-              <Form.Control.Feedback type="invalid">{fieldErrors.description}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                {fieldErrors.description}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="rideDate">
@@ -191,7 +213,9 @@ export default function RideForm({ mode }) {
                 onChange={(e) => setRideDate(e.target.value)}
                 isInvalid={!!fieldErrors.rideDate}
               />
-              <Form.Control.Feedback type="invalid">{fieldErrors.rideDate}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                {fieldErrors.rideDate}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="distance">
@@ -203,7 +227,9 @@ export default function RideForm({ mode }) {
                 onChange={(e) => setDistance(e.target.value)}
                 isInvalid={!!fieldErrors.distance}
               />
-              <Form.Control.Feedback type="invalid">{fieldErrors.distance}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                {fieldErrors.distance}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="elevation">
@@ -215,7 +241,9 @@ export default function RideForm({ mode }) {
                 onChange={(e) => setElevation(e.target.value)}
                 isInvalid={!!fieldErrors.elevation}
               />
-              <Form.Control.Feedback type="invalid">{fieldErrors.elevation}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                {fieldErrors.elevation}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="maxSpeed">
@@ -227,7 +255,9 @@ export default function RideForm({ mode }) {
                 onChange={(e) => setMaxSpeed(e.target.value)}
                 isInvalid={!!fieldErrors.maxSpeed}
               />
-              <Form.Control.Feedback type="invalid">{fieldErrors.maxSpeed}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                {fieldErrors.maxSpeed}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="image">
@@ -238,13 +268,24 @@ export default function RideForm({ mode }) {
                 onChange={handleImageChange}
                 isInvalid={!!fieldErrors.image}
               />
-              <Form.Control.Feedback type="invalid">{fieldErrors.image}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                {fieldErrors.image}
+              </Form.Control.Feedback>
               {imageData && (
-                <img src={imageData} alt="Ride preview" className="ride-form-image-preview mt-2" />
+                <img
+                  src={imageData}
+                  alt="Ride preview"
+                  className="ride-form-image-preview mt-2"
+                />
               )}
             </Form.Group>
 
-            <Button variant="primary" type="submit" className="w-100" disabled={submitting}>
+            <Button
+              variant="primary"
+              type="submit"
+              className="w-100"
+              disabled={submitting}
+            >
               {submitting ? "Saving..." : "Save Ride"}
             </Button>
           </Form>

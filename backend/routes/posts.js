@@ -56,7 +56,7 @@ router.get("/feed", async (req, res, next) => {
       return res.status(400).json({ errors });
     }
 
-    const feed = await getFeed({ page, limit });
+    const feed = await getFeed({ page, limit, following: req.user.following });
     res.status(200).json(feed);
   } catch (err) {
     next(err);
