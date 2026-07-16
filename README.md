@@ -117,7 +117,7 @@ This starts the Express backend and Vite frontend. Open the local address printe
 
 ## Seed Data
 
-The seed script creates 100 users, 1,000 ride posts, and 500 comments. Run it from the backend directory against the database configured in `backend/.env`:
+The seed script creates 100 users, 1,000 ride posts, and 2,000 comments. Run it from the backend directory against the database configured in `backend/.env`:
 
 ```bash
 cd backend
