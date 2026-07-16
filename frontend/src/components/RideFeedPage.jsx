@@ -59,7 +59,7 @@ export default function RideFeedPage() {
 
       {!loading && !error && posts.length === 0 && (
         <div className="text-center py-5">
-          <p>No rides yet — be the first to log one!</p>
+          <p>Follow some riders to see their posts here!</p>
           <Button as={Link} to="/rides/new" variant="primary">
             Log a Ride
           </Button>

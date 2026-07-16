@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navbar, Container, Nav, Button, Form } from "react-bootstrap";
+import { Navbar, Container, Nav, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../context/useAuth";
 
@@ -12,7 +12,6 @@ export default function NavBar() {
     e.preventDefault();
     if (searchQuery.trim().length > 0) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery("");
     }
   }
 
@@ -25,9 +24,12 @@ export default function NavBar() {
     if (user) {
       return (
         <>
-<Button variant="outline-light" onClick={handleLogout}>
+          <Nav.Link as={Link} to={`/users/${user._id}`}>
+            Profile
+          </Nav.Link>
+          <Nav.Link onClick={handleLogout}>
             Logout
-          </Button>
+          </Nav.Link>
         </>
       );
     }
