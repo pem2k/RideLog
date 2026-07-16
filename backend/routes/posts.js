@@ -164,7 +164,13 @@ router.post("/:postId/comments", async (req, res, next) => {
     }
 
     const comment = await createComment(req.params.postId, req.user._id, req.body.text);
-    res.status(201).json(comment);
+    res.status(201).json({
+      _id: comment._id,
+      postId: comment.postId,
+      text: comment.text,
+      createdAt: comment.createdAt,
+      author: { _id: req.user._id, username: req.user.username },
+    });
   } catch (err) {
     next(err);
   }
