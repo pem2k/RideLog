@@ -71,7 +71,7 @@ export default function PostCard({ post, onDeleted }) {
         <Card.Subtitle className="mb-2 text-secondary">
           <Link to={`/users/${post.author._id}`} className="text-secondary text-decoration-none">{post.author.username}</Link>
           {" · "}
-          {new Date(post.rideDate).toLocaleDateString()}
+          {new Date(post.rideDate).toLocaleDateString(undefined, { timeZone: "UTC" })}
         </Card.Subtitle>
         <Card.Text>{post.description}</Card.Text>
         <div className="d-flex gap-3 mb-3">
