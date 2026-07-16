@@ -5,6 +5,7 @@ import {
   isValidId,
   createPost,
   getPostById,
+  getPostsByAuthor,
   updatePost,
   deletePost,
   validateFeedQuery,
@@ -20,6 +21,19 @@ import {
 const router = Router();
 
 router.use(ensureAuthenticated);
+
+router.get("/", async (req, res, next) => {
+  try {
+    if (!req.query.author || !isValidId(req.query.author)) {
+      return res.status(400).json({ error: "A valid author id is required" });
+    }
+
+    const posts = await getPostsByAuthor(req.query.author);
+    res.status(200).json(posts);
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.post("/", async (req, res, next) => {
   try {
@@ -42,7 +56,7 @@ router.get("/feed", async (req, res, next) => {
       return res.status(400).json({ errors });
     }
 
-    const feed = await getFeed({ page, limit });
+    const feed = await getFeed({ page, limit, following: req.user.following });
     res.status(200).json(feed);
   } catch (err) {
     next(err);

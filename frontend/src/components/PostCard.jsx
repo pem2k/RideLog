@@ -62,14 +62,14 @@ export default function PostCard({ post, onDeleted }) {
   }
 
   return (
-    <Card className="mb-4">
+    <Card className="mb-4 post-card">
       {post.imageData && (
         <Card.Img variant="top" src={post.imageData} alt={post.title} className="post-card-image" />
       )}
       <Card.Body>
         <Card.Title>{post.title}</Card.Title>
         <Card.Subtitle className="mb-2 text-secondary">
-          <Link to={`/users/${post.author._id}`}>{post.author.username}</Link>
+          <Link to={`/users/${post.author._id}`} className="text-secondary text-decoration-none">{post.author.username}</Link>
           {" · "}
           {new Date(post.rideDate).toLocaleDateString()}
         </Card.Subtitle>

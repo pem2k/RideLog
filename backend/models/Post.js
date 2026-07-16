@@ -116,13 +116,19 @@ export function validateFeedQuery(query = {}) {
   return { errors, page, limit };
 }
 
-export async function getFeed({ page, limit }) {
+export async function getFeed({ page, limit, following }) {
   const skip = (page - 1) * limit;
+  const authorIds = (following || []).map((id) => new ObjectId(id));
+
+  const matchStage = authorIds.length > 0
+    ? { $match: { authorId: { $in: authorIds } } }
+    : { $match: { _id: null } };
 
   const [posts, totalPosts] = await Promise.all([
     postsCollection()
       .aggregate([
-        { $sort: { createdAt: -1, _id: -1 } },
+        matchStage,
+        { $sort: { rideDate: -1, _id: -1 } },
         { $skip: skip },
         { $limit: limit },
         {
@@ -150,7 +156,7 @@ export async function getFeed({ page, limit }) {
         },
       ])
       .toArray(),
-    postsCollection().estimatedDocumentCount(),
+    postsCollection().countDocuments(authorIds.length > 0 ? { authorId: { $in: authorIds } } : { _id: null }),
   ]);
 
   return {
@@ -160,6 +166,13 @@ export async function getFeed({ page, limit }) {
     totalPosts,
     totalPages: Math.max(1, Math.ceil(totalPosts / limit)),
   };
+}
+
+export async function getPostsByAuthor(userId) {
+  return postsCollection()
+    .find({ authorId: new ObjectId(userId) })
+    .sort({ createdAt: -1 })
+    .toArray();
 }
 
 export async function ensureIndexes() {

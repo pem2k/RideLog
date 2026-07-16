@@ -1,10 +1,19 @@
-import { Navbar, Container, Nav, Button } from "react-bootstrap";
+import { useState } from "react";
+import { Navbar, Container, Nav, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../context/useAuth";
 
 export default function NavBar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  function handleSearch(e) {
+    e.preventDefault();
+    if (searchQuery.trim().length > 0) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  }
 
   async function handleLogout() {
     await logout();
@@ -15,12 +24,12 @@ export default function NavBar() {
     if (user) {
       return (
         <>
-          <Navbar.Text className="me-3">
-            Signed in as: {user.username}
-          </Navbar.Text>
-          <Button variant="outline-light" onClick={handleLogout}>
+          <Nav.Link as={Link} to={`/users/${user._id}`}>
+            Profile
+          </Nav.Link>
+          <Nav.Link onClick={handleLogout}>
             Logout
-          </Button>
+          </Nav.Link>
         </>
       );
     }
@@ -38,12 +47,23 @@ export default function NavBar() {
 
   return (
     <Navbar bg="dark" data-bs-theme="dark" expand="lg">
-      <Container>
+      <Container style={{ maxWidth: "700px" }}>
         <Navbar.Brand as={Link} to="/">
           RideLog
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="main-navbar" />
         <Navbar.Collapse id="main-navbar">
+          {user && (
+            <Form className="d-flex me-auto" onSubmit={handleSearch}>
+              <Form.Control
+                type="text"
+                placeholder="Search users..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                size="sm"
+              />
+            </Form>
+          )}
           <Nav className="ms-auto">{renderLinks()}</Nav>
         </Navbar.Collapse>
       </Container>
