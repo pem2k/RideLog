@@ -12,6 +12,7 @@ import postsRoutes from "./routes/posts.js";
 import commentsRoutes from "./routes/comments.js";
 import { ensureIndexes } from "./models/Post.js";
 import { ensureIndexes as ensureCommentIndexes } from "./models/Comment.js";
+import { ensureIndexes as ensureUserIndexes } from "./models/User.js";
 
 const app = express();
 const isProduction = process.env.NODE_ENV === "production";
@@ -83,6 +84,7 @@ connectDB()
   .then(async () => {
     await ensureIndexes();
     await ensureCommentIndexes();
+    await ensureUserIndexes();
     app.listen(port, () => {
       console.log(`RideLog backend listening on port ${port}`);
     });

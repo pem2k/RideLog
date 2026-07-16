@@ -1,6 +1,10 @@
 import { ObjectId } from "mongodb";
 import { getDB } from "../db/connectDB.js";
 
+const TITLE_MAX = 100;
+const DESCRIPTION_MAX = 2000;
+const IMAGE_PATTERN = /^https:\/\/.+|^data:image\/[a-z]+;base64,.+/;
+
 function postsCollection() {
   return getDB().collection("posts");
 }
@@ -15,19 +19,26 @@ export function validatePostInput(body = {}) {
 
   if (typeof body.title !== "string" || body.title.trim().length === 0) {
     errors.title = "Title is required.";
+  } else if (body.title.trim().length > TITLE_MAX) {
+    errors.title = `Title must be ${TITLE_MAX} characters or fewer.`;
   }
+
   if (
     typeof body.description !== "string" ||
     body.description.trim().length === 0
   ) {
     errors.description = "Description is required.";
+  } else if (body.description.trim().length > DESCRIPTION_MAX) {
+    errors.description = `Description must be ${DESCRIPTION_MAX} characters or fewer.`;
   }
-  if (
-    body.imageData !== undefined &&
-    body.imageData !== null &&
-    typeof body.imageData !== "string"
-  ) {
-    errors.imageData = "Image data must be a base64-encoded string.";
+
+  if (body.imageData !== undefined && body.imageData !== null) {
+    if (
+      typeof body.imageData !== "string" ||
+      !IMAGE_PATTERN.test(body.imageData)
+    ) {
+      errors.imageData = "Image must be an HTTPS URL or a valid data URI.";
+    }
   }
   if (!body.rideDate || Number.isNaN(new Date(body.rideDate).getTime())) {
     errors.rideDate = "A valid ride date is required.";
@@ -190,5 +201,6 @@ export async function getPostsByAuthor(userId) {
 }
 
 export async function ensureIndexes() {
-  await postsCollection().createIndex({ createdAt: -1, _id: -1 });
+  await postsCollection().createIndex({ authorId: 1, rideDate: -1, _id: -1 });
+  await postsCollection().createIndex({ authorId: 1, createdAt: -1 });
 }
