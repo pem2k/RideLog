@@ -47,7 +47,7 @@ export default function NavBar() {
 
   return (
     <Navbar bg="dark" data-bs-theme="dark" expand="lg">
-      <Container style={{ maxWidth: "700px" }}>
+      <Container className="content-narrow">
         <Navbar.Brand as={Link} to="/">
           RideLog
         </Navbar.Brand>

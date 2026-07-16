@@ -66,7 +66,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <Container style={{ maxWidth: "700px" }} className="py-4">
+    <Container className="content-narrow py-4">
       <div className="mb-4">
         <h2>{profile.displayName || profile.username}</h2>
         {profile.displayName && (

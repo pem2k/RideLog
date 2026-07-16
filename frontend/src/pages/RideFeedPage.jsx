@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Container, Spinner, Alert, Button, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getFeed } from "../api/posts";
-import PostCard from "./PostCard";
+import PostCard from "../components/PostCard";
 
 export default function RideFeedPage() {
   const [posts, setPosts] = useState([]);
@@ -34,7 +34,7 @@ export default function RideFeedPage() {
   }
 
   return (
-    <Container style={{ maxWidth: "700px" }} className="py-4">
+    <Container className="content-narrow py-4">
       <Stack direction="horizontal" className="mb-4">
         <h2 className="mb-0">Ride Feed</h2>
         <Button as={Link} to="/rides/new" variant="primary" className="ms-auto">

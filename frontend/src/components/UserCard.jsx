@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "./PostCard.css";
+import "../styles/UserCard.css";
 
 export default function UserCard({ user }) {
   return (
-    <Card className="mb-3 post-card">
+    <Card className="mb-3 user-card">
       <Card.Body>
         <Card.Title className="text-center">
           <Link to={`/users/${user._id}`} className="text-decoration-none" style={{ color: "inherit" }}>{user.username}</Link>

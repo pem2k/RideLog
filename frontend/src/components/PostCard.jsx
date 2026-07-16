@@ -7,7 +7,7 @@ import { deleteRide } from "../api/posts";
 import { getComments } from "../api/comments";
 import CommentList from "./CommentList";
 import CommentForm from "./CommentForm";
-import "./PostCard.css";
+import "../styles/PostCard.css";
 
 export default function PostCard({ post, onDeleted }) {
   const { user } = useAuth();

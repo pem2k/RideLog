@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../context/useAuth";
 import { createRide, updateRide, getRide } from "../api/posts";
 import { uploadImage } from "../api/cloudinary";
-import "./RideForm.css";
+import "../styles/RideForm.css";
 
 const TITLE_MAX = 100;
 const DESCRIPTION_MAX = 2000;
