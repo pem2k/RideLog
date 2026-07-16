@@ -1,11 +1,4 @@
-async function request(url, options) {
-  const res = await fetch(url, options);
-  const data = await res.json();
-  if (!res.ok) {
-    throw data;
-  }
-  return data;
-}
+import request from "./request.js";
 
 export async function getComments(postId) {
   return request(`/api/posts/${postId}/comments`, { method: "GET" });
@@ -20,9 +13,5 @@ export async function addComment(postId, text) {
 }
 
 export async function deleteComment(commentId) {
-  const res = await fetch(`/api/comments/${commentId}`, { method: "DELETE" });
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
-    throw data;
-  }
+  return request(`/api/comments/${commentId}`, { method: "DELETE" });
 }

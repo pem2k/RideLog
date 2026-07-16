@@ -1,5 +1,10 @@
 import { ObjectId } from "mongodb";
 import { getDB } from "../db/connectDB.js";
+import { isValidObjectId } from "../db/objectId.js";
+
+const TITLE_MAX = 100;
+const DESCRIPTION_MAX = 2000;
+const IMAGE_PATTERN = /^https:\/\/.+|^data:image\/[a-z]+;base64,.+/;
 
 function postsCollection() {
   return getDB().collection("posts");
@@ -15,12 +20,26 @@ export function validatePostInput(body = {}) {
 
   if (typeof body.title !== "string" || body.title.trim().length === 0) {
     errors.title = "Title is required.";
+  } else if (body.title.trim().length > TITLE_MAX) {
+    errors.title = `Title must be ${TITLE_MAX} characters or fewer.`;
   }
-  if (typeof body.description !== "string" || body.description.trim().length === 0) {
+
+  if (
+    typeof body.description !== "string" ||
+    body.description.trim().length === 0
+  ) {
     errors.description = "Description is required.";
+  } else if (body.description.trim().length > DESCRIPTION_MAX) {
+    errors.description = `Description must be ${DESCRIPTION_MAX} characters or fewer.`;
   }
-  if (body.imageData !== undefined && body.imageData !== null && typeof body.imageData !== "string") {
-    errors.imageData = "Image data must be a base64-encoded string.";
+
+  if (body.imageData !== undefined && body.imageData !== null) {
+    if (
+      typeof body.imageData !== "string" ||
+      !IMAGE_PATTERN.test(body.imageData)
+    ) {
+      errors.imageData = "Image must be an HTTPS URL or a valid data URI.";
+    }
   }
   if (!body.rideDate || Number.isNaN(new Date(body.rideDate).getTime())) {
     errors.rideDate = "A valid ride date is required.";
@@ -29,7 +48,8 @@ export function validatePostInput(body = {}) {
     errors.distance = "Distance is required and must be a positive number.";
   }
   if (!isFiniteNumber(body.elevation) || body.elevation < 0) {
-    errors.elevation = "Elevation is required and must be a non-negative number.";
+    errors.elevation =
+      "Elevation is required and must be a non-negative number.";
   }
   if (!isFiniteNumber(body.maxSpeed) || body.maxSpeed <= 0) {
     errors.maxSpeed = "Max speed is required and must be a positive number.";
@@ -38,9 +58,7 @@ export function validatePostInput(body = {}) {
   return errors;
 }
 
-export function isValidId(id) {
-  return ObjectId.isValid(id);
-}
+export { isValidObjectId as isValidId };
 
 export async function createPost(authorId, body) {
   const post = {
@@ -61,7 +79,7 @@ export async function createPost(authorId, body) {
 }
 
 export async function getPostById(id) {
-  if (!isValidId(id)) return null;
+  if (!isValidObjectId(id)) return null;
   return postsCollection().findOne({ _id: new ObjectId(id) });
 }
 
@@ -77,7 +95,10 @@ export async function updatePost(id, body) {
     updatedAt: new Date(),
   };
 
-  await postsCollection().updateOne({ _id: new ObjectId(id) }, { $set: update });
+  await postsCollection().updateOne(
+    { _id: new ObjectId(id) },
+    { $set: update },
+  );
   return getPostById(id);
 }
 
@@ -120,9 +141,10 @@ export async function getFeed({ page, limit, following }) {
   const skip = (page - 1) * limit;
   const authorIds = (following || []).map((id) => new ObjectId(id));
 
-  const matchStage = authorIds.length > 0
-    ? { $match: { authorId: { $in: authorIds } } }
-    : { $match: { _id: null } };
+  const matchStage =
+    authorIds.length > 0
+      ? { $match: { authorId: { $in: authorIds } } }
+      : { $match: { _id: null } };
 
   const [posts, totalPosts] = await Promise.all([
     postsCollection()
@@ -156,7 +178,9 @@ export async function getFeed({ page, limit, following }) {
         },
       ])
       .toArray(),
-    postsCollection().countDocuments(authorIds.length > 0 ? { authorId: { $in: authorIds } } : { _id: null }),
+    postsCollection().countDocuments(
+      authorIds.length > 0 ? { authorId: { $in: authorIds } } : { _id: null },
+    ),
   ]);
 
   return {
@@ -176,5 +200,6 @@ export async function getPostsByAuthor(userId) {
 }
 
 export async function ensureIndexes() {
-  await postsCollection().createIndex({ createdAt: -1, _id: -1 });
+  await postsCollection().createIndex({ authorId: 1, rideDate: -1, _id: -1 });
+  await postsCollection().createIndex({ authorId: 1, createdAt: -1 });
 }

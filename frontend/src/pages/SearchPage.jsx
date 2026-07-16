@@ -18,7 +18,7 @@ export default function SearchPage() {
   }, [query]);
 
   return (
-    <Container style={{ maxWidth: "700px" }} className="py-4">
+    <Container className="content-narrow py-4">
       <h2 className="text-center">Search Results</h2>
       {results.map((user) => (
         <UserCard key={user._id} user={user} />

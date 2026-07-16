@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Button, Form } from "react-bootstrap";
+import { Container, Button, Form, Alert } from "react-bootstrap";
 import useAuth from "../context/useAuth";
 import {
   getUser,
@@ -19,6 +19,7 @@ export default function ProfilePage() {
   const [editing, setEditing] = useState(false);
   const [displayName, setDisplayName] = useState("");
   const [bio, setBio] = useState("");
+  const [error, setError] = useState(null);
 
   const isOwnProfile = String(currentUser._id) === String(userId);
   const isFollowing =
@@ -27,12 +28,19 @@ export default function ProfilePage() {
 
   useEffect(() => {
     async function loadProfile() {
-      const userData = await getUser(userId);
-      const userPosts = await getUserPosts(userId);
-      setProfile(userData);
-      setPosts(userPosts);
-      setDisplayName(userData.displayName || "");
-      setBio(userData.bio || "");
+      setProfile(null);
+      setError(null);
+
+      try {
+        const userData = await getUser(userId);
+        const userPosts = await getUserPosts(userId);
+        setProfile(userData);
+        setPosts(userPosts);
+        setDisplayName(userData.displayName || "");
+        setBio(userData.bio || "");
+      } catch (err) {
+        setError(err.error || "Failed to load profile");
+      }
     }
 
     loadProfile();
@@ -61,12 +69,22 @@ export default function ProfilePage() {
     setPosts(posts.filter((p) => String(p._id) !== String(postId)));
   }
 
+  if (error) {
+    return (
+      <Container className="content-narrow py-4">
+        <Alert variant="danger">{error}</Alert>
+      </Container>
+    );
+  }
+
   if (!profile) {
-    return null;
+    return (
+      <Container className="content-narrow py-4">Loading profile...</Container>
+    );
   }
 
   return (
-    <Container style={{ maxWidth: "700px" }} className="py-4">
+    <Container className="content-narrow py-4">
       <div className="mb-4">
         <h2>{profile.displayName || profile.username}</h2>
         {profile.displayName && (
@@ -90,7 +108,7 @@ export default function ProfilePage() {
 
         {isOwnProfile && editing && (
           <Form onSubmit={handleSaveProfile} className="mb-3">
-            <Form.Group className="mb-2">
+            <Form.Group className="mb-2" controlId="displayName">
               <Form.Label>Display Name</Form.Label>
               <Form.Control
                 type="text"
@@ -99,7 +117,7 @@ export default function ProfilePage() {
                 maxLength={50}
               />
             </Form.Group>
-            <Form.Group className="mb-2">
+            <Form.Group className="mb-2" controlId="bio">
               <Form.Label>Bio</Form.Label>
               <Form.Control
                 as="textarea"

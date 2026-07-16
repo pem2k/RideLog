@@ -62,8 +62,26 @@ export async function createUser({ username, email, password }) {
     createdAt: new Date(),
   };
 
-  const result = await collection.insertOne(user);
-  return { _id: result.insertedId, username: user.username, email: user.email };
+  try {
+    const result = await collection.insertOne(user);
+    return {
+      _id: result.insertedId,
+      username: user.username,
+      email: user.email,
+    };
+  } catch (err) {
+    if (err.code === 11000) {
+      const dupErrors = {};
+      if (err.keyPattern?.username) {
+        dupErrors.username = "Username is already taken.";
+      }
+      if (err.keyPattern?.email) {
+        dupErrors.email = "Email is already registered.";
+      }
+      throw { status: 400, errors: dupErrors };
+    }
+    throw err;
+  }
 }
 
 export async function findByUsername(username) {
@@ -117,10 +135,20 @@ export async function updateUser(id, updates) {
     throw { status: 400, errors };
   }
 
-  await usersCollection().updateOne(
-    { _id: new ObjectId(id) },
-    { $set: { displayName: updates.displayName, bio: updates.bio } },
-  );
+  const fieldsToUpdate = {};
+  if (updates.displayName !== undefined) {
+    fieldsToUpdate.displayName = updates.displayName;
+  }
+  if (updates.bio !== undefined) {
+    fieldsToUpdate.bio = updates.bio;
+  }
+
+  if (Object.keys(fieldsToUpdate).length > 0) {
+    await usersCollection().updateOne(
+      { _id: new ObjectId(id) },
+      { $set: fieldsToUpdate },
+    );
+  }
 
   return findById(id);
 }
@@ -182,8 +210,6 @@ export async function searchUsers(query) {
   const results = await usersCollection()
     .find({
       $or: [
-        //this sets up a range to return the username for the debounce
-        // on the front end side.
         { username: { $gte: trimmed, $lt: trimmed + "\uffff" } },
         { displayName: { $gte: trimmed, $lt: trimmed + "\uffff" } },
       ],
@@ -193,4 +219,9 @@ export async function searchUsers(query) {
     .toArray();
 
   return results.map(sanitizeUser);
+}
+
+export async function ensureIndexes() {
+  await usersCollection().createIndex({ username: 1 }, { unique: true });
+  await usersCollection().createIndex({ email: 1 }, { unique: true });
 }

@@ -5,29 +5,37 @@ import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../context/useAuth";
 import { createRide, updateRide, getRide } from "../api/posts";
 import { uploadImage } from "../api/cloudinary";
-import "./RideForm.css";
+import "../styles/RideForm.css";
 
 const TITLE_MAX = 100;
 const DESCRIPTION_MAX = 2000;
 const IMAGE_MAX_BYTES = 3 * 1024 * 1024;
+
+const EMPTY_FORM = {
+  title: "",
+  description: "",
+  rideDate: "",
+  distance: "",
+  elevation: "",
+  maxSpeed: "",
+  imageData: null,
+};
 
 export default function RideForm({ mode }) {
   const { postId } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [rideDate, setRideDate] = useState("");
-  const [distance, setDistance] = useState("");
-  const [elevation, setElevation] = useState("");
-  const [maxSpeed, setMaxSpeed] = useState("");
-  const [imageData, setImageData] = useState(null);
-
+  const [form, setForm] = useState(EMPTY_FORM);
   const [fieldErrors, setFieldErrors] = useState({});
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [loadingRide, setLoadingRide] = useState(mode === "edit");
+
+  function handleChange(e) {
+    setForm((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  }
 
   useEffect(() => {
     if (mode !== "edit") return;
@@ -39,13 +47,15 @@ export default function RideForm({ mode }) {
           navigate("/");
           return;
         }
-        setTitle(ride.title);
-        setDescription(ride.description);
-        setRideDate(ride.rideDate.slice(0, 10));
-        setDistance(String(ride.distance));
-        setElevation(String(ride.elevation));
-        setMaxSpeed(String(ride.maxSpeed));
-        setImageData(ride.imageData || null);
+        setForm({
+          title: ride.title,
+          description: ride.description,
+          rideDate: ride.rideDate.slice(0, 10),
+          distance: String(ride.distance),
+          elevation: String(ride.elevation),
+          maxSpeed: String(ride.maxSpeed),
+          imageData: ride.imageData || null,
+        });
       } catch (err) {
         setError(err.error || "Failed to load ride");
       } finally {
@@ -72,50 +82,63 @@ export default function RideForm({ mode }) {
     }
 
     setFieldErrors((prev) => ({ ...prev, image: undefined }));
+    setUploadingImage(true);
     try {
       const url = await uploadImage(file);
-      setImageData(url);
+      setForm((prev) => ({ ...prev, imageData: url }));
     } catch (err) {
       setFieldErrors((prev) => ({
         ...prev,
         image: "Image upload failed. Try again.",
       }));
       console.error(err);
+    } finally {
+      setUploadingImage(false);
     }
   }
 
   function validate() {
     const errors = {};
 
-    if (!title.trim()) errors.title = "Title is required.";
-    else if (title.trim().length > TITLE_MAX)
+    if (!form.title.trim()) errors.title = "Title is required.";
+    else if (form.title.trim().length > TITLE_MAX) {
       errors.title = `Title must be ${TITLE_MAX} characters or fewer.`;
+    }
 
-    if (!description.trim()) errors.description = "Description is required.";
-    else if (description.trim().length > DESCRIPTION_MAX) {
+    if (!form.description.trim()) {
+      errors.description = "Description is required.";
+    } else if (form.description.trim().length > DESCRIPTION_MAX) {
       errors.description = `Description must be ${DESCRIPTION_MAX} characters or fewer.`;
     }
 
-    if (!rideDate || Number.isNaN(new Date(rideDate).getTime())) {
+    if (!form.rideDate || Number.isNaN(new Date(form.rideDate).getTime())) {
       errors.rideDate = "A valid ride date is required.";
     }
 
-    const distanceNum = Number(distance);
-    if (distance === "" || !Number.isFinite(distanceNum) || distanceNum <= 0) {
+    const distanceNum = Number(form.distance);
+    if (
+      form.distance === "" ||
+      !Number.isFinite(distanceNum) ||
+      distanceNum <= 0
+    ) {
       errors.distance = "Distance must be a positive number.";
     }
 
-    const elevationNum = Number(elevation);
+    const elevationNum = Number(form.elevation);
     if (
-      elevation === "" ||
+      form.elevation === "" ||
       !Number.isFinite(elevationNum) ||
       elevationNum < 0
     ) {
       errors.elevation = "Elevation must be a non-negative number.";
     }
 
-    const maxSpeedNum = Number(maxSpeed);
-    if (maxSpeed === "" || !Number.isFinite(maxSpeedNum) || maxSpeedNum <= 0) {
+    const maxSpeedNum = Number(form.maxSpeed);
+    if (
+      form.maxSpeed === "" ||
+      !Number.isFinite(maxSpeedNum) ||
+      maxSpeedNum <= 0
+    ) {
       errors.maxSpeed = "Max speed must be a positive number.";
     }
 
@@ -131,13 +154,13 @@ export default function RideForm({ mode }) {
     if (Object.values(errors).some(Boolean)) return;
 
     const payload = {
-      title: title.trim(),
-      description: description.trim(),
-      imageData,
-      rideDate,
-      distance: Number(distance),
-      elevation: Number(elevation),
-      maxSpeed: Number(maxSpeed),
+      title: form.title.trim(),
+      description: form.description.trim(),
+      imageData: form.imageData,
+      rideDate: form.rideDate,
+      distance: Number(form.distance),
+      elevation: Number(form.elevation),
+      maxSpeed: Number(form.maxSpeed),
     };
 
     setSubmitting(true);
@@ -161,7 +184,9 @@ export default function RideForm({ mode }) {
         className="d-flex justify-content-center align-items-center"
         style={{ minHeight: "80vh" }}
       >
-        <Spinner animation="border" role="status" />
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading ride...</span>
+        </Spinner>
       </Container>
     );
   }
@@ -182,8 +207,8 @@ export default function RideForm({ mode }) {
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                value={form.title}
+                onChange={handleChange}
                 isInvalid={!!fieldErrors.title}
               />
               <Form.Control.Feedback type="invalid">
@@ -196,8 +221,8 @@ export default function RideForm({ mode }) {
               <Form.Control
                 as="textarea"
                 rows={3}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={form.description}
+                onChange={handleChange}
                 isInvalid={!!fieldErrors.description}
               />
               <Form.Control.Feedback type="invalid">
@@ -209,8 +234,8 @@ export default function RideForm({ mode }) {
               <Form.Label>Ride Date</Form.Label>
               <Form.Control
                 type="date"
-                value={rideDate}
-                onChange={(e) => setRideDate(e.target.value)}
+                value={form.rideDate}
+                onChange={handleChange}
                 isInvalid={!!fieldErrors.rideDate}
               />
               <Form.Control.Feedback type="invalid">
@@ -223,8 +248,8 @@ export default function RideForm({ mode }) {
               <Form.Control
                 type="number"
                 step="any"
-                value={distance}
-                onChange={(e) => setDistance(e.target.value)}
+                value={form.distance}
+                onChange={handleChange}
                 isInvalid={!!fieldErrors.distance}
               />
               <Form.Control.Feedback type="invalid">
@@ -237,8 +262,8 @@ export default function RideForm({ mode }) {
               <Form.Control
                 type="number"
                 step="any"
-                value={elevation}
-                onChange={(e) => setElevation(e.target.value)}
+                value={form.elevation}
+                onChange={handleChange}
                 isInvalid={!!fieldErrors.elevation}
               />
               <Form.Control.Feedback type="invalid">
@@ -251,8 +276,8 @@ export default function RideForm({ mode }) {
               <Form.Control
                 type="number"
                 step="any"
-                value={maxSpeed}
-                onChange={(e) => setMaxSpeed(e.target.value)}
+                value={form.maxSpeed}
+                onChange={handleChange}
                 isInvalid={!!fieldErrors.maxSpeed}
               />
               <Form.Control.Feedback type="invalid">
@@ -271,9 +296,12 @@ export default function RideForm({ mode }) {
               <Form.Control.Feedback type="invalid">
                 {fieldErrors.image}
               </Form.Control.Feedback>
-              {imageData && (
+              {uploadingImage && (
+                <p className="text-secondary mt-2 mb-0">Uploading photo...</p>
+              )}
+              {form.imageData && (
                 <img
-                  src={imageData}
+                  src={form.imageData}
                   alt="Ride preview"
                   className="ride-form-image-preview mt-2"
                 />
@@ -284,7 +312,7 @@ export default function RideForm({ mode }) {
               variant="primary"
               type="submit"
               className="w-100"
-              disabled={submitting}
+              disabled={submitting || uploadingImage}
             >
               {submitting ? "Saving..." : "Save Ride"}
             </Button>

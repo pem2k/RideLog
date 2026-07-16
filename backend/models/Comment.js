@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { getDB } from "../db/connectDB.js";
+import { isValidObjectId } from "../db/objectId.js";
 
 const MAX_TEXT_LENGTH = 500;
 
@@ -20,9 +21,7 @@ export function validateCommentInput(body = {}) {
   return errors;
 }
 
-export function isValidId(id) {
-  return ObjectId.isValid(id);
-}
+export { isValidObjectId as isValidId };
 
 export async function createComment(postId, authorId, text) {
   const comment = {
@@ -64,7 +63,7 @@ export async function getCommentsByPostId(postId) {
 }
 
 export async function getCommentById(id) {
-  if (!isValidId(id)) return null;
+  if (!isValidObjectId(id)) return null;
   return commentsCollection().findOne({ _id: new ObjectId(id) });
 }
 

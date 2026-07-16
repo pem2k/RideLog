@@ -1,7 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import "./custom-bootstrap.scss";
+import "./styles/custom-bootstrap.scss";
+import "./styles/layout.css";
 import { AuthProvider } from "./context/AuthContext";
 import App from "./App.jsx";
 
