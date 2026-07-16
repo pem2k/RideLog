@@ -7,19 +7,23 @@ passport.use(
     try {
       const user = await findByUsername(username);
       if (!user) {
-        return done(null, false, { message: "Incorrect username or password." });
+        return done(null, false, {
+          message: "Incorrect username or password.",
+        });
       }
 
       const isMatch = await verifyPassword(user, password);
       if (!isMatch) {
-        return done(null, false, { message: "Incorrect username or password." });
+        return done(null, false, {
+          message: "Incorrect username or password.",
+        });
       }
 
       return done(null, user);
     } catch (err) {
       return done(err);
     }
-  })
+  }),
 );
 
 passport.serializeUser((user, done) => {

@@ -30,26 +30,102 @@ if (!uri) {
 // --------------- word lists for deterministic data ---------------
 
 const firstNames = [
-  "Alex", "Jordan", "Casey", "Riley", "Morgan", "Taylor", "Quinn", "Avery",
-  "Blake", "Drew", "Sage", "Kai", "Skyler", "Reese", "Peyton", "Dakota",
-  "Rowan", "Finley", "Hayden", "Cameron", "Jamie", "Logan", "Parker", "Emery",
-  "Charlie", "River", "Lennox", "Harley", "Remy", "Shay", "Jules", "Lane",
-  "Devon", "Tatum", "Ellis", "Arden", "Briar", "Wren", "Sloan", "Hollis",
-  "Cruz", "Milan", "Noel", "Jude", "Soren", "Bellamy", "Asher", "Keegan",
-  "Phoenix", "Marlowe",
+  "Alex",
+  "Jordan",
+  "Casey",
+  "Riley",
+  "Morgan",
+  "Taylor",
+  "Quinn",
+  "Avery",
+  "Blake",
+  "Drew",
+  "Sage",
+  "Kai",
+  "Skyler",
+  "Reese",
+  "Peyton",
+  "Dakota",
+  "Rowan",
+  "Finley",
+  "Hayden",
+  "Cameron",
+  "Jamie",
+  "Logan",
+  "Parker",
+  "Emery",
+  "Charlie",
+  "River",
+  "Lennox",
+  "Harley",
+  "Remy",
+  "Shay",
+  "Jules",
+  "Lane",
+  "Devon",
+  "Tatum",
+  "Ellis",
+  "Arden",
+  "Briar",
+  "Wren",
+  "Sloan",
+  "Hollis",
+  "Cruz",
+  "Milan",
+  "Noel",
+  "Jude",
+  "Soren",
+  "Bellamy",
+  "Asher",
+  "Keegan",
+  "Phoenix",
+  "Marlowe",
 ];
 
 const routes = [
-  "Canyon Loop", "River Trail", "Summit Climb", "Coastal Path", "Mountain Pass",
-  "Valley Circuit", "Ridge Road", "Lakeside Loop", "Forest Trail", "Hillside Route",
-  "Sunset Boulevard", "Creek Path", "Harbor Loop", "Meadow Trail", "Parkway",
-  "Cliffside Road", "Bridge Circuit", "Orchard Lane", "Vineyard Route", "Desert Trail",
+  "Canyon Loop",
+  "River Trail",
+  "Summit Climb",
+  "Coastal Path",
+  "Mountain Pass",
+  "Valley Circuit",
+  "Ridge Road",
+  "Lakeside Loop",
+  "Forest Trail",
+  "Hillside Route",
+  "Sunset Boulevard",
+  "Creek Path",
+  "Harbor Loop",
+  "Meadow Trail",
+  "Parkway",
+  "Cliffside Road",
+  "Bridge Circuit",
+  "Orchard Lane",
+  "Vineyard Route",
+  "Desert Trail",
 ];
 
 const adjectives = [
-  "Morning", "Sunset", "Weekend", "Solo", "Group", "Rainy", "Windy", "Early",
-  "Late", "Epic", "Chill", "Fast", "Easy", "Tough", "Long", "Short",
-  "Beautiful", "Foggy", "Sunny", "Perfect",
+  "Morning",
+  "Sunset",
+  "Weekend",
+  "Solo",
+  "Group",
+  "Rainy",
+  "Windy",
+  "Early",
+  "Late",
+  "Epic",
+  "Chill",
+  "Fast",
+  "Easy",
+  "Tough",
+  "Long",
+  "Short",
+  "Beautiful",
+  "Foggy",
+  "Sunny",
+  "Perfect",
 ];
 
 const descriptions = [
@@ -76,13 +152,26 @@ const descriptions = [
 ];
 
 const commentTexts = [
-  "Nice ride!", "Looks like a great route.", "How was the climb?",
-  "Impressive speed!", "I need to try this route.", "Beautiful scenery.",
-  "Strong effort!", "What bike are you riding?", "Great stats!",
-  "That elevation is no joke.", "Love this route.", "Way to push through!",
-  "I rode there last week too.", "Solid distance.", "Keep it up!",
-  "That descent must have been fun.", "Perfect weather for it.",
-  "How long did it take?", "Adding this to my list.", "Respect the grind.",
+  "Nice ride!",
+  "Looks like a great route.",
+  "How was the climb?",
+  "Impressive speed!",
+  "I need to try this route.",
+  "Beautiful scenery.",
+  "Strong effort!",
+  "What bike are you riding?",
+  "Great stats!",
+  "That elevation is no joke.",
+  "Love this route.",
+  "Way to push through!",
+  "I rode there last week too.",
+  "Solid distance.",
+  "Keep it up!",
+  "That descent must have been fun.",
+  "Perfect weather for it.",
+  "How long did it take?",
+  "Adding this to my list.",
+  "Respect the grind.",
 ];
 
 // --------------- helpers ---------------
@@ -108,7 +197,10 @@ function loadFeaturedImages() {
 
   return Array.from({ length: imageCount }, (_, index) => {
     const fileNumber = String(index + 1).padStart(2, "0");
-    const imageFile = new URL(`./images/ride-${fileNumber}.jpg`, import.meta.url);
+    const imageFile = new URL(
+      `./images/ride-${fileNumber}.jpg`,
+      import.meta.url,
+    );
     const imageBase64 = readFileSync(imageFile).toString("base64");
 
     return `data:image/jpeg;base64,${imageBase64}`;
@@ -126,10 +218,21 @@ async function seed() {
 
   // Handle reset if requested
   if (process.env.ALLOW_SEED_RESET === "true") {
-    console.log(`RESETTING database "${dbName}" — dropping users, posts, comments...`);
-    await db.collection("users").drop().catch(() => {});
-    await db.collection("posts").drop().catch(() => {});
-    await db.collection("comments").drop().catch(() => {});
+    console.log(
+      `RESETTING database "${dbName}" — dropping users, posts, comments...`,
+    );
+    await db
+      .collection("users")
+      .drop()
+      .catch(() => {});
+    await db
+      .collection("posts")
+      .drop()
+      .catch(() => {});
+    await db
+      .collection("comments")
+      .drop()
+      .catch(() => {});
     console.log("Collections dropped.");
   }
 
@@ -234,7 +337,9 @@ async function seed() {
     for (let c = 0; c < COMMENTS_PER_POST; c++) {
       const i = p * COMMENTS_PER_POST + c;
       // Comment author is different from post author
-      const authorIdx = posts[p].authorId.equals(users[(p + c + 1) % USER_COUNT]._id)
+      const authorIdx = posts[p].authorId.equals(
+        users[(p + c + 1) % USER_COUNT]._id,
+      )
         ? (p + c + 2) % USER_COUNT
         : (p + c + 1) % USER_COUNT;
 

@@ -91,7 +91,9 @@ router.patch("/:postId", async (req, res, next) => {
       return res.status(404).json({ error: "Post not found" });
     }
     if (existing.authorId.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ error: "You may only edit your own posts" });
+      return res
+        .status(403)
+        .json({ error: "You may only edit your own posts" });
     }
 
     const errors = validatePostInput(req.body);
@@ -117,7 +119,9 @@ router.delete("/:postId", async (req, res, next) => {
       return res.status(404).json({ error: "Post not found" });
     }
     if (existing.authorId.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ error: "You may only delete your own posts" });
+      return res
+        .status(403)
+        .json({ error: "You may only delete your own posts" });
     }
 
     await deletePost(req.params.postId);
@@ -163,7 +167,11 @@ router.post("/:postId/comments", async (req, res, next) => {
       return res.status(400).json({ errors });
     }
 
-    const comment = await createComment(req.params.postId, req.user._id, req.body.text);
+    const comment = await createComment(
+      req.params.postId,
+      req.user._id,
+      req.body.text,
+    );
     res.status(201).json({
       _id: comment._id,
       postId: comment.postId,

@@ -16,10 +16,17 @@ export function validatePostInput(body = {}) {
   if (typeof body.title !== "string" || body.title.trim().length === 0) {
     errors.title = "Title is required.";
   }
-  if (typeof body.description !== "string" || body.description.trim().length === 0) {
+  if (
+    typeof body.description !== "string" ||
+    body.description.trim().length === 0
+  ) {
     errors.description = "Description is required.";
   }
-  if (body.imageData !== undefined && body.imageData !== null && typeof body.imageData !== "string") {
+  if (
+    body.imageData !== undefined &&
+    body.imageData !== null &&
+    typeof body.imageData !== "string"
+  ) {
     errors.imageData = "Image data must be a base64-encoded string.";
   }
   if (!body.rideDate || Number.isNaN(new Date(body.rideDate).getTime())) {
@@ -29,7 +36,8 @@ export function validatePostInput(body = {}) {
     errors.distance = "Distance is required and must be a positive number.";
   }
   if (!isFiniteNumber(body.elevation) || body.elevation < 0) {
-    errors.elevation = "Elevation is required and must be a non-negative number.";
+    errors.elevation =
+      "Elevation is required and must be a non-negative number.";
   }
   if (!isFiniteNumber(body.maxSpeed) || body.maxSpeed <= 0) {
     errors.maxSpeed = "Max speed is required and must be a positive number.";
@@ -77,7 +85,10 @@ export async function updatePost(id, body) {
     updatedAt: new Date(),
   };
 
-  await postsCollection().updateOne({ _id: new ObjectId(id) }, { $set: update });
+  await postsCollection().updateOne(
+    { _id: new ObjectId(id) },
+    { $set: update },
+  );
   return getPostById(id);
 }
 
@@ -120,9 +131,10 @@ export async function getFeed({ page, limit, following }) {
   const skip = (page - 1) * limit;
   const authorIds = (following || []).map((id) => new ObjectId(id));
 
-  const matchStage = authorIds.length > 0
-    ? { $match: { authorId: { $in: authorIds } } }
-    : { $match: { _id: null } };
+  const matchStage =
+    authorIds.length > 0
+      ? { $match: { authorId: { $in: authorIds } } }
+      : { $match: { _id: null } };
 
   const [posts, totalPosts] = await Promise.all([
     postsCollection()
@@ -156,7 +168,9 @@ export async function getFeed({ page, limit, following }) {
         },
       ])
       .toArray(),
-    postsCollection().countDocuments(authorIds.length > 0 ? { authorId: { $in: authorIds } } : { _id: null }),
+    postsCollection().countDocuments(
+      authorIds.length > 0 ? { authorId: { $in: authorIds } } : { _id: null },
+    ),
   ]);
 
   return {

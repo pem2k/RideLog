@@ -69,7 +69,11 @@ if (isProduction) {
 }
 
 app.use((err, req, res, next) => {
-  console.error(err);
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  console.error("Error during " + req.method + " " + req.path + ":", err);
   res.status(500).json({ error: "Internal server error" });
 });
 
