@@ -31,7 +31,10 @@ export default function CommentList({ comments, onDeleted }) {
       {comments.map((comment) => {
         const isOwner = String(comment.author._id) === String(user._id);
         return (
-          <div key={comment._id} className="d-flex justify-content-between align-items-start">
+          <div
+            key={comment._id}
+            className="d-flex justify-content-between align-items-start"
+          >
             <div>
               <div className="fw-bold">
                 {comment.author.username}{" "}

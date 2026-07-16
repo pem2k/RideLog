@@ -18,7 +18,10 @@ export default function RegisterForm() {
       await register(username, email, password);
       navigate("/");
     } catch (err) {
-      setError(err.error || "Registration failed");
+      const validationMessage = err.errors
+        ? Object.values(err.errors).join(" ")
+        : null;
+      setError(validationMessage || err.error || "Registration failed");
     }
   }
 

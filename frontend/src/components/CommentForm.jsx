@@ -50,7 +50,9 @@ export default function CommentForm({ postId, onAdded }) {
           onChange={(e) => setText(e.target.value)}
           isInvalid={!!fieldError}
         />
-        <Form.Control.Feedback type="invalid">{fieldError}</Form.Control.Feedback>
+        <Form.Control.Feedback type="invalid">
+          {fieldError}
+        </Form.Control.Feedback>
       </Form.Group>
       <Button variant="primary" size="sm" type="submit" disabled={submitting}>
         {submitting ? "Posting..." : "Post Comment"}

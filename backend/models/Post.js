@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { getDB } from "../db/connectDB.js";
+import { isValidObjectId } from "../db/objectId.js";
 
 const TITLE_MAX = 100;
 const DESCRIPTION_MAX = 2000;
@@ -57,9 +58,7 @@ export function validatePostInput(body = {}) {
   return errors;
 }
 
-export function isValidId(id) {
-  return ObjectId.isValid(id);
-}
+export { isValidObjectId as isValidId };
 
 export async function createPost(authorId, body) {
   const post = {
@@ -80,7 +79,7 @@ export async function createPost(authorId, body) {
 }
 
 export async function getPostById(id) {
-  if (!isValidId(id)) return null;
+  if (!isValidObjectId(id)) return null;
   return postsCollection().findOne({ _id: new ObjectId(id) });
 }
 

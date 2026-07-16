@@ -59,14 +59,26 @@ export default function PostCard({ post, onDeleted }) {
   return (
     <Card className="mb-4 post-card">
       {post.imageData && (
-        <Card.Img variant="top" src={post.imageData} alt={post.title} className="post-card-image" />
+        <Card.Img
+          variant="top"
+          src={post.imageData}
+          alt={post.title}
+          className="post-card-image"
+        />
       )}
       <Card.Body>
         <Card.Title>{post.title}</Card.Title>
         <Card.Subtitle className="mb-2 text-secondary">
-          <Link to={`/users/${post.author._id}`} className="text-secondary text-decoration-none">{post.author.username}</Link>
+          <Link
+            to={`/users/${post.author._id}`}
+            className="text-secondary text-decoration-none"
+          >
+            {post.author.username}
+          </Link>
           {" · "}
-          {new Date(post.rideDate).toLocaleDateString(undefined, { timeZone: "UTC" })}
+          {new Date(post.rideDate).toLocaleDateString(undefined, {
+            timeZone: "UTC",
+          })}
         </Card.Subtitle>
         <Card.Text>{post.description}</Card.Text>
         <div className="d-flex gap-3 mb-3">
@@ -77,10 +89,20 @@ export default function PostCard({ post, onDeleted }) {
         {error && <Alert variant="danger">{error}</Alert>}
         {isOwner && (
           <div className="d-flex gap-2 mb-3">
-            <Button as={Link} to={`/rides/${post._id}/edit`} variant="secondary" size="sm">
+            <Button
+              as={Link}
+              to={`/rides/${post._id}/edit`}
+              variant="secondary"
+              size="sm"
+            >
               Edit
             </Button>
-            <Button variant="danger" size="sm" onClick={handleDelete} disabled={deleting}>
+            <Button
+              variant="danger"
+              size="sm"
+              onClick={handleDelete}
+              disabled={deleting}
+            >
               {deleting ? "Deleting..." : "Delete"}
             </Button>
           </div>

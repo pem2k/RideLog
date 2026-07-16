@@ -8,7 +8,13 @@ export default function UserCard({ user }) {
     <Card className="mb-3 user-card">
       <Card.Body>
         <Card.Title className="text-center">
-          <Link to={`/users/${user._id}`} className="text-decoration-none" style={{ color: "inherit" }}>{user.username}</Link>
+          <Link
+            to={`/users/${user._id}`}
+            className="text-decoration-none"
+            style={{ color: "inherit" }}
+          >
+            {user.username}
+          </Link>
         </Card.Title>
         {user.displayName && (
           <Card.Subtitle className="mb-2 text-secondary text-center">

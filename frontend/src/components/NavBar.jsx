@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navbar, Container, Nav, Form } from "react-bootstrap";
+import { Navbar, Container, Nav, Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../context/useAuth";
 
@@ -27,9 +27,7 @@ export default function NavBar() {
           <Nav.Link as={Link} to={`/users/${user._id}`}>
             Profile
           </Nav.Link>
-          <Nav.Link onClick={handleLogout}>
-            Logout
-          </Nav.Link>
+          <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
         </>
       );
     }
@@ -66,6 +64,14 @@ export default function NavBar() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 size="sm"
               />
+              <Button
+                type="submit"
+                variant="outline-light"
+                size="sm"
+                className="ms-2"
+              >
+                Search
+              </Button>
             </Form>
           )}
           <Nav className="ms-auto">{renderLinks()}</Nav>

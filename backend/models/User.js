@@ -135,10 +135,20 @@ export async function updateUser(id, updates) {
     throw { status: 400, errors };
   }
 
-  await usersCollection().updateOne(
-    { _id: new ObjectId(id) },
-    { $set: { displayName: updates.displayName, bio: updates.bio } },
-  );
+  const fieldsToUpdate = {};
+  if (updates.displayName !== undefined) {
+    fieldsToUpdate.displayName = updates.displayName;
+  }
+  if (updates.bio !== undefined) {
+    fieldsToUpdate.bio = updates.bio;
+  }
+
+  if (Object.keys(fieldsToUpdate).length > 0) {
+    await usersCollection().updateOne(
+      { _id: new ObjectId(id) },
+      { $set: fieldsToUpdate },
+    );
+  }
 
   return findById(id);
 }

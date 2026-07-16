@@ -116,17 +116,29 @@ export default function RideForm({ mode }) {
     }
 
     const distanceNum = Number(form.distance);
-    if (form.distance === "" || !Number.isFinite(distanceNum) || distanceNum <= 0) {
+    if (
+      form.distance === "" ||
+      !Number.isFinite(distanceNum) ||
+      distanceNum <= 0
+    ) {
       errors.distance = "Distance must be a positive number.";
     }
 
     const elevationNum = Number(form.elevation);
-    if (form.elevation === "" || !Number.isFinite(elevationNum) || elevationNum < 0) {
+    if (
+      form.elevation === "" ||
+      !Number.isFinite(elevationNum) ||
+      elevationNum < 0
+    ) {
       errors.elevation = "Elevation must be a non-negative number.";
     }
 
     const maxSpeedNum = Number(form.maxSpeed);
-    if (form.maxSpeed === "" || !Number.isFinite(maxSpeedNum) || maxSpeedNum <= 0) {
+    if (
+      form.maxSpeed === "" ||
+      !Number.isFinite(maxSpeedNum) ||
+      maxSpeedNum <= 0
+    ) {
       errors.maxSpeed = "Max speed must be a positive number.";
     }
 
