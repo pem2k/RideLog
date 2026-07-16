@@ -1,8 +1,9 @@
-// Seed script for RideLog — generates 100 users, 1000 posts, 500 comments.
+// Seed script for RideLog — generates 100 users, 1000 posts, 2000 comments.
 // Run with:  ALLOW_SEED=true npm run seed
 // To reset (drop collections first):  ALLOW_SEED=true ALLOW_SEED_RESET=true npm run seed
 
 import "dotenv/config";
+import { readFileSync } from "node:fs";
 import { MongoClient, ObjectId } from "mongodb";
 import bcrypt from "bcrypt";
 
@@ -102,6 +103,18 @@ function roundTo(num, decimals) {
   return Math.round(num * factor) / factor;
 }
 
+function loadFeaturedImages() {
+  const imageCount = 7;
+
+  return Array.from({ length: imageCount }, (_, index) => {
+    const fileNumber = String(index + 1).padStart(2, "0");
+    const imageFile = new URL(`./images/ride-${fileNumber}.jpg`, import.meta.url);
+    const imageBase64 = readFileSync(imageFile).toString("base64");
+
+    return `data:image/jpeg;base64,${imageBase64}`;
+  });
+}
+
 // --------------- main ---------------
 
 async function seed() {
@@ -148,13 +161,21 @@ async function seed() {
   users[0].username = "demo";
   users[0].email = "demo@ridelog.example";
   users[0].displayName = "Demo User";
-  users[0].bio = "Demo account. Password: password1";
+  users[0].bio = "Love riding canyon loop. Always looking for new routes.";
 
-  // ---- Set up follow relationships (reciprocal) ----
-  // Each user follows the next 3 users (wrapping), creating reciprocal pairs
-  for (let i = 0; i < USER_COUNT; i++) {
+  // ---- Set up follow relationships ----
+  // Demo user (index 0) follows everyone and is followed by everyone
+  for (let i = 1; i < USER_COUNT; i++) {
+    users[0].following.push(users[i]._id);
+    users[i].followers.push(users[0]._id);
+    users[i].following.push(users[0]._id);
+    users[0].followers.push(users[i]._id);
+  }
+
+  // Each non-demo user also follows the next 3 users (wrapping, skip 0)
+  for (let i = 1; i < USER_COUNT; i++) {
     for (let offset = 1; offset <= 3; offset++) {
-      const targetIdx = (i + offset) % USER_COUNT;
+      const targetIdx = ((i - 1 + offset) % (USER_COUNT - 1)) + 1;
       const myId = users[i]._id;
       const theirId = users[targetIdx]._id;
 
@@ -173,11 +194,16 @@ async function seed() {
   // ---- Generate 1000 posts ----
   const POST_COUNT = 1000;
   const posts = [];
+  const featuredImages = loadFeaturedImages();
 
   for (let i = 0; i < POST_COUNT; i++) {
-    const authorIdx = i % USER_COUNT;
-    const daysAgo = Math.floor(i / 3);
-    const distance = roundTo(randomInRange(8, 100, i), 1);
+    const isFeaturedPost = i < featuredImages.length;
+    const authorIdx = isFeaturedPost ? i + 1 : i % USER_COUNT;
+    const daysAgo = isFeaturedPost
+      ? i
+      : featuredImages.length + Math.floor((i - featuredImages.length) / 3);
+    const postDate = new Date(now.getTime() - daysAgo * 86400000);
+    const distance = roundTo(randomInRange(10, 30, i), 1);
     const avgSpeed = roundTo(randomInRange(10, 25, i + 5000), 1);
     const maxSpeed = roundTo(avgSpeed * randomInRange(1.3, 2.0, i + 3000), 1);
     const elevation = Math.round(randomInRange(50, 2500, i + 7000));
@@ -187,35 +213,39 @@ async function seed() {
       authorId: users[authorIdx]._id,
       title: `${pick(adjectives, i)} ${pick(routes, i + 3)}`,
       description: pick(descriptions, i),
-      imageData: null,
-      rideDate: new Date(now.getTime() - daysAgo * 86400000),
+      imageData: isFeaturedPost ? featuredImages[i] : null,
+      rideDate: postDate,
       distance,
       elevation,
       maxSpeed,
-      createdAt: new Date(now.getTime() - daysAgo * 86400000 + i * 1000),
-      updatedAt: new Date(now.getTime() - daysAgo * 86400000 + i * 1000),
+      createdAt: postDate,
+      updatedAt: postDate,
     });
   }
 
   await db.collection("posts").insertMany(posts);
   console.log(`Inserted ${posts.length} posts.`);
 
-  // ---- Generate 500 comments ----
-  const COMMENT_COUNT = 500;
+  // ---- Generate 2 comments per post (2000 total) ----
+  const COMMENTS_PER_POST = 2;
   const comments = [];
 
-  for (let i = 0; i < COMMENT_COUNT; i++) {
-    const postIdx = i % POST_COUNT;
-    // Comment author is different from post author
-    const commentAuthorIdx = (postIdx + i + 1) % USER_COUNT;
+  for (let p = 0; p < POST_COUNT; p++) {
+    for (let c = 0; c < COMMENTS_PER_POST; c++) {
+      const i = p * COMMENTS_PER_POST + c;
+      // Comment author is different from post author
+      const authorIdx = posts[p].authorId.equals(users[(p + c + 1) % USER_COUNT]._id)
+        ? (p + c + 2) % USER_COUNT
+        : (p + c + 1) % USER_COUNT;
 
-    comments.push({
-      _id: new ObjectId(),
-      postId: posts[postIdx]._id,
-      authorId: users[commentAuthorIdx]._id,
-      text: pick(commentTexts, i),
-      createdAt: new Date(posts[postIdx].createdAt.getTime() + (i + 1) * 60000),
-    });
+      comments.push({
+        _id: new ObjectId(),
+        postId: posts[p]._id,
+        authorId: users[authorIdx]._id,
+        text: pick(commentTexts, i),
+        createdAt: new Date(posts[p].createdAt.getTime() + (c + 1) * 60000),
+      });
+    }
   }
 
   await db.collection("comments").insertMany(comments);

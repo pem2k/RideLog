@@ -30,6 +30,7 @@ export default function RideForm({ mode }) {
   const [fieldErrors, setFieldErrors] = useState({});
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [loadingRide, setLoadingRide] = useState(mode === "edit");
 
   function handleChange(e) {
@@ -81,6 +82,7 @@ export default function RideForm({ mode }) {
     }
 
     setFieldErrors((prev) => ({ ...prev, image: undefined }));
+    setUploadingImage(true);
     try {
       const url = await uploadImage(file);
       setForm((prev) => ({ ...prev, imageData: url }));
@@ -90,6 +92,8 @@ export default function RideForm({ mode }) {
         image: "Image upload failed. Try again.",
       }));
       console.error(err);
+    } finally {
+      setUploadingImage(false);
     }
   }
 
@@ -280,6 +284,9 @@ export default function RideForm({ mode }) {
               <Form.Control.Feedback type="invalid">
                 {fieldErrors.image}
               </Form.Control.Feedback>
+              {uploadingImage && (
+                <p className="text-secondary mt-2 mb-0">Uploading photo...</p>
+              )}
               {form.imageData && (
                 <img
                   src={form.imageData}
@@ -293,7 +300,7 @@ export default function RideForm({ mode }) {
               variant="primary"
               type="submit"
               className="w-100"
-              disabled={submitting}
+              disabled={submitting || uploadingImage}
             >
               {submitting ? "Saving..." : "Save Ride"}
             </Button>

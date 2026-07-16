@@ -1,481 +1,171 @@
 # RideLog
 
-A full-stack social network for cyclists, built for CS 5610 Web Development. This project uses Node.js, Express, MongoDB (native driver), Passport, React, and React Bootstrap.
-
-Users can create an account, log in, post about their rides with photos and stats, browse a feed of everyone's rides, comment on posts, search for other riders, and follow the people they want to keep up with.
+RideLog is a social network for cyclists to record rides and connect with other riders. Users can share ride photos and statistics, follow other users, browse a feed, and leave comments.
 
 ## Project Objective
 
-The goal of this project is to build a full-stack web application using Node.js + Express + MongoDB on the backend and React (with Hooks) on the frontend.
+The goal of RideLog is to build a client-side rendered full-stack application using Node.js, Express, MongoDB, and React with Hooks. The application gives cyclists one place to share ride details such as distance, elevation gain, maximum speed, and photos.
 
-Cyclists typically scatter their ride photos and stats across generic social apps that weren't built for the sport. RideLog pulls that into one place made specifically for riders: log a ride with a title, description, photo, and stats (distance, elevation gain, max speed), then browse, comment on, and follow other riders.
+## Authors
+
+- Parker McKillop
+- Najib Mosquera
+
+**UPDATE:** Add author profile links before submission if they will be included.
+
+## Course
+
+CS 5610 Web Development — [Course website](https://johnguerra.co/classes/webDevelopment_spring2026/)
+
+## Design Documents
+
+[View the project proposal, mockups, and color palette](./design%20docs/)
 
 ## Live Website
 
-[ADD LIVE DEPLOYMENT LINK HERE]
+**UPDATE:** Add the public deployment link.
 
-## Screenshots
+## Screenshot
 
-[ADD APP SCREENSHOTS HERE]
-
-### Design Mockups
-
-These mockups were created during the design phase, before implementation:
-
-UPDATE IF NEEDED - 
-
-| Login | Register | Feed |
-| :---: | :---: | :---: |
-| ![Login mockup](design%20docs/RideLog-login.svg) | ![Register mockup](design%20docs/RideLog-register.svg) | ![Feed mockup](design%20docs/RideLog-feed.svg) |
-
-| Ride Editor | Profile | Search |
-| :---: | :---: | :---: |
-| ![Ride editor mockup](design%20docs/RideLog-ride-editor.svg) | ![Profile mockup](design%20docs/RideLog-profile.svg) | ![Search mockup](design%20docs/RideLog-search.svg) |
+**UPDATE:** Add a screenshot of the completed application.
 
 ## Video Demonstration
 
-[ADD VIDEO DEMONSTRATION LINK HERE]
-
-## Class Reference
-
-This project was created for:
-
-- CS 5610 Web Development
-- [CS 5610 Web Development Class Website](https://johnguerra.co/classes/webDevelopment_spring2026/)
-
-## Author
-
-Najib Mosquera and Parker McKillop
-
-- GitHub: [Parker McKillop](https://github.com/pem2k)
-- GitHub: [Najib Mosquera](https://github.com/NHazelJ)
-- LinkedIn: [ADD PARKER'S LINKEDIN HERE]
-- LinkedIn: [ADD NAJIB'S LINKEDIN HERE]
+**UPDATE:** Add the public narrated demonstration video link. Both team members must participate in the video.
 
 ## Features
 
-- User signup and login with session-based authentication (Passport)
-- Password hashing with bcrypt
-- Create, edit, and delete ride posts (title, description, photo, ride date, distance, elevation gain, max speed)
-- Paginated ride feed, newest rides first
-- Comment on posts, delete your own comments
-- Search for other users by name
-- Follow / unfollow other users
-- View another user's profile and their ride history
-- Owner-only edit/delete controls on posts and comments
-- MongoDB database storage (native driver, no Mongoose)
-- Client-side rendering with React and React Router
-- Environment variables for local configuration
-
-## User Personas
-
-**Dana, the Weekend Rider**
-Dana rides for fun on weekends and likes sharing routes and photos with a small circle of cycling friends. She isn't chasing numbers so much as the social side of things. She wants to see what everyone else has been riding and cheer them on in the comments.
-
-**Marcus, the Data-Driven Cyclist**
-Marcus logs every ride and pays close attention to his numbers, whether that's elevation, max speed, or distance. He wants a place to record rides with real detail and swap notes with other serious riders he's connected with.
-
-**Priya, the New Rider**
-Priya picked up cycling a few months ago and is still finding her footing. She's looking for people to follow so she can pick up tips, get a feel for what routes are out there, and feel like part of a community rather than riding on her own.
-
-## User Stories
-
-**Parker — Users, Follows & Auth**
-
-- As a user, I want to register and log in securely so that my account stays protected.
-- As Priya, I want to search for other users by name so that I can find people to follow.
-- As Dana, I want to follow other users so that I can keep up with their rides.
-- As a user, I want to view someone's profile and their posts so that I can see their ride history.
-- As a user, I want to unfollow someone so that I can manage who I follow.
-
-**Najib — Posts & Comments**
-
-- As Dana, I want to create a ride post with a title, description, image, and stats like elevation and max speed so that I can share my ride with others.
-- As Dana, I want to edit and delete my own posts so that I can fix mistakes or take down a ride.
-- As Marcus, I want to view a feed of ride posts so that I can see what everyone has been riding.
-- As Priya, I want to comment on a post so that I can ask questions and respond to other people's rides.
-- As a user, I want to delete my own comments so that I can manage what I've said.
-
-## Main User Flow
-
-1. A user opens the app.
-2. The user creates an account.
-3. The user logs in.
-4. The user creates a ride post by entering a title, description, photo, ride date, distance, elevation gain, and max speed.
-5. The app saves the post in MongoDB, associated with the logged-in user.
-6. The dashboard (feed) shows every user's rides, newest first, paginated.
-7. The user can comment on any ride, and delete their own comments.
-8. The user can edit or delete their own ride posts.
-9. The user can search for other riders and follow/unfollow them.
-10. The user can view another rider's profile and ride history.
-11. The user can log out.
-
-## Pages
-
-UPDATE AS NEEDED
-- **Login** — page for existing users to log in
-- **Register** — page for new users to create an account
-- **Ride Feed** (`/`) — main dashboard, shows paginated ride posts from all users, with a "Log a Ride" action
-- **Create/Edit Ride** (`/rides/new`, `/rides/:postId/edit`) — shared form for logging a new ride or editing an existing one, owner-only for edit
-- **User Profile** — [PENDING — backend routes exist (`GET /api/users/:userId`, follow/unfollow, search), frontend page not yet built]
-
-## Backend Routes
-
-**Auth** (`/api/auth`)
-
-- `POST /register`
-- `POST /login`
-- `POST /logout`
-- `GET /me`
-
-**Users** (`/api/users`)
-
-- `GET /search?q=`
-- `PATCH /me` (update display name / bio)
-- `GET /:userId`
-- `POST /:userId/follow`
-- `DELETE /:userId/follow`
-
-**Posts** (`/api/posts`)
-
-- `POST /`
-- `GET /feed?page=&limit=`
-- `GET /:postId`
-- `PATCH /:postId`
-- `DELETE /:postId`
-- `GET /:postId/comments`
-- `POST /:postId/comments`
-
-**Comments** (`/api/comments`)
-
-- `DELETE /:commentId`
-
-## MongoDB Collections
-
-This project uses three MongoDB collections — more than the two required.
-
-### Users (Parker)
-
-- **Create:** register a new user
-- **Read:** view a profile, search users by name
-- **Update:** edit display name / bio, follow / unfollow (updates `following`/`followers` arrays)
-- **Delete:** [PENDING — account deletion isn't implemented yet]
-
-### Posts (Najib)
-
-- **Create:** add a new ride post (title, description, image, ride date, distance, elevation, max speed)
-- **Read:** view the feed, view a single post
-- **Update:** edit a post
-- **Delete:** remove a post (also cascades to delete its comments)
-
-### Comments (Najib)
-
-- **Create:** add a comment to a post
-- **Read:** view a post's comments
-- **Delete:** remove your own comment
+- Register, log in, and log out using Passport session authentication
+- Edit a user profile with a display name and bio
+- Search for riders by name
+- Follow and unfollow other riders
+- View ride posts from followed riders in a paginated feed
+- View a rider's profile and ride history
+- Create, edit, and delete ride posts
+- Add a ride photo, date, distance, elevation gain, and maximum speed
+- Add comments and delete your own comments
+- Restrict post and comment changes to their owners
 
 ## Tech Stack
-UPDATE AS NEEDED
+
+### Frontend
+
 - React with Hooks
 - React Router
 - React Bootstrap
+- Sass
+- Fetch API
+
+### Backend
+
 - Node.js
 - Express
-- MongoDB native driver
-- Passport (passport-local)
+- Passport
 - bcrypt
-- express-session + connect-mongo
-- ESLint
-- Prettier
-- Git and GitHub
-- MIT License
-- Deployment: Heroku
+- MongoDB native Node.js driver
+- express-session with connect-mongo
 
-## Important Project Restrictions
+### Image Hosting
 
-This project does not use:
+- Cloudinary unsigned image uploads
 
-UPDATE AS NEEDED
-- Mongoose
-- Template engines such as EJS, Pug, or Handlebars
-- CommonJS `require`
-- axios
-- CORS
+## Local Setup
 
-The project uses ES modules with `import`/`export`, and the frontend talks to the backend via `fetch` through a Vite dev proxy.
+### Prerequisites
 
-## Folder Structure
-UPDATE AS NEEDED
-```
-RideLog/
-  design docs/
-    RideLog-color-palette.png
-    RideLog-feed.svg
-    RideLog-login.svg
-    RideLog-profile.svg
-    RideLog-register.svg
-    RideLog-ride-editor.svg
-    RideLog-search.svg
+- Node.js 22.12 or newer
+- A local MongoDB server or MongoDB Atlas database
 
-  backend/
-    config/
-      passport.js
-    db/
-      connectDB.js
-    middleware/
-      ensureAuthenticated.js
-    models/
-      User.js
-      Post.js
-      Comment.js
-    routes/
-      auth.js
-      users.js
-      posts.js
-      comments.js
-    seed/
-    .env.example
-    package.json
-    server.js
+### 1. Install dependencies
 
-  frontend/
-    src/
-      api/
-        posts.js
-        comments.js
-      components/
-        LoginForm.jsx
-        RegisterForm.jsx
-        NavBar.jsx
-        RideForm.jsx
-        RideForm.css
-        PostCard.jsx
-        PostCard.css
-        RideFeedPage.jsx
-        CommentForm.jsx
-        CommentList.jsx
-      context/
-        AuthContext.jsx
-        useAuth.js
-      App.jsx
-      main.jsx
-      custom-bootstrap.scss
-    package.json
-    vite.config.js
+From the project root:
 
-  rubric.md
-  README.md
+```bash
+npm install
 ```
 
-## Environment Variables
+The root install script installs the backend and frontend dependencies.
 
-This project uses environment variables for local configuration.
+### 2. Configure the backend
 
-Create a `.env` file in `backend/` (copy `backend/.env.example`):
+Copy the environment-variable example:
 
+```bash
+cp backend/.env.example backend/.env
 ```
+
+Set the following values in `backend/.env`:
+
+```env
 MONGO_URI=mongodb://localhost:27017
 MONGO_DB_NAME=ridelog
-SESSION_SECRET=change-this-to-a-random-string
+SESSION_SECRET=replace-this-with-a-long-random-value
 PORT=3001
 ```
 
-Do not commit real secret credentials to GitHub. The `.env` file stays local and is listed in `.gitignore`; `backend/.env.example` shows other developers what variables they need without exposing private values.
+The frontend development server sends `/api` requests to port `3001`.
 
-> Note: the frontend's Vite dev proxy (`frontend/vite.config.js`) forwards `/api` requests to `http://localhost:3001`, so the backend's `PORT` should be set to `3001` for local development.
+### 3. Start the application
 
-## How to Install and Run Locally
+From the project root:
 
-### 1. Clone the repository
-
-```
-git clone [ADD REPO URL HERE]
-```
-
-### 2. Install backend dependencies
-
-```
-cd backend
-npm install
-```
-
-### 3. Install frontend dependencies
-
-```
-cd ../frontend
-npm install
-```
-
-### 4. Start MongoDB
-
-Make sure MongoDB is running locally (or point `MONGO_URI` at a MongoDB Atlas cluster).
-
-### 5. Create the backend `.env` file
-
-Copy `backend/.env.example` to `backend/.env` and fill in real values (see [Environment Variables](#environment-variables) above).
-
-### 6. Start the backend
-
-```
-cd backend
+```bash
 npm run dev
 ```
 
-### 7. Start the frontend
+This starts the Express backend and Vite frontend. Open the local address printed by Vite in the terminal.
 
-```
-cd frontend
-npm run dev
-```
+## Seed Data
 
-### 8. Open the app in the browser
+The seed script creates 100 users, 1,000 ride posts, and 500 comments. Run it from the backend directory against the database configured in `backend/.env`:
 
-```
-http://localhost:5173
+```bash
+cd backend
+ALLOW_SEED=true npm run seed
 ```
 
-## How to Use the App
+To replace existing users, posts, and comments before seeding:
 
-1. Open the app in your browser.
-2. Create a new account.
-3. Log in.
-4. Click "Log a Ride" and enter a title, description, photo, ride date, distance, elevation gain, and max speed.
-5. View your ride on the feed, along with everyone else's rides, newest first.
-6. Comment on a ride, or delete your own comments.
-7. Edit or delete your own ride posts.
-8. Search for other riders and follow/unfollow them.
-9. Log out when finished.
-
-## Available NPM Scripts
-
-**Root** (project root)
-
-```
-npm run dev       # start backend + frontend for local development
-npm run build     # build the frontend for production
-npm start         # start the production server (serves API + frontend)
+```bash
+ALLOW_SEED=true ALLOW_SEED_RESET=true npm run seed
 ```
 
-`npm install` at the root automatically installs both backend and frontend dependencies via `postinstall`.
+The reset command drops the existing `users`, `posts`, and `comments` collections. Use it only on a development or class demonstration database.
 
-**Backend** (`backend/`)
+The generated demo account is:
 
-```
-npm run dev     # start with auto-restart
-npm start       # start normally
-```
+- Username: `demo`
+- Password: `password1`
 
-**Frontend** (`frontend/`)
+## How to Use RideLog
 
-```
-npm run dev       # start the Vite dev server
-npm run build     # build for production
-npm run lint      # run ESLint
-```
+1. Register a new account or log in with the demo account.
+2. Search for riders and follow them.
+3. Return to the home page to view rides from followed users.
+4. Select **Log a Ride** to add a title, description, date, photo, and ride statistics.
+5. Visit your profile to view, edit, or delete your rides.
+6. Open the comments on a ride to join the conversation or delete your own comments.
+7. Use the profile link in the navigation bar to edit your display name or bio.
 
-## Production Deployment
+## Production Build
 
-RideLog is designed for same-origin deployment — Express serves both the API and the compiled React app. No CORS or separate frontend host is needed.
+Build the React frontend from the project root:
 
-### Build and start commands
-
-Most hosts (Render, Railway, etc.) need two commands:
-
-| Setting       | Value                  |
-| ------------- | ---------------------- |
-| Build command | `npm install && npm run build` |
-| Start command | `npm start`            |
-
-### Required environment variables
-
-Set these on your host (do **not** commit them):
-
-```
-NODE_ENV=production
-MONGO_URI=<your MongoDB Atlas connection string>
-MONGO_DB_NAME=ridelog
-SESSION_SECRET=<a long random string>
-PORT=<host assigns this automatically on most platforms>
+```bash
+npm run build
 ```
 
-### How it works
+Start the Express production server:
 
-1. `npm install` installs root, backend, and frontend dependencies (via `postinstall`).
-2. `npm run build` runs `vite build` in the frontend, producing `frontend/dist/`.
-3. `npm start` runs `node server.js` in the backend, which:
-   - Serves the API at `/api/*`
-   - Serves the compiled React app from `frontend/dist/`
-   - Falls back to `index.html` for any non-API GET so React Router can handle client-side routes
-   - Enables `trust proxy` and secure cookies when `NODE_ENV=production`
+```bash
+npm start
+```
 
-### Node version
+In production, Express serves both the API and the compiled React application. Configure `MONGO_URI`, `MONGO_DB_NAME`, `SESSION_SECRET`, `NODE_ENV=production`, and the deployment platform's assigned `PORT`.
 
-This project requires Node >=22.12.0 (set in root `package.json` under `engines`).
+## AI Use
 
-## Project Requirements Checklist
-
-- Node.js backend
-- Express server
-- MongoDB database
-- At least two MongoDB collections (three: users, posts, comments)
-- CRUD-style database operations, each student with full CRUD in at least one collection (Najib: Posts)
-- Parker's Users collection: Delete operation not yet implemented
-- React frontend with Hooks
-- Client-side rendering
-- Signup form
-- Login form
-- Create/edit ride form
-- Passport authentication (register, login, logout, session)
-- Organized folders for frontend, backend, database, routes, models, CSS
-- ESLint config file for the backend (frontend has one; backend does not yet)
-- Prettier formatting verified across the codebase
-- Bootstrap / React Bootstrap styling
-- `package.json` for both frontend and backend
-- MIT LICENSE file (declared in `package.json`, file itself not yet added)
-- No Mongoose
-- No template engines
-- No CommonJS `require`
-- No axios / no CORS
-- No secret credentials committed (double-check before submission)
-- Database seeded with 1,000+ synthetic records
-- Public demo video
-- Screenshots
-- Deployment link
-
-## Design Document Summary
-
-The design document includes:
-
-- Project description
-- User personas (Dana, Marcus, Priya)
-- User stories
-- Division of work
-- Tools and libraries
-- Design mockups (see `design docs/`)
-
-## Division of Work
-
-**Parker — Users, Follows & Authentication**
-
-- Backend and frontend for user registration, login, and logout
-- Passport authentication (local strategy, sessions) and route protection
-- User model: `sanitizeUser`, `findById`, `updateUser`, `followUser`, `unfollowUser`, `searchUsers`
-- `GET /api/users/search`, `PATCH /api/users/me`, `GET /api/users/:userId`, follow/unfollow routes
-- Frontend auth pages (`LoginForm`, `RegisterForm`), `NavBar`, `AuthContext`
-- Initial project scaffolding and design docs / color palette
-
-**Najib — Posts & Comments**
-
-- Backend and frontend for creating, editing, deleting, and viewing ride posts, including the image field and stat fields
-- Backend and frontend for adding, viewing, and deleting comments on posts
-- The paginated main ride feed (backend endpoint and frontend page)
-- `PostCard` component with owner-only edit/delete controls
-- README file
-- Slides of the project
-
-## How AI Was Used
-
-**Najib**
+### Najib
 
 - Reviewing the codebase to determine what was and wasn't implemented yet for each ticket before starting work
 - Debugging the Posts CRUD backend, plus the minimal Passport/session auth needed to unblock it
@@ -484,16 +174,16 @@ The design document includes:
 - Debugging the `RideForm`, `PostCard`, `RideFeedPage`, and `CommentForm`/`CommentList` React components
 - Debugging a git merge conflict in `backend/server.js` between two feature branches
 
-**Parker**
+### Parker
 
-[ADD PARKER'S "HOW AI WAS USED" SECTION HERE]
-
-## Security Notes
-
-This project does not expose real MongoDB credentials in the README.
-
-Local development uses a `MONGO_URI` pointing at `localhost` or a placeholder Atlas string. Any real secret values should be stored in `backend/.env` and not committed to GitHub.
+**UPDATE:** Add Parker's AI-use disclosure after reviewing the final wording.
 
 ## License
 
-This project uses the MIT License.
+MIT
+
+## Before Submission
+
+- **UPDATE:** Verify the deployment, repository, video, and thumbnail links while signed out.
+- **UPDATE:** Confirm the Google Form submission displays the correct thumbnail and working links.
+- **UPDATE:** Remove every remaining `UPDATE:` reminder after completing it.
