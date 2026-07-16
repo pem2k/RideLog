@@ -8,6 +8,6 @@
     "dev": "cd backend && npm run dev & cd frontend && npm run dev -- --host & wait",
     "postinstall": "cd backend && npm install && cd ../frontend && npm install",
     "build": "cd frontend && npm run build",
-    "start": "cd backend && node server.js"
+    "start": "npm run build && cd backend && NODE_ENV=production node server.js"
   }
 }

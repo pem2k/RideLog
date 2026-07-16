@@ -25,9 +25,31 @@ CS 5610 Web Development — [Course website](https://johnguerra.co/classes/webDe
 
 **UPDATE:** Add the public deployment link.
 
-## Screenshot
+## Screenshots
 
-**UPDATE:** Add a screenshot of the completed application.
+### Login
+
+![RideLog login screen](./screenshots/login.png)
+
+### Registration
+
+![RideLog registration screen](./screenshots/register.png)
+
+### Ride Feed and Comments
+
+![Ride post displayed in the feed with comments](./screenshots/ride-feed-post.png)
+
+### Log a Ride
+
+![RideLog form for creating a ride post](./screenshots/log-a-ride.png)
+
+### Profile and Ride History
+
+![RideLog user profile and ride history](./screenshots/profile.png)
+
+### Rider Search
+
+![RideLog rider search results](./screenshots/search-results.png)
 
 ## Video Demonstration
 
@@ -176,14 +198,12 @@ In production, Express serves both the API and the compiled React application. C
 
 ### Parker
 
-**UPDATE:** Add Parker's AI-use disclosure after reviewing the final wording.
+I used Claude Code and OpenAI Codex as development tools throughout this project. I primarily used Claude Code at a function-by-function level to help translate logic I had already planned into working syntax. I reviewed the generated code, requested changes when it did not match my intended behavior, and worked through each module and route individually.
+
+I used Codex rubric-based code reviews, identifying duplicated or unnecessarily complicated code, testing frontend and backend functionality, and helping with documentation and final cleanup. AI assistance was also used to diagnose errors and suggest targeted fixes.
+
+I made the final implementation decisions and reviewed the application’s routes, database operations, authentication flow, React components, and request handling.
 
 ## License
 
 MIT
-
-## Before Submission
-
-- **UPDATE:** Verify the deployment, repository, video, and thumbnail links while signed out.
-- **UPDATE:** Confirm the Google Form submission displays the correct thumbnail and working links.
-- **UPDATE:** Remove every remaining `UPDATE:` reminder after completing it.
