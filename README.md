@@ -348,6 +348,16 @@ http://localhost:5173
 
 ## Available NPM Scripts
 
+**Root** (project root)
+
+```
+npm run dev       # start backend + frontend for local development
+npm run build     # build the frontend for production
+npm start         # start the production server (serves API + frontend)
+```
+
+`npm install` at the root automatically installs both backend and frontend dependencies via `postinstall`.
+
 **Backend** (`backend/`)
 
 ```
@@ -362,6 +372,45 @@ npm run dev       # start the Vite dev server
 npm run build     # build for production
 npm run lint      # run ESLint
 ```
+
+## Production Deployment
+
+RideLog is designed for same-origin deployment — Express serves both the API and the compiled React app. No CORS or separate frontend host is needed.
+
+### Build and start commands
+
+Most hosts (Render, Railway, etc.) need two commands:
+
+| Setting       | Value                  |
+| ------------- | ---------------------- |
+| Build command | `npm install && npm run build` |
+| Start command | `npm start`            |
+
+### Required environment variables
+
+Set these on your host (do **not** commit them):
+
+```
+NODE_ENV=production
+MONGO_URI=<your MongoDB Atlas connection string>
+MONGO_DB_NAME=ridelog
+SESSION_SECRET=<a long random string>
+PORT=<host assigns this automatically on most platforms>
+```
+
+### How it works
+
+1. `npm install` installs root, backend, and frontend dependencies (via `postinstall`).
+2. `npm run build` runs `vite build` in the frontend, producing `frontend/dist/`.
+3. `npm start` runs `node server.js` in the backend, which:
+   - Serves the API at `/api/*`
+   - Serves the compiled React app from `frontend/dist/`
+   - Falls back to `index.html` for any non-API GET so React Router can handle client-side routes
+   - Enables `trust proxy` and secure cookies when `NODE_ENV=production`
+
+### Node version
+
+This project requires Node >=22.12.0 (set in root `package.json` under `engines`).
 
 ## Project Requirements Checklist
 
