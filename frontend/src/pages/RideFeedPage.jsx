@@ -44,7 +44,9 @@ export default function RideFeedPage() {
 
       {loading && (
         <div className="d-flex justify-content-center py-5">
-          <Spinner animation="border" role="status" />
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading feed...</span>
+          </Spinner>
         </div>
       )}
 

@@ -168,7 +168,9 @@ export default function RideForm({ mode }) {
         className="d-flex justify-content-center align-items-center"
         style={{ minHeight: "80vh" }}
       >
-        <Spinner animation="border" role="status" />
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading ride...</span>
+        </Spinner>
       </Container>
     );
   }

@@ -99,7 +99,11 @@ export default function PostCard({ post, onDeleted }) {
         {showComments && (
           <div>
             <CommentForm postId={post._id} onAdded={handleCommentAdded} />
-            {commentsLoading && <Spinner animation="border" size="sm" />}
+            {commentsLoading && (
+              <Spinner animation="border" size="sm" role="status">
+                <span className="visually-hidden">Loading comments...</span>
+              </Spinner>
+            )}
             {commentsError && <Alert variant="danger">{commentsError}</Alert>}
             {!commentsLoading && !commentsError && comments !== null && (
               <CommentList comments={comments} onDeleted={handleCommentDeleted} />

@@ -55,7 +55,11 @@ export default function NavBar() {
         <Navbar.Collapse id="main-navbar">
           {user && (
             <Form className="d-flex me-auto" onSubmit={handleSearch}>
+              <Form.Label htmlFor="navSearch" className="visually-hidden">
+                Search users
+              </Form.Label>
               <Form.Control
+                id="navSearch"
                 type="text"
                 placeholder="Search users..."
                 value={searchQuery}

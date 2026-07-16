@@ -90,7 +90,7 @@ export default function ProfilePage() {
 
         {isOwnProfile && editing && (
           <Form onSubmit={handleSaveProfile} className="mb-3">
-            <Form.Group className="mb-2">
+            <Form.Group className="mb-2" controlId="displayName">
               <Form.Label>Display Name</Form.Label>
               <Form.Control
                 type="text"
@@ -99,7 +99,7 @@ export default function ProfilePage() {
                 maxLength={50}
               />
             </Form.Group>
-            <Form.Group className="mb-2">
+            <Form.Group className="mb-2" controlId="bio">
               <Form.Label>Bio</Form.Label>
               <Form.Control
                 as="textarea"
