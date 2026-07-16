@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Spinner, Alert, Button, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getFeed } from "../api/posts";
@@ -10,24 +10,49 @@ export default function RideFeedPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const loadFeed = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await getFeed({ page });
-      setPosts(data.posts);
-      setTotalPages(data.totalPages);
-    } catch (err) {
-      setError(err.error || "Failed to load the feed");
-    } finally {
-      setLoading(false);
-    }
-  }, [page]);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
-    loadFeed();
-  }, [loadFeed]);
+    let cancelled = false;
+
+    async function fetchFeed() {
+      try {
+        const data = await getFeed({ page });
+        if (!cancelled) {
+          setPosts(data.posts);
+          setTotalPages(data.totalPages);
+          setError(null);
+          setLoading(false);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.error || "Failed to load the feed");
+          setLoading(false);
+        }
+      }
+    }
+
+    fetchFeed();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [page, retryCount]);
+
+  function handleRetry() {
+    setLoading(true);
+    setRetryCount((c) => c + 1);
+  }
+
+  function handlePrevious() {
+    setLoading(true);
+    setPage((p) => p - 1);
+  }
+
+  function handleNext() {
+    setLoading(true);
+    setPage((p) => p + 1);
+  }
 
   function handleDeleted(postId) {
     setPosts((prev) => prev.filter((post) => post._id !== postId));
@@ -53,7 +78,11 @@ export default function RideFeedPage() {
       {!loading && error && (
         <Alert variant="danger">
           {error}{" "}
-          <Button variant="link" className="p-0 align-baseline" onClick={loadFeed}>
+          <Button
+            variant="link"
+            className="p-0 align-baseline"
+            onClick={handleRetry}
+          >
             Retry
           </Button>
         </Alert>
@@ -70,14 +99,19 @@ export default function RideFeedPage() {
 
       {!loading &&
         !error &&
-        posts.map((post) => <PostCard key={post._id} post={post} onDeleted={handleDeleted} />)}
+        posts.map((post) => (
+          <PostCard key={post._id} post={post} onDeleted={handleDeleted} />
+        ))}
 
       {!loading && !error && posts.length > 0 && (
-        <Stack direction="horizontal" className="justify-content-center gap-3 mb-4">
+        <Stack
+          direction="horizontal"
+          className="justify-content-center gap-3 mb-4"
+        >
           <Button
             variant="secondary"
             disabled={page <= 1}
-            onClick={() => setPage((p) => p - 1)}
+            onClick={handlePrevious}
           >
             Previous
           </Button>
@@ -87,7 +121,7 @@ export default function RideFeedPage() {
           <Button
             variant="secondary"
             disabled={page >= totalPages}
-            onClick={() => setPage((p) => p + 1)}
+            onClick={handleNext}
           >
             Next
           </Button>

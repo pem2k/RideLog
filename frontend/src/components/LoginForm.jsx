@@ -54,7 +54,7 @@ export default function LoginForm() {
             </Button>
           </Form>
           <div className="text-center mt-3">
-            <Link to="/register">Don't have an account? Register</Link>
+            <Link to="/register">Don&apos;t have an account? Register</Link>
           </div>
         </Card.Body>
       </Card>
