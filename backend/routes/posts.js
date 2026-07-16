@@ -5,14 +5,35 @@ import {
   isValidId,
   createPost,
   getPostById,
+  getPostsByAuthor,
   updatePost,
   deletePost,
+  validateFeedQuery,
+  getFeed,
 } from "../models/Post.js";
-import { deleteManyByPostId } from "../models/Comment.js";
+import {
+  validateCommentInput,
+  createComment,
+  getCommentsByPostId,
+  deleteManyByPostId,
+} from "../models/Comment.js";
 
 const router = Router();
 
 router.use(ensureAuthenticated);
+
+router.get("/", async (req, res, next) => {
+  try {
+    if (!req.query.author || !isValidId(req.query.author)) {
+      return res.status(400).json({ error: "A valid author id is required" });
+    }
+
+    const posts = await getPostsByAuthor(req.query.author);
+    res.status(200).json(posts);
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.post("/", async (req, res, next) => {
   try {
@@ -23,6 +44,20 @@ router.post("/", async (req, res, next) => {
 
     const post = await createPost(req.user._id, req.body);
     res.status(201).json(post);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/feed", async (req, res, next) => {
+  try {
+    const { errors, page, limit } = validateFeedQuery(req.query);
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({ errors });
+    }
+
+    const feed = await getFeed({ page, limit, following: req.user.following });
+    res.status(200).json(feed);
   } catch (err) {
     next(err);
   }
@@ -56,7 +91,9 @@ router.patch("/:postId", async (req, res, next) => {
       return res.status(404).json({ error: "Post not found" });
     }
     if (existing.authorId.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ error: "You may only edit your own posts" });
+      return res
+        .status(403)
+        .json({ error: "You may only edit your own posts" });
     }
 
     const errors = validatePostInput(req.body);
@@ -82,13 +119,66 @@ router.delete("/:postId", async (req, res, next) => {
       return res.status(404).json({ error: "Post not found" });
     }
     if (existing.authorId.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ error: "You may only delete your own posts" });
+      return res
+        .status(403)
+        .json({ error: "You may only delete your own posts" });
     }
 
     await deletePost(req.params.postId);
     await deleteManyByPostId(req.params.postId);
 
     res.status(204).end();
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/:postId/comments", async (req, res, next) => {
+  try {
+    if (!isValidId(req.params.postId)) {
+      return res.status(400).json({ error: "Invalid post id" });
+    }
+
+    const post = await getPostById(req.params.postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    const comments = await getCommentsByPostId(req.params.postId);
+    res.status(200).json(comments);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/:postId/comments", async (req, res, next) => {
+  try {
+    if (!isValidId(req.params.postId)) {
+      return res.status(400).json({ error: "Invalid post id" });
+    }
+
+    const post = await getPostById(req.params.postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    const errors = validateCommentInput(req.body);
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({ errors });
+    }
+
+    const comment = await createComment(
+      req.params.postId,
+      req.user._id,
+      req.body.text,
+    );
+    res.status(201).json({
+      _id: comment._id,
+      postId: comment.postId,
+      text: comment.text,
+      createdAt: comment.createdAt,
+      author: { _id: req.user._id, username: req.user.username },
+    });
   } catch (err) {
     next(err);
   }

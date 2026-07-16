@@ -1,0 +1,19 @@
+.ride-form-image-preview {
+  max-width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 0.375rem;
+}
+
+::file-selector-button {
+  background-color: #5b9279;
+  color: #eae6e5;
+  border: none;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+
+::file-selector-button:hover {
+  background-color: #4a7a64;
+}

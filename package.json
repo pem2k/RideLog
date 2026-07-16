@@ -1,0 +1,13 @@
+{
+  "name": "ridelog",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "cd backend && npm run dev & cd frontend && npm run dev -- --host & wait",
+    "postinstall": "cd backend && npm install && cd ../frontend && npm install",
+    "build": "cd frontend && npm run build",
+    "start": "npm run build && cd backend && NODE_ENV=production node server.js"
+  }
+}

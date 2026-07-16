@@ -1,0 +1,82 @@
+import { useState } from "react";
+import { Navbar, Container, Nav, Form, Button } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../context/useAuth";
+
+export default function NavBar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  function handleSearch(e) {
+    e.preventDefault();
+    if (searchQuery.trim().length > 0) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  }
+
+  async function handleLogout() {
+    await logout();
+    navigate("/login");
+  }
+
+  function renderLinks() {
+    if (user) {
+      return (
+        <>
+          <Nav.Link as={Link} to={`/users/${user._id}`}>
+            Profile
+          </Nav.Link>
+          <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+        </>
+      );
+    }
+    return (
+      <>
+        <Nav.Link as={Link} to="/login">
+          Login
+        </Nav.Link>
+        <Nav.Link as={Link} to="/register">
+          Register
+        </Nav.Link>
+      </>
+    );
+  }
+
+  return (
+    <Navbar bg="dark" data-bs-theme="dark" expand="lg">
+      <Container className="content-narrow">
+        <Navbar.Brand as={Link} to="/">
+          RideLog
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="main-navbar" />
+        <Navbar.Collapse id="main-navbar">
+          {user && (
+            <Form className="d-flex me-auto" onSubmit={handleSearch}>
+              <Form.Label htmlFor="navSearch" className="visually-hidden">
+                Search users
+              </Form.Label>
+              <Form.Control
+                id="navSearch"
+                type="text"
+                placeholder="Search users..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                size="sm"
+              />
+              <Button
+                type="submit"
+                variant="outline-light"
+                size="sm"
+                className="ms-2"
+              >
+                Search
+              </Button>
+            </Form>
+          )}
+          <Nav className="ms-auto">{renderLinks()}</Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
+}
