@@ -41,7 +41,7 @@ export default function CommentForm({ postId, onAdded }) {
   return (
     <Form onSubmit={handleSubmit} className="mb-3">
       {error && <Alert variant="danger">{error}</Alert>}
-      <Form.Group controlId="commentText" className="mb-2">
+      <Form.Group controlId="commentText" className="mb-3">
         <Form.Control
           as="textarea"
           rows={2}
