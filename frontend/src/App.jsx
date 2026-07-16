@@ -1,5 +1,7 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import useAuth from "./context/useAuth";
+import GuestOnly from "./components/GuestOnly";
+import RequireAuth from "./components/RequireAuth";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import RideForm from "./components/RideForm";
@@ -7,22 +9,6 @@ import RideFeedPage from "./pages/RideFeedPage";
 import NavBar from "./components/NavBar";
 import SearchPage from "./pages/SearchPage";
 import ProfilePage from "./pages/ProfilePage";
-
-function GuestOnly({ children }) {
-  const { user } = useAuth();
-  if (user) {
-    return <Navigate to="/" />;
-  }
-  return children;
-}
-
-function RequireAuth({ children }) {
-  const { user } = useAuth();
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
-  return children;
-}
 
 function App() {
   const { loading } = useAuth();
