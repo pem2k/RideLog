@@ -15,7 +15,7 @@ The goal of RideLog is to build a client-side rendered full-stack application us
 
 ## Course
 
-CS 5610 Web Development — [Course website](https://johnguerra.co/classes/webDevelopment_spring2026/)
+CS 5610 Web Development — [Course website](https://johnguerra.co/classes/webDevelopment_online_summer_2026/)
 
 ## Design Documents
 
@@ -193,7 +193,7 @@ In production, Express serves both the API and the compiled React application. C
 - Debugging the Posts CRUD backend, plus the minimal Passport/session auth needed to unblock it
 - Debugging the paginated ride feed endpoint and its supporting MongoDB index
 - Debugging the comments API — nested routes, validation, and cascade-delete of comments when a post is deleted
-- Debugging the `RideForm`, `PostCard`, `RideFeedPage`, and `CommentForm`/`CommentList` React components
+- Debugging the `RideForm`, `PostCard`, and `CommentForm`/`CommentList` React components
 - Debugging a git merge conflict in `backend/server.js` between two feature branches
 
 ### Parker
