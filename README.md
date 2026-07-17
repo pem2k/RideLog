@@ -23,7 +23,7 @@ CS 5610 Web Development — [Course website](https://johnguerra.co/classes/webDe
 
 ## Live Website
 
-**UPDATE:** Add the public deployment link.
+[https://ridelog-app-528562a37f7f.herokuapp.com/](https://ridelog-app-528562a37f7f.herokuapp.com/login)
 
 ## Screenshots
 
@@ -200,7 +200,7 @@ In production, Express serves both the API and the compiled React application. C
 
 I used Claude Code and OpenAI Codex as development tools throughout this project. I primarily used Claude Code at a function-by-function level to help translate logic I had already planned into working syntax. I reviewed the generated code, requested changes when it did not match my intended behavior, and worked through each module and route individually.
 
-I used Codex rubric-based code reviews, identifying duplicated or unnecessarily complicated code, testing frontend and backend functionality, and helping with documentation and final cleanup. AI assistance was also used to diagnose errors and suggest targeted fixes.
+I used Codex rubric-based code reviews, testing frontend and backend functionality, and helping with documentation and final cleanup. AI assistance was also used to diagnose errors and suggest targeted fixes.
 
 I made the final implementation decisions and reviewed the application’s routes, database operations, authentication flow, React components, and request handling.
 
