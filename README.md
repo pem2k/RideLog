@@ -11,11 +11,9 @@ The goal of RideLog is to build a client-side rendered full-stack application us
 - Parker McKillop
 - Najib Mosquera
 
-**UPDATE:** Add author profile links before submission if they will be included.
-
 ## Course
 
-CS 5610 Web Development — [Course website](https://johnguerra.co/classes/webDevelopment_spring2026/)
+CS 5610 Web Development — [Course website](https://johnguerra.co/classes/webDevelopment_online_summer_2026/)
 
 ## Design Documents
 
@@ -23,7 +21,7 @@ CS 5610 Web Development — [Course website](https://johnguerra.co/classes/webDe
 
 ## Live Website
 
-[https://ridelog-app-528562a37f7f.herokuapp.com/](https://ridelog-app-528562a37f7f.herokuapp.com/login)
+[Open RideLog](https://ridelog-app-528562a37f7f.herokuapp.com/)
 
 ## Screenshots
 
@@ -53,7 +51,7 @@ CS 5610 Web Development — [Course website](https://johnguerra.co/classes/webDe
 
 ## Video Demonstration
 
-**UPDATE:** Add the public narrated demonstration video link. Both team members must participate in the video.
+[RideLog Video Demo](https://youtu.be/oycyL9wGv8k)
 
 ## Features
 
@@ -202,7 +200,7 @@ I used Claude Code and OpenAI Codex as development tools throughout this project
 
 I used Codex rubric-based code reviews, testing frontend and backend functionality, and helping with documentation and final cleanup. AI assistance was also used to diagnose errors and suggest targeted fixes.
 
-I made the final implementation decisions and reviewed the application’s routes, database operations, authentication flow, React components, and request handling.
+I made the final implementation decisions and reviewed the application’s routes, database operations, authentication flow, React components, and request handling. Additional front end features were suggested by claude, and I followed through with the provided suggestions, this is specifically regarding page loading state notifications and animated spinners.
 
 ## License
 
