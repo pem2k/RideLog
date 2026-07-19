@@ -357,6 +357,11 @@ async function seed() {
   console.log(`Inserted ${comments.length} comments.`);
 
   // ---- Create indexes ----
+  // PEER REVIEW: these indexes don't match the ones the app
+  // creates in models/Post.js ensureIndexes ({ authorId, rideDate, _id } and
+  // { authorId, createdAt }). The feed sorts by rideDate, so the createdAt-only
+  // index below is never used by it. Align the seed with the model to avoid
+  // building indexes the app doesn't rely on.
   await db.collection("posts").createIndex({ createdAt: -1, _id: -1 });
   await db.collection("posts").createIndex({ authorId: 1 });
   await db.collection("comments").createIndex({ postId: 1, createdAt: 1 });
