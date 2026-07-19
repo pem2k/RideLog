@@ -100,6 +100,10 @@ export async function verifyPassword(user, password) {
 }
 
 export function sanitizeUser(user) {
+  // PEER REVIEW : `email` is exposed here, and this function feeds
+  // GET /api/users/:userId and /search — so any logged-in user can read every
+  // other user's email. Consider dropping email from public responses and only
+  // returning it for the owner (/me), or splitting into a public vs. self shape.
   const safeUser = {
     _id: user._id,
     username: user.username,
