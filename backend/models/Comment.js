@@ -3,7 +3,8 @@ import { getDB } from "../db/connectDB.js";
 import { isValidObjectId } from "../db/objectId.js";
 
 const MAX_TEXT_LENGTH = 500;
-
+// Here, I'd suggest lazy-loading comments when a post is expanded as a good optimization to add in the future, 
+// especially if you’re looking for scalability and a higher number of users!
 function commentsCollection() {
   return getDB().collection("comments");
 }

@@ -98,7 +98,9 @@ export async function findById(id) {
 export async function verifyPassword(user, password) {
   return bcrypt.compare(password, user.passwordHash);
 }
-
+// The user object returned for profiles and search results here includes the email address, so any logged-in user can see another rider's email 
+// by viewing their profile or via search. Since email isn't shown in the UI, I'd suggest dropping it from the shared response 
+// and only returning it on the authenticated user's own /me endpoint.
 export function sanitizeUser(user) {
   const safeUser = {
     _id: user._id,
