@@ -2,7 +2,7 @@
 
 Application: [RideLog](https://ridelog-app-528562a37f7f.herokuapp.com/)
 
-Author: [Your name]
+Author: Najib Mosquera
 
 ## Application scope
 
@@ -140,16 +140,6 @@ T10 — Keyboard form error:
 
 Continue without the mouse. Open the Log a Ride form, leave every field empty, and try to submit it. Tell me what needs to be corrected and how you know. Then return to the Title field, enter a title, and stop.
 
-### Facilitator observation prompts
-
-Do not interrupt the participant to ask these while they are actively working. Use them only after a task or when the participant has stopped thinking aloud.
-
-- What did you expect to happen there?
-- What were you looking for?
-- What, if anything, made that difficult?
-- Without clicking it, what do you think that control will do?
-
-Avoid leading questions such as “Did you see the button at the top?” If help is required, record the prompt and the point at which it was given.
 
 ### Post-test questionnaire
 
@@ -170,13 +160,6 @@ Then ask:
 4. The form errors in T10 were clear and easy to find.
 5. Do you have any final comments or suggestions for improvement?
 
-## Accessibility checks
-
-| Check               | Result | Evidence link | Notes |
-| ------------------- | ------ | ------------- | ----- |
-| Keyboard navigation |        |               |       |
-| Semantic structure  |        |               |       |
-| axe or Lighthouse   |        |               |       |
 
 ## Experiment notes
 
@@ -184,179 +167,230 @@ Immediately after each session, write down observations while they are fresh. Re
 
 Outcome codes: I = completed independently; P = completed with a prompt; N = not completed.
 
-### Participant 1
+### Najib's Participant 1 : Henry Li
 
-Session date:
+Session date: 08/09/2026
 
-Recording evidence link:
+Recording evidence link: https://youtu.be/GdGiS7HxHVE
 
-Recording consent given:
-
-Demographic answers:
-
-- Age range:
-- Social media frequency:
-- Fitness app experience:
-- Web application comfort:
-- Keyboard or assistive-technology experience:
-
-| Task               | Outcome (I/P/N) | Time | Errors, prompts, quotations, and observations |
-| ------------------ | --------------- | ---- | --------------------------------------------- |
-| Initial impression |                 |      |                                               |
-| T1                 |                 |      |                                               |
-| T2                 |                 |      |                                               |
-| T3                 |                 |      |                                               |
-| T4                 |                 |      |                                               |
-| T5                 |                 |      |                                               |
-| T6                 |                 |      |                                               |
-| T7                 |                 |      |                                               |
-| T8                 |                 |      |                                               |
-| T9                 |                 |      |                                               |
-| T10                |                 |      |                                               |
-
-Accessibility observations from T9 and T10:
-
-- Focus visibility and order:
-- Controls that could not be reached or operated:
-- Keyboard traps or unexpected focus movement:
-- Feedback, errors, and status changes:
-- Form error clarity and keyboard recovery:
-
-| Task    | Effective (1–5) | Intuitive/easy (1–5) | Notes |
-| ------- | --------------: | -------------------: | ----- |
-| T1      |                 |                      |       |
-| T2      |                 |                      |       |
-| T3      |                 |                      |       |
-| T4      |                 |                      |       |
-| T5      |                 |                      |       |
-| T6      |                 |                      |       |
-| T7      |                 |                      |       |
-| T8      |                 |                      |       |
-| T9      |                 |                      |       |
-| T10     |                 |                      |       |
-| Overall |                 |                      |       |
-
-Keyboard-focus rating:
-
-Form-error clarity rating:
-
-Final comments:
-
-### Participant 2
-
-Session date:
-
-Recording evidence link:
-
-Recording consent given:
+Recording consent given: Yes
 
 Demographic answers:
 
-- Age range:
-- Social media frequency:
-- Fitness app experience:
-- Web application comfort:
-- Keyboard or assistive-technology experience:
+- Age range: 35-44
+- Social media frequency: Daily
+- Fitness app experience: Apple watch Health App
+- Web application comfort: very comfortable
+- Keyboard or assistive-technology experience: keyboard and mouse
 
 | Task               | Outcome (I/P/N) | Time | Errors, prompts, quotations, and observations |
 | ------------------ | --------------- | ---- | --------------------------------------------- |
-| Initial impression |                 |      |                                               |
-| T1                 |                 |      |                                               |
-| T2                 |                 |      |                                               |
-| T3                 |                 |      |                                               |
-| T4                 |                 |      |                                               |
-| T5                 |                 |      |                                               |
-| T6                 |                 |      |                                               |
-| T7                 |                 |      |                                               |
-| T8                 |                 |      |                                               |
-| T9                 |                 |      |                                               |
-| T10                |                 |      |                                               |
+| Initial impression | successful | 2:25 |  standard login page, toggle dark/light mode    |
+| T1 | successful |4 min |google login, or other platform login, make stronger password protection (add symbols), eye icon with toggle to show real password. Maybe UX improvement, bicycle picture|
+| T2 | successful | 10 |  add an asterik next to the description or any field. or a "|" at the end. In the photo area, make the font color darker so it's easier to see. Add more supporting type of files other than .jpg|
+| T3 | successful |15 min | no error, user was able to updated accordingly |
+| T4 | successful |18 min | user was able to serach,open rider and follow  |
+| T5 | successful |20 min | user recommend newest comment on top, older bottom |
+| T6 | successful |24 min | add an edit button too, not just delete button  |
+| T7 | successful |25 min | everything good in here |
+| T8 | successful |26 min | everything good nothing to add|
+| T9 | successful |28 min | everything was done with the keyboard successfully |
+| T10| successful |32 min | task completely with the keyboard alone |
 
 Accessibility observations from T9 and T10:
 
-- Focus visibility and order:
-- Controls that could not be reached or operated:
-- Keyboard traps or unexpected focus movement:
-- Feedback, errors, and status changes:
-- Form error clarity and keyboard recovery:
+- Focus visibility and order: 5
+- Controls that could not be reached or operated:5
+- Keyboard traps or unexpected focus movement:5
+- Feedback, errors, and status changes:5
+- Form error clarity and keyboard recovery:5
 
-| Task    | Effective (1–5) | Intuitive/easy (1–5) | Notes |
-| ------- | --------------: | -------------------: | ----- |
-| T1      |                 |                      |       |
-| T2      |                 |                      |       |
-| T3      |                 |                      |       |
-| T4      |                 |                      |       |
-| T5      |                 |                      |       |
-| T6      |                 |                      |       |
-| T7      |                 |                      |       |
-| T8      |                 |                      |       |
-| T9      |                 |                      |       |
-| T10     |                 |                      |       |
-| Overall |                 |                      |       |
+| Task    | Effective (1–5) | Intuitive/easy (1–5) | 
+| ------- | --------------: | -------------------: |
+| T1      |       4         |          5           | 
+| T2      |       5         |          5           | 
+| T3      |       4         |          5           | 
+| T4      |       4         |          5           | 
+| T5      |       4         |          5           | 
+| T6      |       4         |          5           | 
+| T7      |       4         |          5           | 
+| T8      |       5         |          5           | 
+| T9      |       4         |          5           | 
+| T10     |       5         |          5           | 
+| Overall |       5         |          5           | 
 
-Keyboard-focus rating:
+Keyboard-focus rating: 5
 
-Form-error clarity rating:
+Form-error clarity rating: 5
 
-Final comments:
+### Post-test questionnaire
 
-### Participant 3
+Use this five-point scale for each statement:
 
-Session date:
+1 — Strongly disagree; 2 — Disagree; 3 — Neutral; 4 — Agree; 5 — Strongly agree
 
-Recording evidence link:
+For each task T1–T10, ask the participant to rate both statements:
 
-Recording consent given:
+1. The application allowed me to complete this task effectively : 5
+2. This task was intuitive and easy to complete : 5
+
+Then ask:
+
+1. The application was effective overall : 5
+2. The application was intuitive and easy to use overall : 4
+3. I always understood which element had keyboard focus during T9 and T10 : 5
+4. The form errors in T10 were clear and easy to find : 5
+5. Do you have any final comments or suggestions for improvement? Fixing the recommended suggestion will improve the app
+
+### Najib's Participant 2 : Shen
+
+Session date: 08/09/2026
+
+Recording evidence link: https://youtu.be/zddrBMzq4qo
+
+Recording consent given: Yes
 
 Demographic answers:
 
-- Age range:
-- Social media frequency:
-- Fitness app experience:
-- Web application comfort:
-- Keyboard or assistive-technology experience:
+- Age range: Prefer not to answer
+- Social media frequency: Daily
+- Fitness app experience: No
+- Web application comfort: Somewhat comfortable
+- Keyboard or assistive-technology experience: Keyboard
 
 | Task               | Outcome (I/P/N) | Time | Errors, prompts, quotations, and observations |
 | ------------------ | --------------- | ---- | --------------------------------------------- |
-| Initial impression |                 |      |                                               |
-| T1                 |                 |      |                                               |
-| T2                 |                 |      |                                               |
-| T3                 |                 |      |                                               |
-| T4                 |                 |      |                                               |
-| T5                 |                 |      |                                               |
-| T6                 |                 |      |                                               |
-| T7                 |                 |      |                                               |
-| T8                 |                 |      |                                               |
-| T9                 |                 |      |                                               |
-| T10                |                 |      |                                               |
+| Initial impression |  Successful     |3 min | riding bicycle, creating stories about riding, calendar. Likes dark color and to be super simple. Logo will be nice to have. keep it simple better for the eye. |
+| T1 | Successful | 6 min | when creating account, anticipating how long username is or password is, have a suggestion. add more hints to user to know when it's optional and when it's not. put default parameters for username and password (transparent edger to propose the user to use a similar password)|
+| T2 | Successful | 10 min | for require put a asterisk and for the optional put like (optional next to the field), add a cancel button if user decides to not enter an log, fix the choose file color, make it more darker. calendar logo should be brighter - easy on the eye|
+| T3 | Successful | 17 min | all good here |
+| T4 | Successful | 20 min | so clicking the following letter to go in and see who are you following |
+| T5 | Successful | 22 min | newest comment in the top. |
+| T6 | Successful | 24 min | have an extra layer of the question "are you sure you want to delete the comment" |
+| T7 | Successful | 25 min | the "@username" should update to the newer profile name, accordingly |
+| T8 | Successful | 27 min | nothing to improve, all good here |
+| T9 | Successful | 30 min | we need to fix the order, newer has to come on top, older at the bottom |
+| T10| Successful | 35 min | not much at all to be improve here |
 
 Accessibility observations from T9 and T10:
 
-- Focus visibility and order:
-- Controls that could not be reached or operated:
-- Keyboard traps or unexpected focus movement:
-- Feedback, errors, and status changes:
-- Form error clarity and keyboard recovery:
+- Focus visibility and order: 5
+- Controls that could not be reached or operated: 5
+- Keyboard traps or unexpected focus movement: 5
+- Feedback, errors, and status changes: 5
+- Form error clarity and keyboard recovery: 5
 
-| Task    | Effective (1–5) | Intuitive/easy (1–5) | Notes |
-| ------- | --------------: | -------------------: | ----- |
-| T1      |                 |                      |       |
-| T2      |                 |                      |       |
-| T3      |                 |                      |       |
-| T4      |                 |                      |       |
-| T5      |                 |                      |       |
-| T6      |                 |                      |       |
-| T7      |                 |                      |       |
-| T8      |                 |                      |       |
-| T9      |                 |                      |       |
-| T10     |                 |                      |       |
-| Overall |                 |                      |       |
+| Task    | Effective (1–5) | Intuitive/easy (1–5) |
+| ------- | --------------: | -------------------: | 
+| T1      |       4         |         5            |       
+| T2      |       4         |         5            |       
+| T3      |       4         |         5            |       
+| T4      |       5         |         5            |       
+| T5      |       5         |         5            |       
+| T6      |       5         |         5            |    
+| T7      |       4         |         5            |   
+| T8      |       4         |         5            |       
+| T9      |       5         |         5            |  
+| T10     |       5         |         5            |   
+| Overall |       5         |         5            | 
 
-Keyboard-focus rating:
+Keyboard-focus rating: 5
 
-Form-error clarity rating:
+Form-error clarity rating:  5
 
-Final comments:
+### Post-test questionnaire
+
+Use this five-point scale for each statement:
+
+1 — Strongly disagree; 2 — Disagree; 3 — Neutral; 4 — Agree; 5 — Strongly agree
+
+For each task T1–T10, ask the participant to rate both statements:
+
+1. The application allowed me to complete this task effectively : 5
+2. This task was intuitive and easy to complete : 5
+
+Then ask:
+
+1. The application was effective overall : 5
+2. The application was intuitive and easy to use overall : 4
+3. I always understood which element had keyboard focus during T9 and T10 : 5
+4. The form errors in T10 were clear and easy to find : 5
+5. Do you have any final comments or suggestions for improvement? Fixing the recommended suggestion will improve the app
+
+### Najib's Participant 3 : Jennifer Chou
+
+Session date: 08/10/2026
+
+Recording evidence link: https://youtu.be/BozIYbLhcP0
+
+Recording consent given: Yes
+
+Demographic answers:
+
+- Age range: 35-44
+- Social media frequency: Daily
+- Fitness app experience: Apple health app
+- Web application comfort: Very comfortable
+- Keyboard or assistive-technology experience:keyboard navigation, screen magnification, a screen reader, voice control
+
+| Task               | Outcome (I/P/N) | Time | Errors, prompts, quotations, and observations |
+| ------------------ | --------------- | ---- | --------------------------------------------- |
+| Initial impression|  Successful    | 4 min  | ride sharing application,maybe a picture in the background, Add logo, add Rides section next to the Profile |
+| T1 |  Successful   | 6 min  | pretty straight forward, see something more in the background, maybe a picture that gives more information and brighter background |
+| T2 |  Successful   | 9 min | having maybe 1 log a ride or expecting something different so it's not confusing which one to click on, having some preset values like suggesting, adding time section in the questionare when logging a ride, title should be above the picture|
+| T3 |  Successful  | 14 min | good enough for the editting part    |
+| T4 |  Successful  | 15 min | having a pop up suggesting, like people who you may know, around you|
+| T5 |  Successful  | 17 min | newer first and then older lower. Add a divider between comments and also add an edit function for the comments |
+| T6 |  Successful  | 19 min | have a pop up windows asking if you are sure that you want to delete the comment |
+| T7 |  Successful  | 20 min | Profile was blending in with the Rides maybe have a divider or make sure it looks better, maybe Edit profile stand out, just have the profile alone not with the rides, have Rides section there alone so it's easier to navigate|
+| T8 |  Successful  | 22 min | delete was pretty hidden, change color and update |
+| T9 |  Successful  | 24 min | no suggestion, everything on the keyboard navigation worked as expected    |
+| T10|  Successful  | 29 min | error showing were as expected and nothing to change here |
+
+Accessibility observations from T9 and T10:
+
+- Focus visibility and order: 5
+- Controls that could not be reached or operated:5
+- Keyboard traps or unexpected focus movement:5
+- Feedback, errors, and status changes:5
+- Form error clarity and keyboard recovery:5
+
+| Task    | Effective (1–5) | Intuitive/easy (1–5) | 
+| ------- | --------------: | -------------------: |
+| T1      |       4         |          5           | 
+| T2      |       5         |          5           | 
+| T3      |       5         |          5           | 
+| T4      |       4         |          5           | 
+| T5      |       5         |          5           | 
+| T6      |       4         |          5           | 
+| T7      |       5         |          5           | 
+| T8      |       4         |          5           | 
+| T9      |       5         |          5           | 
+| T10     |       5         |          5           | 
+| Overall |       5         |          5           | 
+
+Keyboard-focus rating: 5
+
+Form-error clarity rating: 5
+
+### Post-test questionnaire
+
+Use this five-point scale for each statement:
+
+1 — Strongly disagree; 2 — Disagree; 3 — Neutral; 4 — Agree; 5 — Strongly agree
+
+For each task T1–T10, ask the participant to rate both statements:
+
+1. The application allowed me to complete this task effectively : 4
+2. This task was intuitive and easy to complete : 5
+
+Then ask:
+
+1. The application was effective overall : 5
+2. The application was intuitive and easy to use overall : 4
+3. I always understood which element had keyboard focus during T9 and T10 : 4
+4. The form errors in T10 were clear and easy to find : 4
+5. Do you have any final comments or suggestions for improvement? Fixing the recommended suggestion will improve the app
 
 ## Recording and document evidence
 
@@ -364,14 +398,12 @@ Recordings are stored outside the public repository.
 
 | Evidence                | Link | Access verified while signed out or as the instructor | Date verified |
 | ----------------------- | ---- | ----------------------------------------------------- | ------------- |
-| Participant 1 recording |      |                                                       |               |
-| Participant 2 recording |      |                                                       |               |
-| Participant 3 recording |      |                                                       |               |
-| Shared study report     |      |                                                       |               |
+| Najib's Participant 1 recording - Henry | https://youtu.be/GdGiS7HxHVE    |  yes       |  08/10/2026   |
+| Najib's Participant 2 recording - Jennifer | https://youtu.be/BozIYbLhcP0    |  yes    |  08/10/2026   |
+| Najib's Participant 3 recording - Shen | https://youtu.be/zddrBMzq4qo    | yes         |  08/10/2026   |
 
-Study report shared with `john.guerra@gmail.com`:
 
-Recording links verified:
+Recording links verified: verified
 
 ## Prioritized issues and corresponding changes
 
