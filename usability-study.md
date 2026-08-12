@@ -2,7 +2,7 @@
 
 Application: [RideLog](https://ridelog-app-528562a37f7f.herokuapp.com/)
 
-Author: Najib Mosquera
+Authors: Najib Mosquera and Parker McKillop
 
 ## Application scope
 
