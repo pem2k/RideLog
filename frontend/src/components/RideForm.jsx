@@ -204,7 +204,9 @@ export default function RideForm({ mode }) {
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="title">
-              <Form.Label>Title</Form.Label>
+              <Form.Label>
+                Title <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 type="text"
                 value={form.title}
@@ -217,7 +219,9 @@ export default function RideForm({ mode }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="description">
-              <Form.Label>Description</Form.Label>
+              <Form.Label>
+                Description <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -231,7 +235,9 @@ export default function RideForm({ mode }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="rideDate">
-              <Form.Label>Ride Date</Form.Label>
+              <Form.Label>
+                Ride Date <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 type="date"
                 value={form.rideDate}
@@ -244,7 +250,9 @@ export default function RideForm({ mode }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="distance">
-              <Form.Label>Distance (miles)</Form.Label>
+              <Form.Label>
+                Distance (miles) <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 type="number"
                 step="any"
@@ -258,7 +266,9 @@ export default function RideForm({ mode }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="elevation">
-              <Form.Label>Elevation Gain (feet)</Form.Label>
+              <Form.Label>
+                Elevation Gain (feet) <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 type="number"
                 step="any"
@@ -272,7 +282,9 @@ export default function RideForm({ mode }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="maxSpeed">
-              <Form.Label>Max Speed (mph)</Form.Label>
+              <Form.Label>
+                Max Speed (mph) <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 type="number"
                 step="any"
