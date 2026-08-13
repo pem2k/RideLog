@@ -24,6 +24,9 @@ export default function NavBar() {
     if (user) {
       return (
         <>
+          <Nav.Link as={Link} to="/discover">
+            Discover
+          </Nav.Link>
           <Nav.Link as={Link} to={`/users/${user._id}`}>
             Profile
           </Nav.Link>

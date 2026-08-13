@@ -63,14 +63,14 @@ export default function RideFeedPage() {
 
   return (
     <Container className="py-4">
+      <Stack direction="horizontal" className="mb-4">
+        <h2 className="mb-0">Ride Feed</h2>
+        <Button as={Link} to="/rides/new" variant="primary" className="ms-auto">
+          Log a Ride
+        </Button>
+      </Stack>
       <Row>
         <Col lg={8}>
-          <Stack direction="horizontal" className="mb-4">
-            <h2 className="mb-0">Ride Feed</h2>
-            <Button as={Link} to="/rides/new" variant="primary" className="ms-auto">
-              Log a Ride
-            </Button>
-          </Stack>
 
           {loading && (
             <div className="d-flex justify-content-center py-5">

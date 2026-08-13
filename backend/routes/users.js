@@ -40,7 +40,8 @@ router.patch("/me", async (req, res, next) => {
 
 router.get("/suggestions", async (req, res, next) => {
   try {
-    const suggestions = await getSuggestedUsers(req.user._id.toString());
+    const limit = Math.min(parseInt(req.query.limit, 10) || 5, 50);
+    const suggestions = await getSuggestedUsers(req.user._id.toString(), limit);
     res.status(200).json(suggestions);
   } catch (err) {
     next(err);

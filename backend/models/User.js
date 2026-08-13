@@ -228,7 +228,7 @@ export async function searchUsers(query) {
   return results.map(sanitizeUser);
 }
 
-export async function getSuggestedUsers(userId) {
+export async function getSuggestedUsers(userId, limit = 5) {
   const currentUser = await usersCollection().findOne({ _id: new ObjectId(userId) });
   if (!currentUser) return [];
 
@@ -240,7 +240,7 @@ export async function getSuggestedUsers(userId) {
       { $match: { _id: { $nin: exclude } } },
       { $addFields: { followersCount: { $size: "$followers" } } },
       { $sort: { followersCount: -1 } },
-      { $limit: 5 },
+      { $limit: limit },
     ]).toArray();
     return popular.map(sanitizeUser);
   }
@@ -251,17 +251,17 @@ export async function getSuggestedUsers(userId) {
     { $group: { _id: "$following", mutualCount: { $sum: 1 } } },
     { $match: { _id: { $nin: exclude } } },
     { $sort: { mutualCount: -1 } },
-    { $limit: 5 },
+    { $limit: limit },
     { $lookup: { from: "users", localField: "_id", foreignField: "_id", as: "user" } },
     { $unwind: "$user" },
     { $replaceRoot: { newRoot: "$user" } },
   ]).toArray();
 
-  if (suggestions.length < 5) {
+  if (suggestions.length < limit) {
     const alreadyIds = [...exclude, ...suggestions.map((s) => s._id)];
     const backfill = await usersCollection()
       .find({ _id: { $nin: alreadyIds } })
-      .limit(5 - suggestions.length)
+      .limit(limit - suggestions.length)
       .toArray();
     suggestions.push(...backfill);
   }
