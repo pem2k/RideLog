@@ -2,7 +2,7 @@
 
 Application: [RideLog](https://ridelog-app-528562a37f7f.herokuapp.com/)
 
-Authors: Najib Mosquera and Parker McKillop
+Authors: Najib Mosquera
 
 ## Application scope
 
@@ -70,27 +70,23 @@ If a participant exceeds the task budget, stop the task after a reasonable attem
 
 ### Introduction and consent
 
-Read aloud:
-
 Welcome, and thank you for participating. Today we are testing RideLog, not you. I will ask you to complete several activities while thinking aloud. Please say what you are looking for, what you expect to happen, and anything that seems confusing. You may ask questions, skip any question, take a break, or stop at any time.
 
-Ask: May I record the screen and audio for this class usability study? The recording will be used to review the session and will be shared only as required for the course.
+May I record the screen and audio for this class usability study? The recording will be used to review the session and will be shared only as required for the course.
 
 Record whether consent was given. Do not record if the participant does not consent.
 
-Then say: Please approach the application as a cyclist who wants to record rides and connect with other riders. During the last two tasks, I will ask you to avoid the mouse so we can evaluate keyboard access.
+Please approach the application as a cyclist who wants to record rides and connect with other riders. During the last two tasks, I will ask you to avoid the mouse so we can evaluate keyboard access.
 
 ### Demographic questions
 
-Tell the participant that every question is optional and that they may choose not to answer.
+every question is optional and that they may choose not to answer.
 
 1. What is your age range? 18–24, 25–34, 35–44, 45+, or prefer not to answer.
 2. How often do you use social media or content-sharing platforms? Daily, weekly, rarely, never, or prefer not to answer.
 3. Have you used a fitness or activity-tracking application such as Strava, MapMyRide, or Garmin Connect? Yes, no, or prefer not to answer.
 4. How comfortable are you with web applications? Very comfortable, somewhat comfortable, not very comfortable, or prefer not to answer.
 5. Do you regularly use keyboard navigation, screen magnification, a screen reader, voice control, or other accessibility settings? Please share only what you are comfortable sharing.
-
-Do not ask a participant to disclose a disability.
 
 ### Task script
 
