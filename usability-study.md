@@ -260,8 +260,9 @@ Demographic answers:
 
 | Task               | Outcome (I/P/N) | Time | Errors, prompts, quotations, and observations |
 | ------------------ | --------------- | ---- | --------------------------------------------- |
-| Initial impression |  Successful     |3 min | riding bicycle, creating stories about riding, calendar. Likes dark color and to be super simple. Logo will be nice to have. keep it simple better for the eye. |
+| Initial impression |  Successful     |3 min | riding bicycle pic, creating stories about riding, calendar. Likes dark color and to be super simple. Logo will be nice to have. keep it simple better for the eye. |
 | T1 | Successful | 6 min | when creating account, anticipating how long username is or password is, have a suggestion. add more hints to user to know when it's optional and when it's not. put default parameters for username and password (transparent edger to propose the user to use a similar password)|
+
 | T2 | Successful | 10 min | for require put a asterisk and for the optional put like (optional next to the field), add a cancel button if user decides to not enter an log, fix the choose file color, make it more darker. calendar logo should be brighter - easy on the eye|
 | T3 | Successful | 17 min | all good here |
 | T4 | Successful | 20 min | so clicking the following letter to go in and see who are you following |
@@ -335,7 +336,7 @@ Demographic answers:
 
 | Task               | Outcome (I/P/N) | Time | Errors, prompts, quotations, and observations |
 | ------------------ | --------------- | ---- | --------------------------------------------- |
-| Initial impression|  Successful    | 4 min  | ride sharing application,maybe a picture in the background, Add logo, add Rides section next to the Profile |
+| Initial impression|  Successful | 4 min  | ride sharing application,maybe a picture in the background, Add logo, add Rides section next to the Profile |
 | T1 |  Successful   | 6 min  | pretty straight forward, see something more in the background, maybe a picture that gives more information and brighter background |
 | T2 |  Successful   | 9 min | having maybe 1 log a ride or expecting something different so it's not confusing which one to click on, having some preset values like suggesting, adding time section in the questionare when logging a ride, title should be above the picture|
 | T3 |  Successful  | 14 min | good enough for the editting part    |
@@ -409,8 +410,10 @@ Recording links verified: verified
 
 | Issue and supporting evidence | Proposed change | Priority | Implemented? How was it verified? |
 | ----------------------------- | --------------- | -------- | --------------------------------- |
-|                               |                 |          |                                   |
-|                               |                 |          |                                   |
-|                               |                 |          |                                   |
-|                               |                 |          |                                   |
-|                               |                 |          |                                   |
+|  Picture next to RideLog logo | all of them proposed change |  very important | yes            |
+|  add * into fields that are mandatory | all of them proposed change | very important |  yes    |
+|  add "(optional)" to the fields that are optional | all of them proposed change | very important |  yes   |
+|  add stronger security requirement with symbols  | Henry |  very important  |   yes   |
+|  have some default parameters for username and password (transparent edger to propose the user to use a similar password) | Henry |  very important  |   yes   |
+|  fixig the order of posting of the log (newer first and then older last) | Shen and Jennifer | very important | yes |
+|  
