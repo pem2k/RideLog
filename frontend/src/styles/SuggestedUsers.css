@@ -1,0 +1,18 @@
+.suggested-users {
+  position: sticky;
+  top: 1rem;
+}
+
+.suggested-users .card {
+  background-color: #232420;
+  border: 1px solid #2e2f2a;
+}
+
+.suggested-user-item {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #2e2f2a;
+}
+
+.suggested-user-item:last-child {
+  border-bottom: none;
+}
