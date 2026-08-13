@@ -298,7 +298,9 @@ export default function RideForm({ mode }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="image">
-              <Form.Label>Photo</Form.Label>
+              <Form.Label>
+                Photo <span className="text-secondary">(optional)</span>
+              </Form.Label>
               <Form.Control
                 type="file"
                 accept="image/*"
