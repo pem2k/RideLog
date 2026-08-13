@@ -39,6 +39,7 @@ export default function RegisterForm() {
               <Form.Label>Username</Form.Label>
               <Form.Control
                 type="text"
+                placeholder="e.g. rider_jane"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -48,6 +49,7 @@ export default function RegisterForm() {
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
+                placeholder="e.g. jane@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -57,6 +59,7 @@ export default function RegisterForm() {
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
+                placeholder="e.g. Trail&2024"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 minLength={8}

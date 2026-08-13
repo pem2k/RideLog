@@ -209,6 +209,7 @@ export default function RideForm({ mode }) {
               </Form.Label>
               <Form.Control
                 type="text"
+                placeholder="e.g. Sunday Morning Loop"
                 value={form.title}
                 onChange={handleChange}
                 isInvalid={!!fieldErrors.title}
@@ -225,6 +226,7 @@ export default function RideForm({ mode }) {
               <Form.Control
                 as="textarea"
                 rows={3}
+                placeholder="e.g. Rode along the riverside trail, perfect weather and light traffic."
                 value={form.description}
                 onChange={handleChange}
                 isInvalid={!!fieldErrors.description}
@@ -256,6 +258,7 @@ export default function RideForm({ mode }) {
               <Form.Control
                 type="number"
                 step="any"
+                placeholder="e.g. 12.5"
                 value={form.distance}
                 onChange={handleChange}
                 isInvalid={!!fieldErrors.distance}
@@ -272,6 +275,7 @@ export default function RideForm({ mode }) {
               <Form.Control
                 type="number"
                 step="any"
+                placeholder="e.g. 350"
                 value={form.elevation}
                 onChange={handleChange}
                 isInvalid={!!fieldErrors.elevation}
@@ -288,6 +292,7 @@ export default function RideForm({ mode }) {
               <Form.Control
                 type="number"
                 step="any"
+                placeholder="e.g. 28"
                 value={form.maxSpeed}
                 onChange={handleChange}
                 isInvalid={!!fieldErrors.maxSpeed}
