@@ -88,6 +88,13 @@ export async function findByUsername(username) {
   return usersCollection().findOne({ username });
 }
 
+export async function findByUsernameOrEmail(identifier) {
+  const trimmed = identifier.trim().toLowerCase();
+  return usersCollection().findOne({
+    $or: [{ username: identifier.trim() }, { email: trimmed }],
+  });
+}
+
 export async function findById(id) {
   if (!ObjectId.isValid(id)) return null;
   const user = await usersCollection().findOne({ _id: new ObjectId(id) });

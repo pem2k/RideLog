@@ -33,7 +33,7 @@ export default function LoginForm() {
           <Form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
             <Form.Control
               type="text"
-              placeholder="Username"
+              placeholder="Username or Email"
               className="text-center"
               value={username}
               onChange={(e) => setUsername(e.target.value)}

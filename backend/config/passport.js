@@ -1,11 +1,11 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { findByUsername, findById, verifyPassword } from "../models/User.js";
+import { findByUsernameOrEmail, findById, verifyPassword } from "../models/User.js";
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
-      const user = await findByUsername(username);
+      const user = await findByUsernameOrEmail(username);
       if (!user) {
         return done(null, false, {
           message: "Incorrect username or password.",
