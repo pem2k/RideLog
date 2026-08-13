@@ -6,6 +6,7 @@ import {
   followUser,
   unfollowUser,
   searchUsers,
+  getSuggestedUsers,
 } from "../models/User.js";
 
 const router = Router();
@@ -33,6 +34,15 @@ router.patch("/me", async (req, res, next) => {
     if (err && err.status === 400) {
       return res.status(400).json({ errors: err.errors });
     }
+    next(err);
+  }
+});
+
+router.get("/suggestions", async (req, res, next) => {
+  try {
+    const suggestions = await getSuggestedUsers(req.user._id.toString());
+    res.status(200).json(suggestions);
+  } catch (err) {
     next(err);
   }
 });
