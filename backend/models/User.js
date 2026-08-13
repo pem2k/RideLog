@@ -228,6 +228,47 @@ export async function searchUsers(query) {
   return results.map(sanitizeUser);
 }
 
+export async function getSuggestedUsers(userId) {
+  const currentUser = await usersCollection().findOne({ _id: new ObjectId(userId) });
+  if (!currentUser) return [];
+
+  const following = currentUser.following || [];
+  const exclude = [...following, new ObjectId(userId)];
+
+  if (following.length === 0) {
+    const popular = await usersCollection().aggregate([
+      { $match: { _id: { $nin: exclude } } },
+      { $addFields: { followersCount: { $size: "$followers" } } },
+      { $sort: { followersCount: -1 } },
+      { $limit: 5 },
+    ]).toArray();
+    return popular.map(sanitizeUser);
+  }
+
+  const suggestions = await usersCollection().aggregate([
+    { $match: { _id: { $in: following } } },
+    { $unwind: "$following" },
+    { $group: { _id: "$following", mutualCount: { $sum: 1 } } },
+    { $match: { _id: { $nin: exclude } } },
+    { $sort: { mutualCount: -1 } },
+    { $limit: 5 },
+    { $lookup: { from: "users", localField: "_id", foreignField: "_id", as: "user" } },
+    { $unwind: "$user" },
+    { $replaceRoot: { newRoot: "$user" } },
+  ]).toArray();
+
+  if (suggestions.length < 5) {
+    const alreadyIds = [...exclude, ...suggestions.map((s) => s._id)];
+    const backfill = await usersCollection()
+      .find({ _id: { $nin: alreadyIds } })
+      .limit(5 - suggestions.length)
+      .toArray();
+    suggestions.push(...backfill);
+  }
+
+  return suggestions.map(sanitizeUser);
+}
+
 export async function ensureIndexes() {
   await usersCollection().createIndex({ username: 1 }, { unique: true });
   await usersCollection().createIndex({ email: 1 }, { unique: true });
