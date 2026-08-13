@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import { getDB } from "../db/connectDB.js";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PASSWORD_SYMBOL_RE = /[!@#$%^&*(),.?":{}|<>_\-+=[\]/\\;'`~]/;
 const SALT_ROUNDS = 10;
 
 function usersCollection() {
@@ -22,8 +23,13 @@ function validateRegistration({ username, email, password }) {
   if (typeof email !== "string" || !EMAIL_RE.test(email.trim())) {
     errors.email = "A valid email is required.";
   }
-  if (typeof password !== "string" || password.length < 8) {
-    errors.password = "Password is required and must be at least 8 characters.";
+  if (
+    typeof password !== "string" ||
+    password.length < 8 ||
+    !PASSWORD_SYMBOL_RE.test(password)
+  ) {
+    errors.password =
+      "Password is required, must be at least 8 characters, and must include a symbol.";
   }
 
   return errors;

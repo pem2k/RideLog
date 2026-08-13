@@ -59,8 +59,12 @@ export default function RegisterForm() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                minLength={8}
                 required
               />
+              <Form.Text className="text-secondary">
+                At least 8 characters and include a symbol (e.g. ! @ # $ %).
+              </Form.Text>
             </Form.Group>
             <Button variant="primary" type="submit" className="w-100">
               Register
