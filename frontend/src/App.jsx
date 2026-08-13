@@ -20,6 +20,7 @@ function App() {
   return (
     <>
       <NavBar />
+      <main>
       <Routes>
         <Route
           path="/login"
@@ -78,6 +79,7 @@ function App() {
           }
         />
       </Routes>
+      </main>
     </>
   );
 }
