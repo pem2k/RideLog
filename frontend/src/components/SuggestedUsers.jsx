@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { getSuggestedUsers, followUser } from "../api/users";
 import "../styles/SuggestedUsers.css";
 
-export default function SuggestedUsers({ currentUserId }) {
+export default function SuggestedUsers() {
   const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
 
@@ -61,6 +60,3 @@ export default function SuggestedUsers({ currentUserId }) {
   );
 }
 
-SuggestedUsers.propTypes = {
-  currentUserId: PropTypes.string.isRequired,
-};

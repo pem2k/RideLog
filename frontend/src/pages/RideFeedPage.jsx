@@ -4,10 +4,8 @@ import { Link } from "react-router-dom";
 import { getFeed } from "../api/posts";
 import PostCard from "../components/PostCard";
 import SuggestedUsers from "../components/SuggestedUsers";
-import useAuth from "../context/useAuth";
 
 export default function RideFeedPage() {
-  const { user } = useAuth();
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -134,7 +132,7 @@ export default function RideFeedPage() {
           )}
         </Col>
         <Col lg={4} className="d-none d-lg-block">
-          <SuggestedUsers currentUserId={user._id} />
+          <SuggestedUsers />
         </Col>
       </Row>
     </Container>
