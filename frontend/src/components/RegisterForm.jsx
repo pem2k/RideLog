@@ -14,6 +14,14 @@ export default function RegisterForm() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError(null);
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters.");
+      return;
+    }
+    if (!/[^a-zA-Z0-9]/.test(password)) {
+      setError("Password must include at least 1 special character.");
+      return;
+    }
     try {
       await register(username, email, password);
       navigate("/");
@@ -34,48 +42,44 @@ export default function RegisterForm() {
         <Card.Body>
           <Card.Title className="text-center mb-4">Register</Card.Title>
           {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="username">
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="e.g. rider_jane"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="e.g. jane@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="password">
-              <Form.Label>Password</Form.Label>
+          <Form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
+            <Form.Control
+              type="text"
+              placeholder="Username"
+              className="text-center"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <Form.Control
+              type="email"
+              placeholder="Email"
+              className="text-center"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <div>
               <Form.Control
                 type="password"
-                placeholder="e.g. Trail&2024"
+                placeholder="Password"
+                className="text-center"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 minLength={8}
                 required
               />
-              <Form.Text className="text-secondary">
-                At least 8 characters and include a symbol (e.g. ! @ # $ %).
+              <Form.Text className="text-secondary d-block text-center">
+                Min. 8 characters, 1 special character
               </Form.Text>
-            </Form.Group>
+            </div>
             <Button variant="primary" type="submit" className="w-100">
               Register
             </Button>
+            <Button as={Link} to="/login" variant="outline-primary" className="w-100">
+              Already have an account? Login
+            </Button>
           </Form>
-          <div className="text-center mt-3">
-            <Link to="/login">Already have an account? Login</Link>
-          </div>
         </Card.Body>
       </Card>
     </Container>

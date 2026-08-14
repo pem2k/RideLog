@@ -10,6 +10,9 @@ export default function CommentList({ comments, onDeleted }) {
   const [error, setError] = useState(null);
 
   async function handleDelete(commentId) {
+    if (!window.confirm("Are you sure you want to delete this comment?")) {
+      return;
+    }
     setError(null);
     setDeletingId(commentId);
     try {
@@ -46,8 +49,8 @@ export default function CommentList({ comments, onDeleted }) {
             </div>
             {isOwner && (
               <Button
-                variant="link"
-                className="text-danger p-0"
+                variant="outline-danger"
+                size="sm"
                 onClick={() => handleDelete(comment._id)}
                 disabled={deletingId === comment._id}
               >

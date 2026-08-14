@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Navbar, Container, Nav, Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../context/useAuth";
-import bikeLogo from "../assets/ridelog-bike.jpg";
 
 export default function NavBar() {
   const { user, logout } = useAuth();
@@ -25,6 +24,9 @@ export default function NavBar() {
     if (user) {
       return (
         <>
+          <Nav.Link as={Link} to="/discover">
+            Discover
+          </Nav.Link>
           <Nav.Link as={Link} to={`/users/${user._id}`}>
             Profile
           </Nav.Link>
@@ -47,13 +49,7 @@ export default function NavBar() {
   return (
     <Navbar bg="dark" data-bs-theme="dark" expand="lg">
       <Container className="content-narrow">
-        <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
-          <img
-            src={bikeLogo}
-            alt=""
-            height="30"
-            className="me-2"
-          />
+        <Navbar.Brand as={Link} to="/">
           RideLog
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="main-navbar" />
