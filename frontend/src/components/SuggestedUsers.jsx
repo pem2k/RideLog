@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { getSuggestedUsers, followUser } from "../api/users";
 import "../styles/SuggestedUsers.css";
 
-export default function SuggestedUsers() {
+export default function SuggestedUsers({ onFollow }) {
   const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
 
@@ -16,6 +17,9 @@ export default function SuggestedUsers() {
     e.stopPropagation();
     await followUser(userId);
     setSuggestions((prev) => prev.filter((u) => u._id !== userId));
+    if (onFollow) {
+      onFollow();
+    }
   }
 
   if (suggestions.length === 0) {
@@ -59,4 +63,8 @@ export default function SuggestedUsers() {
     </aside>
   );
 }
+
+SuggestedUsers.propTypes = {
+  onFollow: PropTypes.func,
+};
 
