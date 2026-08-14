@@ -23,7 +23,9 @@ function validateRegistration({ username, email, password }) {
     errors.email = "A valid email is required.";
   }
   if (typeof password !== "string" || password.length < 8) {
-    errors.password = "Password is required and must be at least 8 characters.";
+    errors.password = "Password must be at least 8 characters.";
+  } else if (!/[^a-zA-Z0-9]/.test(password)) {
+    errors.password = "Password must include at least 1 special character.";
   }
 
   return errors;

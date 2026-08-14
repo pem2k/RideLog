@@ -14,6 +14,14 @@ export default function RegisterForm() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError(null);
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters.");
+      return;
+    }
+    if (!/[^a-zA-Z0-9]/.test(password)) {
+      setError("Password must include at least 1 special character.");
+      return;
+    }
     try {
       await register(username, email, password);
       navigate("/");
@@ -51,14 +59,20 @@ export default function RegisterForm() {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              className="text-center"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                className="text-center"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                minLength={8}
+                required
+              />
+              <Form.Text className="text-secondary d-block text-center">
+                Min. 8 characters, 1 special character
+              </Form.Text>
+            </div>
             <Button variant="primary" type="submit" className="w-100">
               Register
             </Button>
