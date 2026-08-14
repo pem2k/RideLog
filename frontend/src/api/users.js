@@ -20,6 +20,11 @@ export async function unfollowUser(userId) {
   return request(`/api/users/${userId}/follow`, { method: "DELETE" });
 }
 
+export async function getSuggestedUsers(limit) {
+  const params = limit ? `?limit=${limit}` : "";
+  return request(`/api/users/suggestions${params}`);
+}
+
 export async function updateProfile(updates) {
   return request("/api/users/me", {
     method: "PATCH",

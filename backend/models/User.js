@@ -23,7 +23,9 @@ function validateRegistration({ username, email, password }) {
     errors.email = "A valid email is required.";
   }
   if (typeof password !== "string" || password.length < 8) {
-    errors.password = "Password is required and must be at least 8 characters.";
+    errors.password = "Password must be at least 8 characters.";
+  } else if (!/[^a-zA-Z0-9]/.test(password)) {
+    errors.password = "Password must include at least 1 special character.";
   }
 
   return errors;
@@ -86,6 +88,13 @@ export async function createUser({ username, email, password }) {
 
 export async function findByUsername(username) {
   return usersCollection().findOne({ username });
+}
+
+export async function findByUsernameOrEmail(identifier) {
+  const trimmed = identifier.trim().toLowerCase();
+  return usersCollection().findOne({
+    $or: [{ username: identifier.trim() }, { email: trimmed }],
+  });
 }
 
 export async function findById(id) {
@@ -219,6 +228,47 @@ export async function searchUsers(query) {
     .toArray();
 
   return results.map(sanitizeUser);
+}
+
+export async function getSuggestedUsers(userId, limit = 5) {
+  const currentUser = await usersCollection().findOne({ _id: new ObjectId(userId) });
+  if (!currentUser) return [];
+
+  const following = currentUser.following || [];
+  const exclude = [...following, new ObjectId(userId)];
+
+  if (following.length === 0) {
+    const popular = await usersCollection().aggregate([
+      { $match: { _id: { $nin: exclude } } },
+      { $addFields: { followersCount: { $size: "$followers" } } },
+      { $sort: { followersCount: -1 } },
+      { $limit: limit },
+    ]).toArray();
+    return popular.map(sanitizeUser);
+  }
+
+  const suggestions = await usersCollection().aggregate([
+    { $match: { _id: { $in: following } } },
+    { $unwind: "$following" },
+    { $group: { _id: "$following", mutualCount: { $sum: 1 } } },
+    { $match: { _id: { $nin: exclude } } },
+    { $sort: { mutualCount: -1 } },
+    { $limit: limit },
+    { $lookup: { from: "users", localField: "_id", foreignField: "_id", as: "user" } },
+    { $unwind: "$user" },
+    { $replaceRoot: { newRoot: "$user" } },
+  ]).toArray();
+
+  if (suggestions.length < limit) {
+    const alreadyIds = [...exclude, ...suggestions.map((s) => s._id)];
+    const backfill = await usersCollection()
+      .find({ _id: { $nin: alreadyIds } })
+      .limit(limit - suggestions.length)
+      .toArray();
+    suggestions.push(...backfill);
+  }
+
+  return suggestions.map(sanitizeUser);
 }
 
 export async function ensureIndexes() {

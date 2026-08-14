@@ -204,9 +204,12 @@ export default function RideForm({ mode }) {
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="title">
-              <Form.Label>Title</Form.Label>
+              <Form.Label>
+                Title <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 type="text"
+                placeholder="e.g. Sunday Morning Loop"
                 value={form.title}
                 onChange={handleChange}
                 isInvalid={!!fieldErrors.title}
@@ -217,10 +220,13 @@ export default function RideForm({ mode }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="description">
-              <Form.Label>Description</Form.Label>
+              <Form.Label>
+                Description <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
+                placeholder="e.g. Rode along the riverside trail, perfect weather and light traffic."
                 value={form.description}
                 onChange={handleChange}
                 isInvalid={!!fieldErrors.description}
@@ -231,7 +237,9 @@ export default function RideForm({ mode }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="rideDate">
-              <Form.Label>Ride Date</Form.Label>
+              <Form.Label>
+                Ride Date <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 type="date"
                 value={form.rideDate}
@@ -244,10 +252,13 @@ export default function RideForm({ mode }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="distance">
-              <Form.Label>Distance (miles)</Form.Label>
+              <Form.Label>
+                Distance (miles) <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 type="number"
                 step="any"
+                placeholder="e.g. 12.5"
                 value={form.distance}
                 onChange={handleChange}
                 isInvalid={!!fieldErrors.distance}
@@ -258,10 +269,13 @@ export default function RideForm({ mode }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="elevation">
-              <Form.Label>Elevation Gain (feet)</Form.Label>
+              <Form.Label>
+                Elevation Gain (feet) <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 type="number"
                 step="any"
+                placeholder="e.g. 350"
                 value={form.elevation}
                 onChange={handleChange}
                 isInvalid={!!fieldErrors.elevation}
@@ -272,10 +286,13 @@ export default function RideForm({ mode }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="maxSpeed">
-              <Form.Label>Max Speed (mph)</Form.Label>
+              <Form.Label>
+                Max Speed (mph) <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 type="number"
                 step="any"
+                placeholder="e.g. 28"
                 value={form.maxSpeed}
                 onChange={handleChange}
                 isInvalid={!!fieldErrors.maxSpeed}
@@ -286,7 +303,9 @@ export default function RideForm({ mode }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="image">
-              <Form.Label>Photo</Form.Label>
+              <Form.Label>
+                Photo <span className="text-secondary">(optional)</span>
+              </Form.Label>
               <Form.Control
                 type="file"
                 accept="image/*"

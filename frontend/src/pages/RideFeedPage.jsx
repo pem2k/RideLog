@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Container, Spinner, Alert, Button, Stack } from "react-bootstrap";
+import { Container, Row, Col, Spinner, Alert, Button, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getFeed } from "../api/posts";
 import PostCard from "../components/PostCard";
+import SuggestedUsers from "../components/SuggestedUsers";
 
 export default function RideFeedPage() {
   const [posts, setPosts] = useState([]);
@@ -59,74 +60,81 @@ export default function RideFeedPage() {
   }
 
   return (
-    <Container className="content-narrow py-4">
+    <Container className="py-4">
       <Stack direction="horizontal" className="mb-4">
         <h2 className="mb-0">Ride Feed</h2>
         <Button as={Link} to="/rides/new" variant="primary" className="ms-auto">
           Log a Ride
         </Button>
       </Stack>
+      <Row>
+        <Col lg={8}>
 
-      {loading && (
-        <div className="d-flex justify-content-center py-5">
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading feed...</span>
-          </Spinner>
-        </div>
-      )}
+          {loading && (
+            <div className="d-flex justify-content-center py-5">
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading feed...</span>
+              </Spinner>
+            </div>
+          )}
 
-      {!loading && error && (
-        <Alert variant="danger">
-          {error}{" "}
-          <Button
-            variant="link"
-            className="p-0 align-baseline"
-            onClick={handleRetry}
-          >
-            Retry
-          </Button>
-        </Alert>
-      )}
+          {!loading && error && (
+            <Alert variant="danger">
+              {error}{" "}
+              <Button
+                variant="link"
+                className="p-0 align-baseline"
+                onClick={handleRetry}
+              >
+                Retry
+              </Button>
+            </Alert>
+          )}
 
-      {!loading && !error && posts.length === 0 && (
-        <div className="text-center py-5">
-          <p>Follow some riders to see their posts here!</p>
-          <Button as={Link} to="/rides/new" variant="primary">
-            Log a Ride
-          </Button>
-        </div>
-      )}
+          {!loading && !error && posts.length === 0 && (
+            <div className="text-center py-5">
+              <p>Follow some riders to see their posts here!</p>
+              <Button as={Link} to="/rides/new" variant="primary">
+                Log a Ride
+              </Button>
+            </div>
+          )}
 
-      {!loading &&
-        !error &&
-        posts.map((post) => (
-          <PostCard key={post._id} post={post} onDeleted={handleDeleted} />
-        ))}
+          {!loading &&
+            !error &&
+            posts.map((post) => (
+              <PostCard key={post._id} post={post} onDeleted={handleDeleted} />
+            ))}
 
-      {!loading && !error && posts.length > 0 && (
-        <Stack
-          direction="horizontal"
-          className="justify-content-center gap-3 mb-4"
-        >
-          <Button
-            variant="secondary"
-            disabled={page <= 1}
-            onClick={handlePrevious}
-          >
-            Previous
-          </Button>
-          <span>
-            Page {page} of {totalPages}
-          </span>
-          <Button
-            variant="secondary"
-            disabled={page >= totalPages}
-            onClick={handleNext}
-          >
-            Next
-          </Button>
-        </Stack>
-      )}
+          {!loading && !error && posts.length > 0 && (
+            <Stack
+              direction="horizontal"
+              className="justify-content-center gap-3 mb-4"
+            >
+              <Button
+                variant="secondary"
+                disabled={page <= 1}
+                onClick={handlePrevious}
+              >
+                Previous
+              </Button>
+              <span>
+                Page {page} of {totalPages}
+              </span>
+              <Button
+                variant="secondary"
+                disabled={page >= totalPages}
+                onClick={handleNext}
+              >
+                Next
+              </Button>
+            </Stack>
+          )}
+        </Col>
+        <Col lg={4} className="d-none d-lg-block">
+          <SuggestedUsers />
+        </Col>
+      </Row>
     </Container>
   );
 }

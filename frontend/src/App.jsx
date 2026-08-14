@@ -8,6 +8,7 @@ import RideForm from "./components/RideForm";
 import RideFeedPage from "./pages/RideFeedPage";
 import NavBar from "./components/NavBar";
 import SearchPage from "./pages/SearchPage";
+import DiscoverPage from "./pages/DiscoverPage";
 import ProfilePage from "./pages/ProfilePage";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
   return (
     <>
       <NavBar />
+      <main>
       <Routes>
         <Route
           path="/login"
@@ -54,6 +56,14 @@ function App() {
           }
         />
         <Route
+          path="/discover"
+          element={
+            <RequireAuth>
+              <DiscoverPage />
+            </RequireAuth>
+          }
+        />
+        <Route
           path="/users/:userId"
           element={
             <RequireAuth>
@@ -78,6 +88,7 @@ function App() {
           }
         />
       </Routes>
+      </main>
     </>
   );
 }

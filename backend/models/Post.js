@@ -150,7 +150,7 @@ export async function getFeed({ page, limit, following }) {
     postsCollection()
       .aggregate([
         matchStage,
-        { $sort: { rideDate: -1, _id: -1 } },
+        { $sort: { createdAt: -1, _id: -1 } },
         { $skip: skip },
         { $limit: limit },
         {
@@ -200,6 +200,5 @@ export async function getPostsByAuthor(userId) {
 }
 
 export async function ensureIndexes() {
-  await postsCollection().createIndex({ authorId: 1, rideDate: -1, _id: -1 });
-  await postsCollection().createIndex({ authorId: 1, createdAt: -1 });
+  await postsCollection().createIndex({ authorId: 1, createdAt: -1, _id: -1 });
 }
