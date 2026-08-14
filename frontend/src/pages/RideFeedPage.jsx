@@ -132,7 +132,7 @@ export default function RideFeedPage() {
           )}
         </Col>
         <Col lg={4} className="d-none d-lg-block">
-          <SuggestedUsers />
+          <SuggestedUsers onFollow={handleRetry} />
         </Col>
       </Row>
     </Container>
