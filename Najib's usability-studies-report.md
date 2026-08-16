@@ -1,6 +1,8 @@
 # Usability Study Report
 
-Application: [RideLog](https://ridelog-app-528562a37f7f.herokuapp.com/)
+Application: [RideLog](https://ridelog-main-30492-abe90ed7ea11.herokuapp.com/login)
+
+alternative - https://ridelog-main-30492-abe90ed7ea11.herokuapp.com/login
 
 Authors: Najib Mosquera
 
