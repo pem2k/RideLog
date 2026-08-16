@@ -1,6 +1,6 @@
 # Usability Study Report
 
-Application: [RideLog](https://ridelog-app-528562a37f7f.herokuapp.com/)
+Application: [RideLog](https://ridelog-main-30492-abe90ed7ea11.herokuapp.com/)
 
 Author: Parker
 
@@ -362,16 +362,16 @@ Final comments: No additional comments. Overall a very intuitive site. Had no tr
 
 Recordings are stored outside the public repository.
 
-| Evidence                | Link                         | Access verified while signed out or as the instructor | Date verified |
-| ----------------------- | ---------------------------- | ----------------------------------------------------- | ------------- |
-| Participant 1 recording | https://youtu.be/lyhIAivAfRU |                                                       |               |
-| Participant 2 recording | https://youtu.be/qtSPJ5R_wEk |                                                       |               |
-| Participant 3 recording | https://youtu.be/pyrgIFxvn1g |                                                       |               |
-| Shared study report     |                              |                                                       |               |
+| Evidence                | Link                                                                 | Access verified while signed out or as the instructor | Date verified |
+| ----------------------- | -------------------------------------------------------------------- | ----------------------------------------------------- | ------------- |
+| Participant 1 recording | https://youtu.be/lyhIAivAfRU                                         | Yes                                                   | 2026-08-15    |
+| Participant 2 recording | https://youtu.be/qtSPJ5R_wEk                                         | Yes                                                   | 2026-08-15    |
+| Participant 3 recording | https://youtu.be/pyrgIFxvn1g                                         | Yes                                                   | 2026-08-15    |
+| Shared study report     | https://github.com/pem2k/RideLog/blob/main/usability-study-parker.md | Yes                                                   | 2026-08-15    |
 
-Study report shared with `john.guerra@gmail.com`:
+Study report shared with `john.guerra@gmail.com`: Yes — 2026-08-15
 
-Recording links verified:
+Recording links verified: Yes — 2026-08-15
 
 ## Prioritized issues and corresponding changes
 

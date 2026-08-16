@@ -1,6 +1,8 @@
 # Usability Study Report
 
-Application: [RideLog](https://ridelog-app-528562a37f7f.herokuapp.com/)
+Application: [RideLog](https://ridelog-main-30492-abe90ed7ea11.herokuapp.com/login)
+
+alternative - https://ridelog-main-30492-abe90ed7ea11.herokuapp.com/login
 
 Authors: Najib Mosquera
 
@@ -406,10 +408,10 @@ Recording links verified: verified
 
 | Issue and supporting evidence | Proposed change | Priority | Implemented?|
 | ----------------------------- | --------------- | -------- | --------------------------------- |
-|  Picture next to RideLog logo | all of them proposed change |  very important | yes - Done|
+|  Picture next to RideLog logo | all of them proposed change |  Neutral | No - Done|
 |  add * into fields that are mandatory | all of them proposed change | very important |  yes - Done   |
 |  add "(optional)" to the fields that are optional | all of them proposed change | very important |  yes - Done   |
 |  add stronger security requirement with symbols  | Henry |  very important  |   yes - Done   |
 |  add placeholder text - have some default parameters for username and password (transparent edger to propose the user to use a similar password) | Henry |  less important  |   yes - Done  |
 |  fixig the order of posting of the log (newer first and then older last) | Shen and Jennifer | very important | yes - Done |
-|  removing a ride a log button, we have 2 it might get confusing for the user | Jennifer | neutral | Yes - Done |
+|  removing a ride a log button, we have 2 it might get confusing for the user | Jennifer | neutral | No - Done |
