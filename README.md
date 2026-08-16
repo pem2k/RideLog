@@ -21,7 +21,7 @@ CS 5610 Web Development — [Course website](https://johnguerra.co/classes/webDe
 
 ## Live Website
 
-[Open RideLog](https://ridelog-app-528562a37f7f.herokuapp.com/)
+[Open RideLog](https://ridelog-main-30492-abe90ed7ea11.herokuapp.com/)
 
 ## Screenshots
 
@@ -51,15 +51,16 @@ CS 5610 Web Development — [Course website](https://johnguerra.co/classes/webDe
 
 ## Video Demonstration
 
-[RideLog Video Demo](https://youtu.be/oycyL9wGv8k)
+[RideLog Iteration Video Demo](https://youtu.be/YawcZDXy830)
 
 ## Features
 
-- Register, log in, and log out using Passport session authentication
+- Register, log in with a username or email, and log out using Passport session authentication
 - Edit a user profile with a display name and bio
 - Search for riders by name
+- Discover suggested riders through mutual connections and popular accounts
 - Follow and unfollow other riders
-- View ride posts from followed riders in a paginated feed
+- View newest ride posts first in a paginated feed
 - View a rider's profile and ride history
 - Create, edit, and delete ride posts
 - Add a ride photo, date, distance, elevation gain, and maximum speed
