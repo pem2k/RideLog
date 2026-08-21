@@ -46,6 +46,10 @@ export default function ProfilePage() {
     loadProfile();
   }, [userId]);
 
+  // PEER REVIEW: handleFollow/handleUnfollow/handleSaveProfile have
+  // no try/catch. If any request fails the promise rejects unhandled and the UI
+  // silently does nothing — no error surfaced to the user. Wrap in try/catch and
+  // setError like the other pages do.
   async function handleFollow() {
     await followUser(profile._id);
     const updated = await getUser(profile._id);

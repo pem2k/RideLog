@@ -20,6 +20,10 @@ export default function PostCard({ post, onDeleted }) {
 
   const isOwner = String(post.author._id) === String(user._id);
 
+  // PEER REVIEW: every PostCard fetches its own comments on mount,
+  // so a 20-post feed fires 20 separate /comments requests (an N+1 pattern).
+  // Consider returning a comment count with the feed and lazy-loading the full
+  // thread only when the user expands a post.
   useEffect(() => {
     async function loadComments() {
       try {

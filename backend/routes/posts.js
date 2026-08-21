@@ -56,6 +56,8 @@ router.get("/feed", async (req, res, next) => {
       return res.status(400).json({ errors });
     }
 
+    // PEER REVIEW (lint/formatting): this line fails `npm run lint` with a
+    // prettier/prettier error (line too long). Run `npm run lint:fix`.
     const feed = await getFeed({ page, limit, following: [...(req.user.following || []), req.user._id] });
     res.status(200).json(feed);
   } catch (err) {

@@ -7,6 +7,10 @@ const router = Router();
 
 router.post("/register", async (req, res, next) => {
   try {
+    // PEER REVIEW : createUser returns only { _id, username, email },
+    // whereas /login and /me return the full sanitizeUser (following, followers,
+    // displayName, bio). So right after registering, the AuthContext user is
+    // missing following/followers. Prefer returning sanitizeUser here too.
     const user = await createUser(req.body || {});
     req.login(user, (err) => {
       if (err) return next(err);
