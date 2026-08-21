@@ -51,7 +51,9 @@ export default function ProfilePage() {
     const updated = await getUser(profile._id);
     setProfile(updated);
   }
-
+  // Since the follow, unfollow, and save-profile actions don't handle failed requests on the frontend, 
+  // even though the backend returns errors properly, a failed or dropped request just fails silently and the user gets no feedback. 
+  // Using a try-catch like that used for the initial page load would be a good fix here!
   async function handleUnfollow() {
     await unfollowUser(profile._id);
     const updated = await getUser(profile._id);
